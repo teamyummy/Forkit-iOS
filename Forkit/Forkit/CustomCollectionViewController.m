@@ -19,11 +19,12 @@
 
 static NSString * const reuseIdentifier = @"customCollectionViewCell";
 
-- (instancetype)initWithFrame:(CGRect)frame arrayData:(NSArray *)arrayData
+- (instancetype)initWithFrame:(CGRect)frame flowLayout:(UICollectionViewFlowLayout *)flowLayout arrayData:(NSArray *)arrayData
 {
-    self = [super init];
+    self = [super initWithCollectionViewLayout:flowLayout];
     if (self) {
         self.collectionView.frame = frame;
+        self.collectionView.backgroundColor = [UIColor whiteColor];
         if (arrayData != nil) {
             self.dataList = [[NSMutableArray alloc] initWithArray:arrayData];
         } else {

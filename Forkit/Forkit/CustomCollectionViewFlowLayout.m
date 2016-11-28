@@ -12,7 +12,6 @@
 
 - (instancetype)initWithItemSize:(CGSize)itemSize sectionInset:(UIEdgeInsets)sectionInset {
     self = [super init];
-    
     if (self) {
         self.itemSize = itemSize;
         self.sectionInset = sectionInset;
