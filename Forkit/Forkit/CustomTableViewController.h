@@ -10,4 +10,6 @@
 
 @interface CustomTableViewController : UITableViewController
 
+- (instancetype)initWithFrame:(CGRect)frame arrayData:(NSArray *)arrayData;
+
 @end

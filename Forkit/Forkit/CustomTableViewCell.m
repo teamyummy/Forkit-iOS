@@ -17,8 +17,8 @@
 }
 
 /// 코드로 생성하는 경우, 이 메서드 사용할 것
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
     if (self) {
         [self createView];
