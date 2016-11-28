@@ -15,7 +15,7 @@
 
 @end
 
-static NSString * const reuseIdentifier = @"customCell";
+static NSString * const reuseIdentifier = @"customTableViewCell";
 
 @implementation CustomTableViewController
 
