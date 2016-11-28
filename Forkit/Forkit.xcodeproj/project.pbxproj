@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		143D8DC61DEC5F5200EDDDF7 /* CustomTitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DC51DEC5F5200EDDDF7 /* CustomTitleLabel.m */; };
+		143D8DCA1DEC603A00EDDDF7 /* CustomTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DC91DEC603A00EDDDF7 /* CustomTableViewController.m */; };
+		143D8DCD1DEC618B00EDDDF7 /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DCC1DEC618B00EDDDF7 /* CustomTableViewCell.m */; };
 		14F2100F1DEC566F007D7625 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F2100E1DEC566F007D7625 /* MapKit.framework */; };
 		14F210111DEC567B007D7625 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F210101DEC567B007D7625 /* CoreLocation.framework */; };
 		63263D4B1DEC1A960069DD2B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D4A1DEC1A960069DD2B /* main.m */; };
@@ -34,6 +37,12 @@
 
 /* Begin PBXFileReference section */
 		0198E406FB92B0367115781B /* Pods-Forkit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Forkit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Forkit/Pods-Forkit.debug.xcconfig"; sourceTree = "<group>"; };
+		143D8DC41DEC5F5200EDDDF7 /* CustomTitleLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTitleLabel.h; sourceTree = "<group>"; };
+		143D8DC51DEC5F5200EDDDF7 /* CustomTitleLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTitleLabel.m; sourceTree = "<group>"; };
+		143D8DC81DEC603A00EDDDF7 /* CustomTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewController.h; sourceTree = "<group>"; };
+		143D8DC91DEC603A00EDDDF7 /* CustomTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewController.m; sourceTree = "<group>"; };
+		143D8DCB1DEC618B00EDDDF7 /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
+		143D8DCC1DEC618B00EDDDF7 /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
 		14DED7EF2E592FD69C0B68A5 /* libPods-Forkit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Forkit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F2100D1DEC55A5007D7625 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		14F2100E1DEC566F007D7625 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -89,6 +98,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		143D8DC71DEC5F5C00EDDDF7 /* CustomUIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				143D8DC41DEC5F5200EDDDF7 /* CustomTitleLabel.h */,
+				143D8DC51DEC5F5200EDDDF7 /* CustomTitleLabel.m */,
+				143D8DC81DEC603A00EDDDF7 /* CustomTableViewController.h */,
+				143D8DC91DEC603A00EDDDF7 /* CustomTableViewController.m */,
+				143D8DCB1DEC618B00EDDDF7 /* CustomTableViewCell.h */,
+				143D8DCC1DEC618B00EDDDF7 /* CustomTableViewCell.m */,
+			);
+			name = CustomUIComponents;
+			sourceTree = "<group>";
+		};
 		5BE571551C97AB7E2F0B197E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +144,7 @@
 				14F2100D1DEC55A5007D7625 /* PrefixHeader.pch */,
 				63263D4C1DEC1A960069DD2B /* AppDelegate.h */,
 				63263D4D1DEC1A960069DD2B /* AppDelegate.m */,
+				143D8DC71DEC5F5C00EDDDF7 /* CustomUIComponents */,
 				63263D8C1DEC1C7D0069DD2B /* ViewController */,
 				63263D7D1DEC1B860069DD2B /* FIManager */,
 				63263D7E1DEC1B940069DD2B /* FIRequest */,
@@ -342,9 +365,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				63263D791DEC1B690069DD2B /* FIUIManager.m in Sources */,
+				143D8DCA1DEC603A00EDDDF7 /* CustomTableViewController.m in Sources */,
 				63263D851DEC1C590069DD2B /* MyPageViewController.m in Sources */,
 				63263D701DEC1B470069DD2B /* FILocationManager.m in Sources */,
 				63263D511DEC1A960069DD2B /* HomeViewController.m in Sources */,
+				143D8DC61DEC5F5200EDDDF7 /* CustomTitleLabel.m in Sources */,
 				63263D731DEC1B500069DD2B /* FILoginManager.m in Sources */,
 				63263D821DEC1C4D0069DD2B /* LoginViewController.m in Sources */,
 				63263D761DEC1B5C0069DD2B /* FIRequestObject.m in Sources */,
@@ -353,6 +378,7 @@
 				63263D6D1DEC1B3E0069DD2B /* FIDataManager.m in Sources */,
 				63263D881DEC1C650069DD2B /* SearchViewController.m in Sources */,
 				63263D4B1DEC1A960069DD2B /* main.m in Sources */,
+				143D8DCD1DEC618B00EDDDF7 /* CustomTableViewCell.m in Sources */,
 				63263D8B1DEC1C6E0069DD2B /* RestaurantDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

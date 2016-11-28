@@ -19,6 +19,12 @@ alpha:1.0]
 #include "FIDataManager.h"
 #include "FIUtilities.h"
 
+#pragma mark - Custom UI Components
+
+#include "CustomTitleLabel.h"
+#include "CustomTableViewController.h"
+#include "CustomTableViewCell.h"
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
