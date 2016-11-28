@@ -10,6 +10,9 @@
 		143D8DC61DEC5F5200EDDDF7 /* CustomTitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DC51DEC5F5200EDDDF7 /* CustomTitleLabel.m */; };
 		143D8DCA1DEC603A00EDDDF7 /* CustomTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DC91DEC603A00EDDDF7 /* CustomTableViewController.m */; };
 		143D8DCD1DEC618B00EDDDF7 /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DCC1DEC618B00EDDDF7 /* CustomTableViewCell.m */; };
+		143D8DD01DEC8E8F00EDDDF7 /* CustomCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DCF1DEC8E8F00EDDDF7 /* CustomCollectionViewController.m */; };
+		143D8DD31DEC8ED200EDDDF7 /* CustomCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DD21DEC8ED200EDDDF7 /* CustomCollectionViewCell.m */; };
+		143D8DDC1DEC922C00EDDDF7 /* CustomCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DDB1DEC922C00EDDDF7 /* CustomCollectionViewFlowLayout.m */; };
 		14F2100F1DEC566F007D7625 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F2100E1DEC566F007D7625 /* MapKit.framework */; };
 		14F210111DEC567B007D7625 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F210101DEC567B007D7625 /* CoreLocation.framework */; };
 		63263D4B1DEC1A960069DD2B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D4A1DEC1A960069DD2B /* main.m */; };
@@ -43,6 +46,12 @@
 		143D8DC91DEC603A00EDDDF7 /* CustomTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewController.m; sourceTree = "<group>"; };
 		143D8DCB1DEC618B00EDDDF7 /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
 		143D8DCC1DEC618B00EDDDF7 /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
+		143D8DCE1DEC8E8F00EDDDF7 /* CustomCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionViewController.h; sourceTree = "<group>"; };
+		143D8DCF1DEC8E8F00EDDDF7 /* CustomCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionViewController.m; sourceTree = "<group>"; };
+		143D8DD11DEC8ED200EDDDF7 /* CustomCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionViewCell.h; sourceTree = "<group>"; };
+		143D8DD21DEC8ED200EDDDF7 /* CustomCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionViewCell.m; sourceTree = "<group>"; };
+		143D8DDA1DEC922C00EDDDF7 /* CustomCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		143D8DDB1DEC922C00EDDDF7 /* CustomCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		14DED7EF2E592FD69C0B68A5 /* libPods-Forkit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Forkit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F2100D1DEC55A5007D7625 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		14F2100E1DEC566F007D7625 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -101,14 +110,44 @@
 		143D8DC71DEC5F5C00EDDDF7 /* CustomUIComponents */ = {
 			isa = PBXGroup;
 			children = (
-				143D8DC41DEC5F5200EDDDF7 /* CustomTitleLabel.h */,
-				143D8DC51DEC5F5200EDDDF7 /* CustomTitleLabel.m */,
+				143D8DD91DEC907B00EDDDF7 /* Labels */,
+				143D8DD81DEC906D00EDDDF7 /* TableViews */,
+				143D8DD71DEC906100EDDDF7 /* CollectionViews */,
+			);
+			name = CustomUIComponents;
+			sourceTree = "<group>";
+		};
+		143D8DD71DEC906100EDDDF7 /* CollectionViews */ = {
+			isa = PBXGroup;
+			children = (
+				143D8DCE1DEC8E8F00EDDDF7 /* CustomCollectionViewController.h */,
+				143D8DCF1DEC8E8F00EDDDF7 /* CustomCollectionViewController.m */,
+				143D8DDA1DEC922C00EDDDF7 /* CustomCollectionViewFlowLayout.h */,
+				143D8DDB1DEC922C00EDDDF7 /* CustomCollectionViewFlowLayout.m */,
+				143D8DD11DEC8ED200EDDDF7 /* CustomCollectionViewCell.h */,
+				143D8DD21DEC8ED200EDDDF7 /* CustomCollectionViewCell.m */,
+			);
+			name = CollectionViews;
+			sourceTree = "<group>";
+		};
+		143D8DD81DEC906D00EDDDF7 /* TableViews */ = {
+			isa = PBXGroup;
+			children = (
 				143D8DC81DEC603A00EDDDF7 /* CustomTableViewController.h */,
 				143D8DC91DEC603A00EDDDF7 /* CustomTableViewController.m */,
 				143D8DCB1DEC618B00EDDDF7 /* CustomTableViewCell.h */,
 				143D8DCC1DEC618B00EDDDF7 /* CustomTableViewCell.m */,
 			);
-			name = CustomUIComponents;
+			name = TableViews;
+			sourceTree = "<group>";
+		};
+		143D8DD91DEC907B00EDDDF7 /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+				143D8DC41DEC5F5200EDDDF7 /* CustomTitleLabel.h */,
+				143D8DC51DEC5F5200EDDDF7 /* CustomTitleLabel.m */,
+			);
+			name = Labels;
 			sourceTree = "<group>";
 		};
 		5BE571551C97AB7E2F0B197E /* Pods */ = {
@@ -371,13 +410,16 @@
 				63263D511DEC1A960069DD2B /* HomeViewController.m in Sources */,
 				143D8DC61DEC5F5200EDDDF7 /* CustomTitleLabel.m in Sources */,
 				63263D731DEC1B500069DD2B /* FILoginManager.m in Sources */,
+				143D8DD01DEC8E8F00EDDDF7 /* CustomCollectionViewController.m in Sources */,
 				63263D821DEC1C4D0069DD2B /* LoginViewController.m in Sources */,
 				63263D761DEC1B5C0069DD2B /* FIRequestObject.m in Sources */,
 				63263D4E1DEC1A960069DD2B /* AppDelegate.m in Sources */,
 				63263D7C1DEC1B720069DD2B /* FIUtilities.m in Sources */,
 				63263D6D1DEC1B3E0069DD2B /* FIDataManager.m in Sources */,
+				143D8DDC1DEC922C00EDDDF7 /* CustomCollectionViewFlowLayout.m in Sources */,
 				63263D881DEC1C650069DD2B /* SearchViewController.m in Sources */,
 				63263D4B1DEC1A960069DD2B /* main.m in Sources */,
+				143D8DD31DEC8ED200EDDDF7 /* CustomCollectionViewCell.m in Sources */,
 				143D8DCD1DEC618B00EDDDF7 /* CustomTableViewCell.m in Sources */,
 				63263D8B1DEC1C6E0069DD2B /* RestaurantDetailViewController.m in Sources */,
 			);

@@ -15,9 +15,11 @@
 
 @end
 
+static NSString * const reuseIdentifier = @"customTableViewCell";
+
 @implementation CustomTableViewController
 
-- (instancetype)initWithArrayData:(NSArray *)arrayData
+- (instancetype)initWithFrame:(CGRect)frame arrayData:(NSArray *)arrayData
 {
     self = [super init];
     if (self) {
@@ -26,6 +28,7 @@
         } else {
             self.dataList = [[NSMutableArray alloc] init];
         }
+        self.tableView.frame = frame;
     }
     return self;
 }
@@ -52,9 +55,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CustomTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"customCell" forIndexPath:indexPath];
+    CustomTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     
-//    cell.customImageView.image = [UIImage imageNamed:이미지 이름]
+    if (cell == nil) {
+        cell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+    }
+    
     cell.customTitleLabel.text = [NSString stringWithFormat:@"%@", self.dataList[indexPath.row]];
     
     return cell;
