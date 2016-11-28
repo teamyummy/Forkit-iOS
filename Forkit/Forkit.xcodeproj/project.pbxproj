@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14F2100F1DEC566F007D7625 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F2100E1DEC566F007D7625 /* MapKit.framework */; };
+		14F210111DEC567B007D7625 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F210101DEC567B007D7625 /* CoreLocation.framework */; };
 		63263D4B1DEC1A960069DD2B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D4A1DEC1A960069DD2B /* main.m */; };
 		63263D4E1DEC1A960069DD2B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D4D1DEC1A960069DD2B /* AppDelegate.m */; };
 		63263D511DEC1A960069DD2B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D501DEC1A960069DD2B /* HomeViewController.m */; };
@@ -33,6 +35,9 @@
 /* Begin PBXFileReference section */
 		0198E406FB92B0367115781B /* Pods-Forkit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Forkit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Forkit/Pods-Forkit.debug.xcconfig"; sourceTree = "<group>"; };
 		14DED7EF2E592FD69C0B68A5 /* libPods-Forkit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Forkit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		14F2100D1DEC55A5007D7625 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		14F2100E1DEC566F007D7625 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		14F210101DEC567B007D7625 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		54B8D78D84F258A20229EC1D /* Pods-Forkit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Forkit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Forkit/Pods-Forkit.release.xcconfig"; sourceTree = "<group>"; };
 		63263D461DEC1A960069DD2B /* Forkit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Forkit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63263D4A1DEC1A960069DD2B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -75,6 +80,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14F210111DEC567B007D7625 /* CoreLocation.framework in Frameworks */,
+				14F2100F1DEC566F007D7625 /* MapKit.framework in Frameworks */,
 				9E9A93D2D6547F088C766762 /* libPods-Forkit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,6 +119,7 @@
 		63263D481DEC1A960069DD2B /* Forkit */ = {
 			isa = PBXGroup;
 			children = (
+				14F2100D1DEC55A5007D7625 /* PrefixHeader.pch */,
 				63263D4C1DEC1A960069DD2B /* AppDelegate.h */,
 				63263D4D1DEC1A960069DD2B /* AppDelegate.m */,
 				63263D8C1DEC1C7D0069DD2B /* ViewController */,
@@ -200,6 +208,8 @@
 		83BC4339F0E3313AF57E47B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				14F210101DEC567B007D7625 /* CoreLocation.framework */,
+				14F2100E1DEC566F007D7625 /* MapKit.framework */,
 				14DED7EF2E592FD69C0B68A5 /* libPods-Forkit.a */,
 			);
 			name = Frameworks;
@@ -457,6 +467,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PRODUCT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = Forkit/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -471,6 +483,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PRODUCT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = Forkit/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
