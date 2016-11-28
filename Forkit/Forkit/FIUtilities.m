@@ -10,4 +10,23 @@
 
 @implementation FIUtilities
 
+#pragma mark - Format Exchanger
+
++ (NSString *)changeCurrencyFormatFromNumber:(NSInteger)price {
+    return [FIUtilities changeCurrencyFormatFromNumber:price];
+}
+
++ (NSString *)changeCurrencyFormatFromNumber:(NSInteger)price withCurrencyCode:(NSString *)currencyCode {
+    NSString *priceNotFormatted = [NSString stringWithFormat:@"%ld", price];
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    numberFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
+    
+    // 통화 코드가 nil 이면 한국 통화코드를 초기값으로 설정
+    if (currencyCode == nil) currencyCode = @"KRW";
+    numberFormatter.currencyCode = currencyCode;
+    NSString *priceFormatted = [numberFormatter stringFromNumber:[NSNumber numberWithFloat:[priceNotFormatted floatValue]]];
+    
+    return priceFormatted;
+}
+
 @end

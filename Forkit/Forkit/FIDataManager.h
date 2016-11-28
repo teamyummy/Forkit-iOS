@@ -10,4 +10,6 @@
 
 @interface FIDataManager : NSObject
 
++ (instancetype)sharedManager;
+
 @end
