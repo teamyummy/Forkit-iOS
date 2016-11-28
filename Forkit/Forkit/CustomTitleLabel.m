@@ -20,6 +20,7 @@
         self.textColor = textColor;
         self.text = title;
         self.textAlignment = NSTextAlignmentCenter;
+        self.frame = frame;
     }
     return self;
 }
