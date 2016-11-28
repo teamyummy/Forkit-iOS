@@ -10,6 +10,6 @@
 
 @interface CustomCollectionViewController : UICollectionViewController
 
-- (instancetype)initWithFrame:(CGRect)frame arrayData:(NSArray *)arrayData;
+- (instancetype)initWithFrame:(CGRect)frame flowLayout:(UICollectionViewFlowLayout *)flowLayout arrayData:(NSArray *)arrayData;
 
 @end
