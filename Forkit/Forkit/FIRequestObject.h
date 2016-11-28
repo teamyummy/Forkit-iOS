@@ -10,4 +10,6 @@
 
 @interface FIRequestObject : NSObject
 
++ (instancetype)sharedManager;
+
 @end

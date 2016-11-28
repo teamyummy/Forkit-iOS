@@ -10,4 +10,6 @@
 
 @interface FILocationManager : NSObject
 
++ (instancetype)sharedManager;
+
 @end

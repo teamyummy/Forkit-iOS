@@ -10,4 +10,6 @@
 
 @interface FILoginManager : NSObject
 
++ (instancetype)sharedManager;
+
 @end
