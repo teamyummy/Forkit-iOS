@@ -11,7 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "Annotation.h"
 
-@interface MapViewController ()<CLLocationManagerDelegate, MKMapViewDelegate>
+@interface MapViewController () <CLLocationManagerDelegate, MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *FIMapView;
 @property CLLocationManager *locationManager;
 @property CLLocationCoordinate2D coordinate;
@@ -42,6 +42,11 @@ static NSString *const mapAnnotationIdentifier = @"pin";
     [self.FIMapView setRegion:region];
 
 }
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (IBAction)clickDismissButton:(UIButton *)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];

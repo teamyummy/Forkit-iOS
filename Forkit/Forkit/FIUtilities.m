@@ -29,4 +29,10 @@
     return priceFormatted;
 }
 
++ (UIColor *)createKeyColor
+{
+    UIColor *keyColor = UIColorFromRGB(0xFDC109);
+    return keyColor;
+}
+
 @end

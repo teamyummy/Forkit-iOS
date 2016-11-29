@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Search View Controller-->
+        <!--Title-->
         <scene sceneID="ZUN-1m-o2e">
             <objects>
                 <viewController storyboardIdentifier="SearchVC_id" hidesBottomBarWhenPushed="YES" id="zto-vd-mcz" customClass="SearchViewController" sceneMemberID="viewController">
@@ -19,8 +19,21 @@
                     <view key="view" contentMode="scaleToFill" id="9lh-Ia-ULy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.93333333730697632" green="0.93333333730697632" blue="0.93333333730697632" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="qJu-cl-BMF">
+                        <barButtonItem key="leftBarButtonItem" title="뒤로" id="k47-iv-Zeg">
+                            <connections>
+                                <action selector="clickPopButton:" destination="zto-vd-mcz" id="Jew-2u-RBe"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="검색" id="1yV-Cf-aan">
+                            <connections>
+                                <action selector="clcikSearchButton:" destination="zto-vd-mcz" id="UmR-ja-AgO"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cmm-8m-Vdf" userLabel="First Responder" sceneMemberID="firstResponder"/>

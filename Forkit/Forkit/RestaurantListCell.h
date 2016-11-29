@@ -16,7 +16,6 @@
 @property UILabel *RestaurantTitleLabel;
 */
 @property (weak, nonatomic) IBOutlet UILabel *RestaurantTitleLabel;
-
 @property (weak, nonatomic) IBOutlet UIImageView *RestaurantImageView;
 @property (weak, nonatomic) IBOutlet UILabel *RestaurantAddressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *RestaurantScoreLabel;

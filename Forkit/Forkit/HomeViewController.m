@@ -11,11 +11,15 @@
 
 static NSString * const reuseIdentifier = @"RestaurantListCell";
 
-@interface HomeViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface HomeViewController ()<UITableViewDelegate, UITableViewDataSource ,UIScrollViewDelegate>
 
+///dummy Data
 @property NSMutableArray *dataList;
-@property (weak, nonatomic) IBOutlet UITableView *restaurantTableView;
 @property NSArray *scrollTestImageList;
+
+@property (weak, nonatomic) IBOutlet UITableView *restaurantTableView;
+
+@property UIPageControl *pageControl;
 
 @end
 
@@ -25,24 +29,40 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    //setting Dummy Data
     self.dataList = [NSMutableArray array];
     NSArray *testArr = @[@"맛집 이름", @"맛집 이름", @"맛집 이름", @"맛집 이름", @"맛집 이름", @"맛집 이름", @"맛집 이름"];
     [_dataList addObjectsFromArray:testArr];
+    self.scrollTestImageList = @[@"dummyFoodImage",@"dummyFoodImage",@"dummyFoodImage"];
+    
+    _restaurantTableView.showsVerticalScrollIndicator = NO;
     
     [self createScrollView];
-    
+    UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dummyLogo"]];
+    logoImageView.frame = CGRectMake(0, 0, 0, 20);
+    logoImageView.contentMode = UIViewContentModeScaleAspectFit;
+     
+    self.navigationItem.titleView = logoImageView;
 }
+- (void)createPageControllWithSuperViewHeight:(CGFloat)height superView:(UIView *)superView
+{
+    _pageControl = [[UIPageControl alloc] init];
+    _pageControl.frame = CGRectMake(0, height - 16, 0, 0);
+    _pageControl.numberOfPages = _scrollTestImageList.count;
+    _pageControl.currentPage = 0;
+    _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
+    _pageControl.currentPageIndicatorTintColor = [FIUtilities createKeyColor];
+    [superView addSubview:_pageControl];
+}
+
 - (void)createScrollView
 {
     //setting Height, Width
-    const CGFloat scrollViewHeight = 160;
+    const CGFloat scrollViewHeight = 180;
     const CGFloat scrollViewWidth = _restaurantTableView.frame.size.width;
     
-    //setting TestImageList
-    self.scrollTestImageList = @[@"dummyFoodImage",@"dummyFoodImage",@"dummyFoodImage"];
-    
-    UIScrollView *imageScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 0, scrollViewHeight)];
+    UIView *coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, scrollViewHeight)];
+    UIScrollView *imageScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, scrollViewWidth, scrollViewHeight)];
     
     [imageScrollView setContentSize:CGSizeMake(_scrollTestImageList.count * scrollViewWidth, scrollViewHeight)];
     
@@ -62,9 +82,22 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
     }
     
     imageScrollView.pagingEnabled = YES;
+    imageScrollView.delegate = self;
+    imageScrollView.showsHorizontalScrollIndicator = NO;
+    [coverView addSubview:imageScrollView];
+    [self createPageControllWithSuperViewHeight:scrollViewHeight superView:coverView];
     
     //setting Table Header View
-    _restaurantTableView.tableHeaderView = imageScrollView;
+    _restaurantTableView.tableHeaderView = coverView;
+    
+}
+#pragma mark - click Button
+- (IBAction)clickSortButton:(UIButton *)sender
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"필터" message:@"처리해 주세요" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"확인" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Table view data source
@@ -80,10 +113,12 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    /*
     if (section == 0)
     {
         return 0;
     }
+     */
     return 8;
 }
 
@@ -103,7 +138,16 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
     return cell;
 }
 
+#pragma mark - Scroll View Delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSInteger currentOffset = scrollView.contentOffset.x;
+    CGFloat scrollViewWidth = scrollView.frame.size.width;
 
+    NSInteger index = currentOffset / scrollViewWidth;
+    
+    self.pageControl.currentPage = index;
+}
 
 #pragma mark - Navigation
 
