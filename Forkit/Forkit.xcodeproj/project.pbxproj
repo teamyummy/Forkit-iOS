@@ -13,6 +13,7 @@
 		143D8DD01DEC8E8F00EDDDF7 /* CustomCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DCF1DEC8E8F00EDDDF7 /* CustomCollectionViewController.m */; };
 		143D8DD31DEC8ED200EDDDF7 /* CustomCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DD21DEC8ED200EDDDF7 /* CustomCollectionViewCell.m */; };
 		143D8DDC1DEC922C00EDDDF7 /* CustomCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DDB1DEC922C00EDDDF7 /* CustomCollectionViewFlowLayout.m */; };
+		143D8DE61DED66D000EDDDF7 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DE51DED66D000EDDDF7 /* Annotation.m */; };
 		14F2100F1DEC566F007D7625 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F2100E1DEC566F007D7625 /* MapKit.framework */; };
 		14F210111DEC567B007D7625 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F210101DEC567B007D7625 /* CoreLocation.framework */; };
 		63263D4B1DEC1A960069DD2B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D4A1DEC1A960069DD2B /* main.m */; };
@@ -53,6 +54,8 @@
 		143D8DD21DEC8ED200EDDDF7 /* CustomCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionViewCell.m; sourceTree = "<group>"; };
 		143D8DDA1DEC922C00EDDDF7 /* CustomCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		143D8DDB1DEC922C00EDDDF7 /* CustomCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		143D8DE41DED66D000EDDDF7 /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
+		143D8DE51DED66D000EDDDF7 /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
 		14DED7EF2E592FD69C0B68A5 /* libPods-Forkit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Forkit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F2100D1DEC55A5007D7625 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		14F2100E1DEC566F007D7625 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -260,6 +263,8 @@
 				63263D501DEC1A960069DD2B /* HomeViewController.m */,
 				634D63F91DED50CD00EB5903 /* MapViewController.h */,
 				634D63FA1DED50CD00EB5903 /* MapViewController.m */,
+				143D8DE41DED66D000EDDDF7 /* Annotation.h */,
+				143D8DE51DED66D000EDDDF7 /* Annotation.m */,
 				63263D801DEC1C4D0069DD2B /* LoginViewController.h */,
 				63263D811DEC1C4D0069DD2B /* LoginViewController.m */,
 				63263D831DEC1C590069DD2B /* MyPageViewController.h */,
@@ -411,6 +416,7 @@
 				63263D791DEC1B690069DD2B /* FIUIManager.m in Sources */,
 				143D8DCA1DEC603A00EDDDF7 /* CustomTableViewController.m in Sources */,
 				63263D851DEC1C590069DD2B /* MyPageViewController.m in Sources */,
+				143D8DE61DED66D000EDDDF7 /* Annotation.m in Sources */,
 				63263D701DEC1B470069DD2B /* FILocationManager.m in Sources */,
 				63263D511DEC1A960069DD2B /* HomeViewController.m in Sources */,
 				143D8DC61DEC5F5200EDDDF7 /* CustomTitleLabel.m in Sources */,

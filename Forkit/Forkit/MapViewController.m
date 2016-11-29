@@ -8,8 +8,10 @@
 
 #import "MapViewController.h"
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import "Annotation.h"
 
-@interface MapViewController ()<CLLocationManagerDelegate>
+@interface MapViewController ()<CLLocationManagerDelegate, MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *FIMapView;
 @property CLLocationManager *locationManager;
 @property CLLocationCoordinate2D coordinate;
@@ -18,6 +20,8 @@
 @end
 
 @implementation MapViewController
+
+static NSString *const mapAnnotationIdentifier = @"pin";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,8 +35,12 @@
     //어떤지역 (좌표의 지점 센터, 반경)
     MKCoordinateRegion region = MKCoordinateRegionMake(_coordinate, _span);
     
-    [self.FIMapView setRegion:region];
+    //! 테스트 코드 -> custom annotation
+    Annotation *testAnnotation = [[Annotation alloc] initWithTitle:@"I am Lee hong hwa!" AndCoordinate:_coordinate];
+    [self.FIMapView addAnnotation:testAnnotation];
     
+    [self.FIMapView setRegion:region];
+
 }
 - (IBAction)clickDismissButton:(UIButton *)sender
 {
@@ -42,6 +50,23 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    MKAnnotationView *newAnnotation = (MKAnnotationView *) [self.FIMapView dequeueReusableAnnotationViewWithIdentifier:mapAnnotationIdentifier];
+    
+    if (!newAnnotation) {
+        Annotation *myAnnotation = (Annotation *)annotation;
+        newAnnotation = [[MKAnnotationView alloc] initWithAnnotation:myAnnotation reuseIdentifier:mapAnnotationIdentifier];
+    }
+    
+    newAnnotation.frame = CGRectMake(0, 0, 30, 30);
+    
+    UIImageView *annotationImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dummyFoodImage"]];
+    annotationImageView.frame = CGRectMake(0, 0, 30, 30);
+    [newAnnotation addSubview:annotationImageView];
+    
+    return newAnnotation;
 }
 
 /*
