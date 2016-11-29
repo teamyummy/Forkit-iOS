@@ -6,16 +6,18 @@
 //  Copyright © 2016년 david. All rights reserved.
 //
 
-#import "CustomTableViewCell.h"
+#import "RestaurantListCell.h"
 
-@implementation CustomTableViewCell
+@implementation RestaurantListCell
 
 /// 스토리 보드를 쓰는 경우에만 이 메서드 사용할 것
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
+    self.layer.cornerRadius = 2.5;
     [super awakeFromNib];
-    // Initialization code
 }
 
+/*
 /// 코드로 생성하는 경우, 이 메서드 사용할 것
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -28,16 +30,16 @@
 }
 
 - (void)createView {
-    self.customImageView = [[UIImageView alloc] init];
-    self.customImageView.frame = self.bounds;
-    self.customImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.contentView addSubview:self.customImageView];
+    self.imageView = [[UIImageView alloc] init];
+    self.imageView.frame = self.bounds;
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.contentView addSubview:self.imageView];
     
-    self.customTitleLabel = [[UILabel alloc] init];
-    self.customTitleLabel.frame = CGRectMake(0, 0, 100, 30);
-    [self.contentView addSubview:self.customTitleLabel];
+    self.titleLabel = [[UILabel alloc] init];
+    self.titleLabel.frame = CGRectMake(0, 0, 100, 30);
+    [self.contentView addSubview:self.titleLabel];
 }
-
+*/
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

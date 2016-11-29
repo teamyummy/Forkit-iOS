@@ -24,7 +24,7 @@ alpha:1.0]
 #include "CustomTitleLabel.h"
 
 #include "CustomTableViewController.h"
-#include "CustomTableViewCell.h"
+#include "RestaurantListCell.h"
 
 #include "CustomCollectionViewController.h"
 #include "CustomCollectionViewCell.h"

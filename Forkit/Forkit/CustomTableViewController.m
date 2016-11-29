@@ -7,7 +7,7 @@
 //
 
 #import "CustomTableViewController.h"
-#import "CustomTableViewCell.h"
+#import "RestaurantListCell.h"
 
 @interface CustomTableViewController ()
 
@@ -55,13 +55,13 @@ static NSString * const reuseIdentifier = @"customTableViewCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CustomTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    RestaurantListCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     
     if (cell == nil) {
-        cell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+        cell = [[RestaurantListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     }
     
-    cell.customTitleLabel.text = [NSString stringWithFormat:@"%@", self.dataList[indexPath.row]];
+    cell.RestaurantTitleLabel.text = [NSString stringWithFormat:@"%@", self.dataList[indexPath.row]];
     
     return cell;
 }
