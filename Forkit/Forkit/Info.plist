@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>$(PRODUCT_NAME) 가 유저의 위치에 접근하려 합니다. 허가해주세요</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>NSPhotoLibraryUsageDescription</key>

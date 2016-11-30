@@ -94,8 +94,8 @@
 		63263D871DEC1C650069DD2B /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		63263D891DEC1C6E0069DD2B /* RestaurantDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantDetailViewController.h; sourceTree = "<group>"; };
 		63263D8A1DEC1C6E0069DD2B /* RestaurantDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantDetailViewController.m; sourceTree = "<group>"; };
-		632A76F61DED9FB0001F7448 /* Annotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Annotation.h; path = Forkit/Annotation.h; sourceTree = "<group>"; };
-		632A76F71DED9FB0001F7448 /* Annotation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Annotation.m; path = Forkit/Annotation.m; sourceTree = "<group>"; };
+		632A76F61DED9FB0001F7448 /* Annotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
+		632A76F71DED9FB0001F7448 /* Annotation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
 		634D63F91DED50CD00EB5903 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		634D63FA1DED50CD00EB5903 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		634D63FC1DED5FC900EB5903 /* CustomUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomUIView.h; sourceTree = "<group>"; };
@@ -171,8 +171,6 @@
 		63263D3D1DEC1A960069DD2B = {
 			isa = PBXGroup;
 			children = (
-				632A76F61DED9FB0001F7448 /* Annotation.h */,
-				632A76F71DED9FB0001F7448 /* Annotation.m */,
 				63263D481DEC1A960069DD2B /* Forkit */,
 				63263D471DEC1A960069DD2B /* Products */,
 				5BE571551C97AB7E2F0B197E /* Pods */,
@@ -191,6 +189,8 @@
 		63263D481DEC1A960069DD2B /* Forkit */ = {
 			isa = PBXGroup;
 			children = (
+				632A76F61DED9FB0001F7448 /* Annotation.h */,
+				632A76F71DED9FB0001F7448 /* Annotation.m */,
 				14F2100D1DEC55A5007D7625 /* PrefixHeader.pch */,
 				63263D4C1DEC1A960069DD2B /* AppDelegate.h */,
 				63263D4D1DEC1A960069DD2B /* AppDelegate.m */,
