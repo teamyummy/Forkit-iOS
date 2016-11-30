@@ -16,9 +16,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self createTextField];
 }
-
+- (void)createTextField
+{
+    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, 21.0)];
+    textField.textAlignment = NSTextAlignmentCenter;
+    textField.textColor = [UIColor whiteColor];
+    textField.tintColor = [UIColor whiteColor];
+    self.navigationItem.titleView = textField;
+    
+    [textField becomeFirstResponder];
+}
+- (IBAction)clickPopButton:(UIBarButtonItem *)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+- (IBAction)clcikSearchButton:(UIBarButtonItem *)sender {
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

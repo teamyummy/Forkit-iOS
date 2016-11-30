@@ -11,7 +11,7 @@
         <!--Restaurant Detail View Controller-->
         <scene sceneID="mGM-Au-p0h">
             <objects>
-                <viewController storyboardIdentifier="RestaurantDetail" id="W6k-r7-fof" customClass="RestaurantDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RestaurantDetailVC_id" id="W6k-r7-fof" customClass="RestaurantDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MGZ-9g-Lha"/>
                         <viewControllerLayoutGuide type="bottom" id="gxi-Ew-y3i"/>
@@ -19,7 +19,7 @@
                     <view key="view" contentMode="scaleToFill" id="YLZ-ge-YpJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.87843137979507446" green="0.87843137979507446" blue="0.87843137979507446" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="krp-gL-uV6" userLabel="First Responder" sceneMemberID="firstResponder"/>
