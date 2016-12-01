@@ -9,11 +9,12 @@
 #import "SearchViewController.h"
 #import "SearchingResultTableViewCell.h"
 
-@interface SearchViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface SearchViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UITextViewDelegate>
 
 @property UITextField *searchBar;
 @property NSArray *searchingResult;
-@property CustomTitleLabel *resultLabel;
+@property UILabel *resultLabel;
+@property NSString *currentTypedCharacter;
 //@property UITableView *searchResultTableView;
 @property (weak, nonatomic) IBOutlet UITableView *searchResultTableView;
 
@@ -31,14 +32,23 @@
 
 - (void)createTextField
 {
+    self.searchResultTableView.contentInset = UIEdgeInsetsMake(-60, 0, 0, 0);
+    
     self.searchBar = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, 21.0)];
     self.searchBar.textAlignment = NSTextAlignmentCenter;
     self.searchBar.textColor = [UIColor whiteColor];
     self.searchBar.tintColor = [UIColor whiteColor];
+    self.searchBar.delegate = self;
     self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone; // 첫 글자 소문자로 변경
     self.navigationItem.titleView = self.searchBar;
     
-    self.resultLabel = [[CustomTitleLabel alloc] initWithTitle:@"" frame:CGRectMake(10,70,300,30) textColor:[UIColor blackColor]];
+    self.resultLabel = [[UILabel alloc] init];
+    self.resultLabel.text = @"";
+    self.resultLabel.frame = CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, 30);
+    self.resultLabel.textAlignment = NSTextAlignmentCenter;
+    
+//                        WithTitle:@"" frame:CGRectMake(0,70,300,30) textColor:[UIColor blackColor]];
+//    resu
     [self.view addSubview:self.resultLabel];
     
     [self.searchBar becomeFirstResponder];
@@ -58,7 +68,6 @@
     
     if (self.searchingResult.count == 0) {
         self.resultLabel.text = @"검색결과가 없습니다.";
-        return ;
     }
     
     [self.searchResultTableView reloadData];
@@ -67,6 +76,28 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Text Field Delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self clcikSearchButton:nil];
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSLog(@"%lu %lu %@ (%@)", range.length, range.location, string, self.currentTypedCharacter);
+//    static NSString *currentTypedCharacter = string;
+//    if (range.length == 1) { // 입력된 텍스트가 줄어드는 순간 길이를 0으로 만듦
+////        self.searchBar.text = @"";
+//        textField.text = string;
+//    }
+    if ([string isEqualToString:@" "] || ([self.currentTypedCharacter isEqualToString:@""] && [string isEqualToString:@""])) {
+        self.searchBar.text = @"";
+    }
+    self.currentTypedCharacter = string;
+//    NSLog(@"%lu %lu %@ %@", range.length, range.location, string, self.currentTypedCharacter);
+    return YES;
 }
 
 #pragma mark - Table View Delegate

@@ -96,9 +96,9 @@
                         </subviews>
                         <color key="backgroundColor" red="0.93333333730697632" green="0.93333333730697632" blue="0.93333333730697632" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="we2-kR-vrz" firstAttribute="top" secondItem="ggR-ic-W8r" secondAttribute="bottom" id="0YV-4R-Vta"/>
                             <constraint firstItem="we2-kR-vrz" firstAttribute="leading" secondItem="9lh-Ia-ULy" secondAttribute="leading" id="Nbr-j9-Cu8"/>
                             <constraint firstAttribute="trailing" secondItem="we2-kR-vrz" secondAttribute="trailing" id="T0Z-oc-Qyc"/>
+                            <constraint firstItem="we2-kR-vrz" firstAttribute="top" secondItem="ggR-ic-W8r" secondAttribute="bottom" id="oeo-wW-3YZ"/>
                             <constraint firstItem="9e3-J1-B21" firstAttribute="top" secondItem="we2-kR-vrz" secondAttribute="bottom" id="oiE-7w-La1"/>
                         </constraints>
                     </view>
@@ -110,7 +110,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="검색" id="1yV-Cf-aan">
                             <connections>
-                                <action selector="clcikSearchButton:" destination="zto-vd-mcz" id="eFm-8C-kNh"/>
+                                <action selector="clcikSearchButton:" destination="zto-vd-mcz" id="bV1-rv-nJC"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
