@@ -47,8 +47,6 @@
     self.resultLabel.frame = CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, 30);
     self.resultLabel.textAlignment = NSTextAlignmentCenter;
     
-//                        WithTitle:@"" frame:CGRectMake(0,70,300,30) textColor:[UIColor blackColor]];
-//    resu
     [self.view addSubview:self.resultLabel];
     
     [self.searchBar becomeFirstResponder];
