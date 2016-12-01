@@ -35,4 +35,9 @@
     return keyColor;
 }
 
++ (UIColor *)createGrayColor
+{
+    UIColor *grayColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.38];
+    return grayColor;
+}
 @end
