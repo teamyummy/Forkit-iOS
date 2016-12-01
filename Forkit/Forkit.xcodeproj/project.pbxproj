@@ -40,6 +40,7 @@
 		632A76F91DED9FB0001F7448 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 632A76F71DED9FB0001F7448 /* Annotation.m */; };
 		634D63FB1DED50CD00EB5903 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 634D63FA1DED50CD00EB5903 /* MapViewController.m */; };
 		634D63FE1DED5FC900EB5903 /* CustomUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 634D63FD1DED5FC900EB5903 /* CustomUIView.m */; };
+		63BF10881DEE68050080BDAE /* RestaurantDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BF10871DEE68050080BDAE /* RestaurantDetailCell.m */; };
 		9E9A93D2D6547F088C766762 /* libPods-Forkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DED7EF2E592FD69C0B68A5 /* libPods-Forkit.a */; };
 /* End PBXBuildFile section */
 
@@ -106,6 +107,8 @@
 		634D63FA1DED50CD00EB5903 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		634D63FC1DED5FC900EB5903 /* CustomUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomUIView.h; sourceTree = "<group>"; };
 		634D63FD1DED5FC900EB5903 /* CustomUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomUIView.m; sourceTree = "<group>"; };
+		63BF10861DEE68050080BDAE /* RestaurantDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantDetailCell.h; sourceTree = "<group>"; };
+		63BF10871DEE68050080BDAE /* RestaurantDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantDetailCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +291,8 @@
 				63263D871DEC1C650069DD2B /* SearchViewController.m */,
 				63263D891DEC1C6E0069DD2B /* RestaurantDetailViewController.h */,
 				63263D8A1DEC1C6E0069DD2B /* RestaurantDetailViewController.m */,
+				63BF10861DEE68050080BDAE /* RestaurantDetailCell.h */,
+				63BF10871DEE68050080BDAE /* RestaurantDetailCell.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -445,6 +450,7 @@
 				63263D7C1DEC1B720069DD2B /* FIUtilities.m in Sources */,
 				63263D6D1DEC1B3E0069DD2B /* FIDataManager.m in Sources */,
 				143D8DDC1DEC922C00EDDDF7 /* CustomCollectionViewFlowLayout.m in Sources */,
+				63BF10881DEE68050080BDAE /* RestaurantDetailCell.m in Sources */,
 				63263D881DEC1C650069DD2B /* SearchViewController.m in Sources */,
 				63263D4B1DEC1A960069DD2B /* main.m in Sources */,
 				143D8DD31DEC8ED200EDDDF7 /* CustomCollectionViewCell.m in Sources */,

@@ -12,3 +12,8 @@
 
 
 @end
+
+@interface RoundView : CustomUIView
+
+
+@end

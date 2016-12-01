@@ -41,3 +41,16 @@ static NSString *const rightBorderView = @"rightBorderView";
 }
 
 @end
+
+@implementation RoundView
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    self.layer.cornerRadius = self.frame.size.height/2;
+    self.backgroundColor = [UIColor clearColor];
+    self.layer.borderWidth = 1;
+    self.layer.borderColor = [FIUtilities createGrayColor].CGColor;
+}
+
+@end

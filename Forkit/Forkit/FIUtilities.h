@@ -14,5 +14,5 @@
 + (NSString *)changeCurrencyFormatFromNumber:(NSInteger)price;
 + (NSString *)changeCurrencyFormatFromNumber:(NSInteger)price withCurrencyCode:(NSString *)currencyCode;
 + (UIColor *)createKeyColor;
-
++ (UIColor *)createGrayColor;
 @end
