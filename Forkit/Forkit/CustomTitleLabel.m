@@ -16,7 +16,7 @@
 {
     self = [super init];
     if (self) {
-        self.font = [UIFont boldSystemFontOfSize:30];
+        self.font = [UIFont boldSystemFontOfSize:18];
         self.textColor = textColor;
         self.text = title;
         self.textAlignment = NSTextAlignmentCenter;

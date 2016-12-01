@@ -318,7 +318,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="7qG-gR-frr">
-                                <rect key="frame" x="0.0" y="20" width="375" height="559"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YFv-3u-FOC">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -336,8 +336,8 @@
                                     <constraint firstAttribute="height" constant="44" id="b58-Pc-iPf"/>
                                 </constraints>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vJd-6S-H5X">
-                                <rect key="frame" x="0.0" y="579" width="375" height="88"/>
+                            <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vJd-6S-H5X">
+                                <rect key="frame" x="0.0" y="549" width="375" height="88"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="88" id="wuH-hM-JgY"/>
                                 </constraints>
@@ -345,12 +345,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="vJd-6S-H5X" firstAttribute="top" secondItem="7qG-gR-frr" secondAttribute="bottom" id="3VC-4j-mHW"/>
                             <constraint firstItem="7qG-gR-frr" firstAttribute="leading" secondItem="oDK-C4-8kp" secondAttribute="leading" id="78a-KW-neP"/>
-                            <constraint firstItem="x5t-UN-69b" firstAttribute="top" secondItem="vJd-6S-H5X" secondAttribute="bottom" id="EDa-E4-bfH"/>
+                            <constraint firstItem="x5t-UN-69b" firstAttribute="top" secondItem="vJd-6S-H5X" secondAttribute="bottom" constant="30" id="EDa-E4-bfH"/>
                             <constraint firstItem="YFv-3u-FOC" firstAttribute="leading" secondItem="oDK-C4-8kp" secondAttribute="leading" id="Iwd-2R-l9u"/>
                             <constraint firstAttribute="trailing" secondItem="7qG-gR-frr" secondAttribute="trailing" id="LL6-BI-wKh"/>
                             <constraint firstItem="vJd-6S-H5X" firstAttribute="leading" secondItem="oDK-C4-8kp" secondAttribute="leading" id="SAr-dr-9KJ"/>
+                            <constraint firstItem="x5t-UN-69b" firstAttribute="top" secondItem="7qG-gR-frr" secondAttribute="bottom" id="jUI-KE-JCg"/>
                             <constraint firstItem="7qG-gR-frr" firstAttribute="top" secondItem="FMj-mZ-lye" secondAttribute="bottom" id="mqP-Vi-G8g"/>
                             <constraint firstAttribute="trailing" secondItem="vJd-6S-H5X" secondAttribute="trailing" id="o0g-OM-dfC"/>
                             <constraint firstAttribute="trailing" secondItem="YFv-3u-FOC" secondAttribute="trailing" id="pFi-W4-nKE"/>
