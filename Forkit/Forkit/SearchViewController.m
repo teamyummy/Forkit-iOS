@@ -84,17 +84,10 @@
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSLog(@"%lu %lu %@ (%@)", range.length, range.location, string, self.currentTypedCharacter);
-//    static NSString *currentTypedCharacter = string;
-//    if (range.length == 1) { // 입력된 텍스트가 줄어드는 순간 길이를 0으로 만듦
-////        self.searchBar.text = @"";
-//        textField.text = string;
-//    }
     if ([string isEqualToString:@" "] || ([self.currentTypedCharacter isEqualToString:@""] && [string isEqualToString:@""])) {
         self.searchBar.text = @"";
     }
     self.currentTypedCharacter = string;
-//    NSLog(@"%lu %lu %@ %@", range.length, range.location, string, self.currentTypedCharacter);
     return YES;
 }
 
@@ -112,8 +105,6 @@
     cell.shopAddressLabel.text = self.searchingResult[indexPath.row][@"address"];
     cell.scoreImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
     cell.shopInfoDetailLabel.text = [NSString stringWithFormat:@"리뷰 %@ 즐겨찾기 %@", self.searchingResult[indexPath.row][@"review_count"], self.searchingResult[indexPath.row][@"favorite_count"]];
-    
-    NSLog(@"%@", cell);
     
     return cell;
 }

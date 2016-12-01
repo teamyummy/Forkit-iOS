@@ -30,11 +30,16 @@
 
 static NSString *const mapAnnotationIdentifier = @"pin";
 static const NSInteger scrollViewHeight = 88;
+static const NSInteger scrollViewPagingPadding = 20;
+static const CGFloat diminishRate = 0.9;
+//static const NSInteger scrollViewHeight = scrollViewPagingPadding*4;
 
 #pragma mark - View Life Cycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSLog(@"%lf", self.scrollView.frame.size.width);
     
     // 가게 정보 가져옴
     FIDataManager *fiDataManager = [FIDataManager sharedManager];
@@ -58,7 +63,9 @@ static const NSInteger scrollViewHeight = 88;
     // scrollView 설정
     self.scrollView.delegate = self;
     self.scrollView.pagingEnabled = NO; // 델리게이트로 페이징을 맞췄기 때문에 NO 를 줌
-    self.scrollView.contentSize = CGSizeMake(self.shopDatas.count * self.scrollView.frame.size.width + 60, scrollViewHeight);
+//    self.scrollView.contentSize = CGSizeMake(self.shopDatas.count * self.scrollView.frame.size.width + 2*scrollViewPagingPadding, scrollViewHeight);
+    self.scrollView.contentSize = CGSizeMake(self.shopDatas.count * self.scrollView.frame.size.width * diminishRate + 2*scrollViewPagingPadding, scrollViewHeight);
+    
     self.scrollView.contentOffset = CGPointMake(0, 0);
     
     MapViewController __weak *wself = self;
@@ -72,7 +79,7 @@ static const NSInteger scrollViewHeight = 88;
 - (void)createPageViews {
     NSInteger i = 0;
     for (NSDictionary *shopData in self.shopDatas) {
-        UIView *shopView = [[UIView alloc] initWithFrame:CGRectMake(30+i*(self.scrollView.bounds.size.width), 0, self.scrollView.bounds.size.width-30, scrollViewHeight)];
+        UIView *shopView = [[UIView alloc] initWithFrame:CGRectMake(scrollViewPagingPadding+i*(self.scrollView.bounds.size.width*diminishRate), 0, self.scrollView.bounds.size.width*diminishRate-scrollViewPagingPadding, scrollViewHeight)];
         shopView.backgroundColor = [UIColor whiteColor];
         [self.scrollView addSubview:shopView];
         
@@ -81,7 +88,7 @@ static const NSInteger scrollViewHeight = 88;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         [shopView addSubview:imageView];
         
-        UIView *textView = [[UIView alloc] initWithFrame:CGRectMake(scrollViewHeight, 0, shopView.frame.size.width-imageView.frame.size.width-30, shopView.frame.size.height)];
+        UIView *textView = [[UIView alloc] initWithFrame:CGRectMake(scrollViewHeight, 0, shopView.frame.size.width-imageView.frame.size.width-scrollViewPagingPadding, shopView.frame.size.height)];
         [shopView addSubview:textView];
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 100, 20)];
@@ -89,26 +96,25 @@ static const NSInteger scrollViewHeight = 88;
         titleLabel.font = [UIFont systemFontOfSize:17];
         [textView addSubview:titleLabel];
         
-        UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 2*10+10, 100, 20)];
+        UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 35, 100, 20)];
         addressLabel.text = shopData[@"address"];
         addressLabel.font = [UIFont systemFontOfSize:14];
         addressLabel.alpha = 0.7;
         [textView addSubview:addressLabel];
         
-        UIStackView *lowerHorizontalStackView = [[UIStackView alloc] initWithFrame:CGRectMake(15, 50, textView.frame.size.width-30, 30)];
+        UIStackView *lowerHorizontalStackView = [[UIStackView alloc] initWithFrame:CGRectMake(15, 60, textView.frame.size.width-scrollViewPagingPadding, scrollViewPagingPadding)];
         lowerHorizontalStackView.axis = UILayoutConstraintAxisHorizontal;
         [textView addSubview:lowerHorizontalStackView];
         
-        UIImageView *scoreView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        UIImageView *scoreView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, scrollViewPagingPadding, scrollViewPagingPadding)];
         scoreView.image = [UIImage imageNamed:@"dummyFoodImage"];
         [lowerHorizontalStackView addSubview:scoreView];
-        UILabel *scoreTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 30, 30)];
+        UILabel *scoreTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(scrollViewPagingPadding*(1+1-diminishRate), 0, scrollViewPagingPadding, scrollViewPagingPadding)];
         scoreTextLabel.text = shopData[@"score"];
         [lowerHorizontalStackView addSubview:scoreTextLabel];
-        UILabel *reviewAndFavoriteCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, lowerHorizontalStackView.frame.size.width-60, 30)];
+        UILabel *reviewAndFavoriteCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(2*scrollViewPagingPadding, 0, lowerHorizontalStackView.frame.size.width-2*scrollViewPagingPadding, scrollViewPagingPadding)];
         reviewAndFavoriteCountLabel.text = [NSString stringWithFormat:@"리뷰 %@ 즐겨찾기 %@", shopData[@"review_count"], shopData[@"favorite_count"]];
         [lowerHorizontalStackView addSubview:reviewAndFavoriteCountLabel];
-    
         i++;
     }
 }
@@ -159,9 +165,11 @@ static const NSInteger scrollViewHeight = 88;
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     if (scrollView == self.scrollView) {
         CGFloat x = targetContentOffset->x;
-        CGFloat pagingWidth = 375;
+        NSLog(@"first offset: %lf", x);
+        CGFloat pagingWidth = 375*diminishRate; // 6+ 기준 414, 6 기준 375
         x = roundf(x / pagingWidth) * (pagingWidth);
         targetContentOffset->x = x;
+        NSLog(@"second %lf", x);
     }
 }
 

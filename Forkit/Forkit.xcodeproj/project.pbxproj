@@ -157,8 +157,6 @@
 				143D8DC91DEC603A00EDDDF7 /* CustomTableViewController.m */,
 				143D8F281DEFD4BE00EDDDF7 /* CustomTableViewCell.h */,
 				143D8F291DEFD4BE00EDDDF7 /* CustomTableViewCell.m */,
-				143D8F2B1DEFE59300EDDDF7 /* SearchingResultTableViewCell.h */,
-				143D8F2C1DEFE59300EDDDF7 /* SearchingResultTableViewCell.m */,
 			);
 			name = TableViews;
 			sourceTree = "<group>";
@@ -289,6 +287,8 @@
 				63263D841DEC1C590069DD2B /* MyPageViewController.m */,
 				63263D861DEC1C650069DD2B /* SearchViewController.h */,
 				63263D871DEC1C650069DD2B /* SearchViewController.m */,
+				143D8F2B1DEFE59300EDDDF7 /* SearchingResultTableViewCell.h */,
+				143D8F2C1DEFE59300EDDDF7 /* SearchingResultTableViewCell.m */,
 				63263D891DEC1C6E0069DD2B /* RestaurantDetailViewController.h */,
 				63263D8A1DEC1C6E0069DD2B /* RestaurantDetailViewController.m */,
 				63BF10861DEE68050080BDAE /* RestaurantDetailCell.h */,

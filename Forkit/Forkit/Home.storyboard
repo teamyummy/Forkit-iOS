@@ -441,7 +441,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="dummyFoodImage" width="16" height="16"/>
-        <image name="dummyImage" width="27" height="26"/>
+        <image name="dummyFoodImage" width="80" height="80"/>
+        <image name="dummyImage" width="24" height="24"/>
     </resources>
 </document>
