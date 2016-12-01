@@ -7,7 +7,7 @@
 //
 
 #import "CustomTableViewController.h"
-#import "RestaurantListCell.h"
+#import "CustomTableViewCell.h"
 
 @interface CustomTableViewController ()
 

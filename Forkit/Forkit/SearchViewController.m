@@ -7,36 +7,86 @@
 //
 
 #import "SearchViewController.h"
+#import "SearchingResultTableViewCell.h"
 
-@interface SearchViewController ()
+@interface SearchViewController () <UITableViewDelegate, UITableViewDataSource>
+
+@property UITextField *searchBar;
+@property NSArray *searchingResult;
+@property CustomTitleLabel *resultLabel;
+//@property UITableView *searchResultTableView;
+@property (weak, nonatomic) IBOutlet UITableView *searchResultTableView;
 
 @end
 
 @implementation SearchViewController
 
+#pragma mark - View Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createTextField];
 }
+
+#pragma mark - View Creation
+
 - (void)createTextField
 {
-    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, 21.0)];
-    textField.textAlignment = NSTextAlignmentCenter;
-    textField.textColor = [UIColor whiteColor];
-    textField.tintColor = [UIColor whiteColor];
-    self.navigationItem.titleView = textField;
+    self.searchBar = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, 21.0)];
+    self.searchBar.textAlignment = NSTextAlignmentCenter;
+    self.searchBar.textColor = [UIColor whiteColor];
+    self.searchBar.tintColor = [UIColor whiteColor];
+    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone; // 첫 글자 소문자로 변경
+    self.navigationItem.titleView = self.searchBar;
     
-    [textField becomeFirstResponder];
+    self.resultLabel = [[CustomTitleLabel alloc] initWithTitle:@"" frame:CGRectMake(10,70,300,30) textColor:[UIColor blackColor]];
+    [self.view addSubview:self.resultLabel];
+    
+    [self.searchBar becomeFirstResponder];
 }
+
+#pragma mark - IBActions
+
 - (IBAction)clickPopButton:(UIBarButtonItem *)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 - (IBAction)clcikSearchButton:(UIBarButtonItem *)sender {
+    NSLog(@"buttonCliced %@", self.searchBar.text);
+    self.resultLabel.text = @"";
+    self.searchingResult = [[NSArray alloc] initWithArray:[[FIDataManager sharedManager] searchName:self.searchBar.text]];
+    
+    if (self.searchingResult.count == 0) {
+        self.resultLabel.text = @"검색결과가 없습니다.";
+        return ;
+    }
+    
+    [self.searchResultTableView reloadData];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Table View Delegate
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.searchingResult.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    SearchingResultTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchingResultCell" forIndexPath:indexPath];
+    
+    cell.imageView.image = [UIImage imageNamed:@"dummyFoodImage"];
+    cell.shopNameLabel.text = self.searchingResult[indexPath.row][@"name"];
+    cell.shopAddressLabel.text = self.searchingResult[indexPath.row][@"address"];
+    cell.scoreImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
+    cell.shopInfoDetailLabel.text = [NSString stringWithFormat:@"리뷰 %@ 즐겨찾기 %@", self.searchingResult[indexPath.row][@"review_count"], self.searchingResult[indexPath.row][@"favorite_count"]];
+    
+    NSLog(@"%@", cell);
+    
+    return cell;
 }
 
 /*

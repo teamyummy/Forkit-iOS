@@ -14,4 +14,6 @@
 
 + (instancetype)sharedManager;
 
+- (NSArray *)searchName:(NSString *)name;
+
 @end
