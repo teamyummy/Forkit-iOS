@@ -10,6 +10,8 @@
 
 @interface FIDataManager : NSObject
 
+@property NSMutableArray *shopDatas;
+
 + (instancetype)sharedManager;
 
 @end

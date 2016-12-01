@@ -31,21 +31,14 @@
 static NSString *const mapAnnotationIdentifier = @"pin";
 static const NSInteger scrollViewHeight = 88;
 
+#pragma mark - View Life Cycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //! DataManager 에서 받아오는 것으로 수정
-    self.shopDatas = [[NSMutableArray alloc] initWithArray:@[
-  @{@"name":@"shop1", @"score":@"5", @"address":@"주소", @"review_count":@"72", @"favorite_count":@"25", @"latitude":@"37.5264", @"longitude":@"126.9569"},
-  @{@"name":@"shop2", @"score":@"4", @"address":@"주소", @"review_count":@"72", @"favorite_count":@"25", @"latitude":@"37.5553", @"longitude":@"126.9269"},
-  @{@"name":@"shop3", @"score":@"2", @"address":@"주소", @"review_count":@"72", @"favorite_count":@"25", @"latitude":@"37.5872", @"longitude":@"126.9770"},
-  @{@"name":@"shop4", @"score":@"5", @"address":@"주소", @"review_count":@"72", @"favorite_count":@"25", @"latitude":@"37.5264", @"longitude":@"126.9639"},
-  @{@"name":@"shop5", @"score":@"4", @"address":@"주소", @"review_count":@"72", @"favorite_count":@"25", @"latitude":@"37.5523", @"longitude":@"126.9169"},
-  @{@"name":@"shop6", @"score":@"2", @"address":@"주소", @"review_count":@"72", @"favorite_count":@"25", @"latitude":@"37.5132", @"longitude":@"126.9070"},
-  @{@"name":@"shop7", @"score":@"5", @"address":@"주소", @"review_count":@"72", @"favorite_count":@"25", @"latitude":@"37.5314", @"longitude":@"126.9129"},
-  @{@"name":@"shop8", @"score":@"4", @"address":@"주소", @"review_count":@"72", @"favorite_count":@"25", @"latitude":@"37.5433", @"longitude":@"126.9439"},
-  @{@"name":@"shop9", @"score":@"2", @"address":@"주소", @"review_count":@"72", @"favorite_count":@"25", @"latitude":@"37.5222", @"longitude":@"126.9220"}
-  ]];
+    // 가게 정보 가져옴
+    FIDataManager *fiDataManager = [FIDataManager sharedManager];
+    self.shopDatas = fiDataManager.shopDatas;
     
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
@@ -62,18 +55,19 @@ static const NSInteger scrollViewHeight = 88;
     MKCoordinateRegion region = MKCoordinateRegionMake(_coordinate, _span);
     [self.FIMapView setRegion:region];
 
+    // scrollView 설정
     self.scrollView.delegate = self;
     self.scrollView.pagingEnabled = NO; // 델리게이트로 페이징을 맞췄기 때문에 NO 를 줌
     self.scrollView.contentSize = CGSizeMake(self.shopDatas.count * self.scrollView.frame.size.width + 60, scrollViewHeight);
     self.scrollView.contentOffset = CGPointMake(0, 0);
-//    self.scrollView.backgroundColor = [UIColor redColor];
     
     MapViewController __weak *wself = self;
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         [wself createPageViews];
     });
 }
+
+#pragma mark - View Creation
 
 - (void)createPageViews {
     NSInteger i = 0;
@@ -88,7 +82,6 @@ static const NSInteger scrollViewHeight = 88;
         [shopView addSubview:imageView];
         
         UIView *textView = [[UIView alloc] initWithFrame:CGRectMake(scrollViewHeight, 0, shopView.frame.size.width-imageView.frame.size.width-30, shopView.frame.size.height)];
-//        textView.backgroundColor = [UIColor grayColor];
         [shopView addSubview:textView];
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 100, 20)];
@@ -115,6 +108,7 @@ static const NSInteger scrollViewHeight = 88;
         UILabel *reviewAndFavoriteCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, lowerHorizontalStackView.frame.size.width-60, 30)];
         reviewAndFavoriteCountLabel.text = [NSString stringWithFormat:@"리뷰 %@ 즐겨찾기 %@", shopData[@"review_count"], shopData[@"favorite_count"]];
         [lowerHorizontalStackView addSubview:reviewAndFavoriteCountLabel];
+    
         i++;
     }
 }
@@ -123,6 +117,7 @@ static const NSInteger scrollViewHeight = 88;
 {
     return YES;
 }
+
 
 - (IBAction)clickDismissButton:(UIButton *)sender
 {
