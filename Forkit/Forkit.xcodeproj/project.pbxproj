@@ -38,8 +38,11 @@
 		63263D881DEC1C650069DD2B /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D871DEC1C650069DD2B /* SearchViewController.m */; };
 		63263D8B1DEC1C6E0069DD2B /* RestaurantDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D8A1DEC1C6E0069DD2B /* RestaurantDetailViewController.m */; };
 		632A76F91DED9FB0001F7448 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 632A76F71DED9FB0001F7448 /* Annotation.m */; };
+		633DFC7F1DF1448B0000DDA0 /* ReviewDetatilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633DFC7E1DF1448B0000DDA0 /* ReviewDetatilViewController.m */; };
+		633DFC821DF16CA40000DDA0 /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633DFC811DF16CA40000DDA0 /* MenuTableViewController.m */; };
 		634D63FB1DED50CD00EB5903 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 634D63FA1DED50CD00EB5903 /* MapViewController.m */; };
 		634D63FE1DED5FC900EB5903 /* CustomUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 634D63FD1DED5FC900EB5903 /* CustomUIView.m */; };
+		637645CB1DF065FA0059366A /* ReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 637645CA1DF065FA0059366A /* ReviewViewController.m */; };
 		63BF10881DEE68050080BDAE /* RestaurantDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BF10871DEE68050080BDAE /* RestaurantDetailCell.m */; };
 		9E9A93D2D6547F088C766762 /* libPods-Forkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DED7EF2E592FD69C0B68A5 /* libPods-Forkit.a */; };
 /* End PBXBuildFile section */
@@ -103,10 +106,16 @@
 		63263D8A1DEC1C6E0069DD2B /* RestaurantDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantDetailViewController.m; sourceTree = "<group>"; };
 		632A76F61DED9FB0001F7448 /* Annotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
 		632A76F71DED9FB0001F7448 /* Annotation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
+		633DFC7D1DF1448B0000DDA0 /* ReviewDetatilViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewDetatilViewController.h; sourceTree = "<group>"; };
+		633DFC7E1DF1448B0000DDA0 /* ReviewDetatilViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewDetatilViewController.m; sourceTree = "<group>"; };
+		633DFC801DF16CA40000DDA0 /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
+		633DFC811DF16CA40000DDA0 /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
 		634D63F91DED50CD00EB5903 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		634D63FA1DED50CD00EB5903 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		634D63FC1DED5FC900EB5903 /* CustomUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomUIView.h; sourceTree = "<group>"; };
 		634D63FD1DED5FC900EB5903 /* CustomUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomUIView.m; sourceTree = "<group>"; };
+		637645C91DF065FA0059366A /* ReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewViewController.h; sourceTree = "<group>"; };
+		637645CA1DF065FA0059366A /* ReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewViewController.m; sourceTree = "<group>"; };
 		63BF10861DEE68050080BDAE /* RestaurantDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantDetailCell.h; sourceTree = "<group>"; };
 		63BF10871DEE68050080BDAE /* RestaurantDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantDetailCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -291,8 +300,14 @@
 				143D8F2C1DEFE59300EDDDF7 /* SearchingResultTableViewCell.m */,
 				63263D891DEC1C6E0069DD2B /* RestaurantDetailViewController.h */,
 				63263D8A1DEC1C6E0069DD2B /* RestaurantDetailViewController.m */,
+				633DFC7D1DF1448B0000DDA0 /* ReviewDetatilViewController.h */,
+				633DFC7E1DF1448B0000DDA0 /* ReviewDetatilViewController.m */,
+				637645C91DF065FA0059366A /* ReviewViewController.h */,
+				637645CA1DF065FA0059366A /* ReviewViewController.m */,
 				63BF10861DEE68050080BDAE /* RestaurantDetailCell.h */,
 				63BF10871DEE68050080BDAE /* RestaurantDetailCell.m */,
+				633DFC801DF16CA40000DDA0 /* MenuTableViewController.h */,
+				633DFC811DF16CA40000DDA0 /* MenuTableViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -436,6 +451,7 @@
 				632A76F91DED9FB0001F7448 /* Annotation.m in Sources */,
 				63263D791DEC1B690069DD2B /* FIUIManager.m in Sources */,
 				143D8DCA1DEC603A00EDDDF7 /* CustomTableViewController.m in Sources */,
+				633DFC821DF16CA40000DDA0 /* MenuTableViewController.m in Sources */,
 				63263D851DEC1C590069DD2B /* MyPageViewController.m in Sources */,
 				634D63FE1DED5FC900EB5903 /* CustomUIView.m in Sources */,
 				63263D701DEC1B470069DD2B /* FILocationManager.m in Sources */,
@@ -445,6 +461,7 @@
 				634D63FB1DED50CD00EB5903 /* MapViewController.m in Sources */,
 				143D8DD01DEC8E8F00EDDDF7 /* CustomCollectionViewController.m in Sources */,
 				63263D821DEC1C4D0069DD2B /* LoginViewController.m in Sources */,
+				633DFC7F1DF1448B0000DDA0 /* ReviewDetatilViewController.m in Sources */,
 				63263D761DEC1B5C0069DD2B /* FIRequestObject.m in Sources */,
 				63263D4E1DEC1A960069DD2B /* AppDelegate.m in Sources */,
 				63263D7C1DEC1B720069DD2B /* FIUtilities.m in Sources */,
@@ -455,6 +472,7 @@
 				63263D4B1DEC1A960069DD2B /* main.m in Sources */,
 				143D8DD31DEC8ED200EDDDF7 /* CustomCollectionViewCell.m in Sources */,
 				143D8DCD1DEC618B00EDDDF7 /* RestaurantListCell.m in Sources */,
+				637645CB1DF065FA0059366A /* ReviewViewController.m in Sources */,
 				63263D8B1DEC1C6E0069DD2B /* RestaurantDetailViewController.m in Sources */,
 				143D8F2A1DEFD4BE00EDDDF7 /* CustomTableViewCell.m in Sources */,
 				143D8F2D1DEFE59300EDDDF7 /* SearchingResultTableViewCell.m in Sources */,
@@ -570,6 +588,7 @@
 			baseConfigurationReference = 0198E406FB92B0367115781B /* Pods-Forkit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PRODUCT_NAME)/PrefixHeader.pch";
@@ -586,6 +605,7 @@
 			baseConfigurationReference = 54B8D78D84F258A20229EC1D /* Pods-Forkit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PRODUCT_NAME)/PrefixHeader.pch";

@@ -31,7 +31,7 @@
 
 + (UIColor *)createKeyColor
 {
-    UIColor *keyColor = UIColorFromRGB(0xFDC109);
+    UIColor *keyColor = UIColorFromRGB(0xFFC107);
     return keyColor;
 }
 

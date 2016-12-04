@@ -8,9 +8,12 @@
 
 #import "RestaurantDetailViewController.h"
 #import "RestaurantDetailCell.h"
+#import "ReviewViewController.h"
+#import "CustomUIView.h"
 
 static NSString * const reuseIdentifierTitleCell = @"RestaurantDetailTitleCell";
 static NSString * const reuseIdentifierInfoCell = @"RestaurantDetailInfoCell";
+static NSString * const reuseIdentifierReviewTitleCell = @"RestaurantDetailReviewTitleCell";
 static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell";
 
 @interface RestaurantDetailViewController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
@@ -18,47 +21,28 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 @property (weak, nonatomic) IBOutlet UITableView *RestaurantDetailTableView;
 @property (weak, nonatomic) IBOutlet UILabel *customNavigationTitle;
 @property NSArray *testArr;
+@property NSArray *reivewTestList;
 
 @end
 
 @implementation RestaurantDetailViewController
 
-- (IBAction)testClickReviewAlert:(UIButton *)sender
-{
-
-//    UIStoryboard *restaurantStoryboard = [UIStoryboard storyboardWithName:@"RestaurantDetail" bundle:nil];
-    
-    
-//    [self presentViewController:testAlertVC animated:NO completion:^{
-//        testAlertVC.view.alpha = 0;
-//        [UIView animateWithDuration:0.5
-//                         animations:^{
-//                             testAlertVC.view.alpha = 1;
-//                         }];
-//    }];
- /*
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"1"
-                                                                   message:@"1"
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    UIView *reviewView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 200)];
-    reviewView.backgroundColor = [UIColor blueColor];
-    
-//    alert.view = reviewView;
-    [self presentViewController:alert animated:YES completion:nil];
-   */
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationController.navigationBarHidden = YES;
 //    [self.navigationController setNavigationBarHidden:YES];
    
     [self preferredStatusBarStyle];
 //    self.edgesForExtendedLayout = UIRectEdgeTop;
 //    self.automaticallyAdjustsScrollViewInsets = NO;
     self.testArr = @[@"dummyFoodImage", @"dummyFoodImage", @"dummyFoodImage", @"dummyFoodImage", @"dummyFoodImage"];
+    self.reivewTestList = @[@"review", @"review", @"review", @"review", @"review", @"review"];
     
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,11 +50,13 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (IBAction)clickPopButton:(UIButton *)sender
 {
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = NO; // 수정해야함
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
@@ -79,49 +65,25 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 #pragma mark - Table View Method
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 #pragma mark - Table View Delegate
+//row Number
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section == 3)
+    {
+        return self.reivewTestList.count;
+    }
     return 1;
 }
-
+//cell
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-    NSString *reuseIdentifier;
-    switch (indexPath.section)
-    {
-        case 0:
-            reuseIdentifier = reuseIdentifierTitleCell;
-            break;
-        
-        case 1:
-            reuseIdentifier = reuseIdentifierInfoCell;
-            break;
-            
-        case 2:
-            reuseIdentifier = reuseIdentifierReviewCell;
-            break;
-     
-    }
-    RestaurantDetailTitleCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
-    if ([reuseIdentifier isEqualToString:reuseIdentifierInfoCell])
-    {
-        cell.
-    }
-     */
-    
     if (indexPath.section == 0)
     {
         RestaurantDetailTitleCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierTitleCell forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        
-        [cell.clickPresentReviewButton addTarget:self action:@selector(presentReviewController:) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     } else if (indexPath.section == 1)
     {
@@ -132,27 +94,85 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
         return cell;
     } else if (indexPath.section == 2)
     {
+        RestaurantDetailReviewTitleCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierReviewTitleCell forIndexPath:indexPath];
+        return cell;
+    } else if (indexPath.section == 3)
+    {
         RestaurantDetailReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierReviewCell forIndexPath:indexPath];
         return cell;
     }
     return nil;
 }
 
-- (void)presentReviewController:(UIButton *)sender
+//header Height
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    UIViewController *testAlertVC = [self.storyboard instantiateViewControllerWithIdentifier:@"customAlertController"];
-    
-    [self addChildViewController:testAlertVC];
-    [self.view addSubview:testAlertVC.view];
-    [testAlertVC.view setAlpha:0.0];
-    
-    [UIView animateWithDuration:3 animations:^{
-        [testAlertVC.view setAlpha:0.9];
-    }];
-    
-    
+    if (section == 0 || section == 3)
+    {
+        return 0;
+    }
+    return 8;
 }
 
+//header View
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *headerView = [[UIView alloc] init];
+    headerView.backgroundColor = [UIColor clearColor];
+    return headerView;
+}
+
+//row Height
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat heightForRow = 0;
+    switch (indexPath.section)
+    {
+        case 0:
+        case 1:
+            heightForRow = 330;
+            break;
+            
+        case 2:
+            heightForRow = 48;
+            break;
+            
+        case 3:
+            heightForRow = 80;
+            break;
+    }
+    return heightForRow;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.selected = NO;
+}
+#pragma mark - Present Review Controller
+- (IBAction)presentReviewController:(UIButton *)sender
+{
+    self.tabBarController.tabBar.hidden = YES;
+    ReviewViewController *testAlertVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ReviewVC"];
+    
+    /*
+    self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    [self presentViewController:testAlertVC animated:YES completion:nil];
+    testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+    [UIView animateWithDuration:0.5 animations:^{
+        testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+    }];
+     */
+    [self addChildViewController:testAlertVC];
+    [self.view addSubview:testAlertVC.view];
+    testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.70];
+    }];
+}
+
+#pragma mark - Scroll View Method
 - (void)createScrollViewWithCell:(RestaurantDetailInfoCell *)cell
 {
     CGFloat scrollViewWidth = cell.reviewPhotoScrollView.frame.size.width;
@@ -172,23 +192,6 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     cell.reviewPhotoScrollView.showsHorizontalScrollIndicator = NO;
 }
 
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    if (section == 0)
-    {
-        return 0;
-    }
-
-    return 8;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *headerView = [[UIView alloc] init];
-    headerView.backgroundColor = [UIColor clearColor];
-    return headerView;
-}
 #pragma mark - Scroll View Delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -210,14 +213,15 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
         }
     }
 }
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
 }
-*/
+
 
 @end

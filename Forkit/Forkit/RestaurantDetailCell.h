@@ -16,7 +16,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *titleImageView;
 @property (weak, nonatomic) IBOutlet UIView *scoreView;
-@property (weak, nonatomic) IBOutlet UIButton *clickPresentReviewButton;
 
 @end
 
@@ -26,10 +25,24 @@
 
 @end
 
+@interface RestaurantDetailReviewTitleCell : RestaurantDetailCell
+
+@property (weak, nonatomic) IBOutlet UILabel *reviewCountLabel;
+
+@end
+
 @interface RestaurantDetailReviewCell : RestaurantDetailCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *reviewProfileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *reviewIdLabel;
 @property (weak, nonatomic) IBOutlet UILabel *reviewTextLabel;
+
+@end
+
+@interface MenuCell : RestaurantDetailCell
+
+@property (weak, nonatomic) IBOutlet UIImageView *menuImageView;
+@property (weak, nonatomic) IBOutlet UILabel *menuNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *menuCostLabel;
 
 @end

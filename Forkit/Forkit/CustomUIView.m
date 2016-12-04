@@ -10,6 +10,7 @@
 
 static NSString *const bottomBorderView = @"bottomBorderView";
 static NSString *const rightBorderView = @"rightBorderView";
+static NSString *const borderView = @"borderView";
 
 @implementation CustomUIView
 
@@ -32,6 +33,10 @@ static NSString *const rightBorderView = @"rightBorderView";
     } else if ([self.restorationIdentifier isEqualToString:rightBorderView])
     {
         border.frame = CGRectMake(width, 0, stroke, height);
+    } else if ([self.restorationIdentifier isEqualToString:borderView])
+    {
+        [self setBorderWithStroke:stroke alpha:alpha];
+        return;
     }
     UIColor *color = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:alpha];
     
@@ -40,6 +45,12 @@ static NSString *const rightBorderView = @"rightBorderView";
     [self.layer addSublayer:border];
 }
 
+- (void)setBorderWithStroke:(CGFloat)stroke alpha:(CGFloat)alpha
+{
+    self.layer.borderWidth = stroke;
+    UIColor *color = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:alpha];
+    self.layer.borderColor = color.CGColor;
+}
 @end
 
 @implementation RoundView
