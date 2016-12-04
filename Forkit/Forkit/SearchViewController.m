@@ -84,7 +84,7 @@
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if ([string isEqualToString:@" "] || ([self.currentTypedCharacter isEqualToString:@""] && [string isEqualToString:@""])) {
+    if (([self.currentTypedCharacter isEqualToString:@" "] && [string isEqualToString:@" "]) || ([self.currentTypedCharacter isEqualToString:@""] && [string isEqualToString:@""])) {
         self.searchBar.text = @"";
     }
     self.currentTypedCharacter = string;

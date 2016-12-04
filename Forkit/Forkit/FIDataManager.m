@@ -45,9 +45,9 @@
 
 - (NSArray *)searchName:(NSString *)name {
     NSMutableArray *searchResult = [[NSMutableArray alloc] init];
-    
+    //! containsString 을 사용하면 가게 명 뿐만 아니라 태그명, 주소, 점수 (범위) 검색 등도 가능하겠다
     for (NSDictionary *shopData in self.shopDatas) {
-        if ([shopData[@"name"] isEqualToString:name]) {
+        if ([name containsString:shopData[@"name"]]) {
             [searchResult addObject:shopData];
         }
     }
