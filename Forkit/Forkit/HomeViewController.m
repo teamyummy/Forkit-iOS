@@ -69,6 +69,13 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
      
     self.navigationItem.titleView = logoImageView;
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)createPageControllWithSuperViewHeight:(CGFloat)height superView:(UIView *)superView
 {
     _pageControl = [[UIPageControl alloc] init];

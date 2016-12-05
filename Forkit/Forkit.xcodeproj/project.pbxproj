@@ -192,6 +192,134 @@
 			name = Labels;
 			sourceTree = "<group>";
 		};
+		1458C53E1DF55CAF00046083 /* HomeVC */ = {
+			isa = PBXGroup;
+			children = (
+				63263D4F1DEC1A960069DD2B /* HomeViewController.h */,
+				63263D501DEC1A960069DD2B /* HomeViewController.m */,
+				143D8DCB1DEC618B00EDDDF7 /* RestaurantListCell.h */,
+				143D8DCC1DEC618B00EDDDF7 /* RestaurantListCell.m */,
+			);
+			name = HomeVC;
+			sourceTree = "<group>";
+		};
+		1458C53F1DF55CBE00046083 /* MapVC */ = {
+			isa = PBXGroup;
+			children = (
+				634D63F91DED50CD00EB5903 /* MapViewController.h */,
+				634D63FA1DED50CD00EB5903 /* MapViewController.m */,
+			);
+			name = MapVC;
+			sourceTree = "<group>";
+		};
+		1458C5401DF55CCE00046083 /* LoginVC */ = {
+			isa = PBXGroup;
+			children = (
+				63263D801DEC1C4D0069DD2B /* LoginViewController.h */,
+				63263D811DEC1C4D0069DD2B /* LoginViewController.m */,
+			);
+			name = LoginVC;
+			sourceTree = "<group>";
+		};
+		1458C5411DF55CD400046083 /* MyPageVC */ = {
+			isa = PBXGroup;
+			children = (
+				63263D831DEC1C590069DD2B /* MyPageViewController.h */,
+				63263D841DEC1C590069DD2B /* MyPageViewController.m */,
+				6375BF201DF424DB00E9E9A9 /* MyPageTableViewCell.h */,
+				6375BF211DF424DB00E9E9A9 /* MyPageTableViewCell.m */,
+			);
+			name = MyPageVC;
+			sourceTree = "<group>";
+		};
+		1458C5421DF55CEA00046083 /* SearchVC */ = {
+			isa = PBXGroup;
+			children = (
+				63263D861DEC1C650069DD2B /* SearchViewController.h */,
+				63263D871DEC1C650069DD2B /* SearchViewController.m */,
+				143D8F2B1DEFE59300EDDDF7 /* SearchingResultTableViewCell.h */,
+				143D8F2C1DEFE59300EDDDF7 /* SearchingResultTableViewCell.m */,
+			);
+			name = SearchVC;
+			sourceTree = "<group>";
+		};
+		1458C5431DF55D0500046083 /* RestaurantDetailVC */ = {
+			isa = PBXGroup;
+			children = (
+				63263D891DEC1C6E0069DD2B /* RestaurantDetailViewController.h */,
+				63263D8A1DEC1C6E0069DD2B /* RestaurantDetailViewController.m */,
+				63BF10861DEE68050080BDAE /* RestaurantDetailCell.h */,
+				63BF10871DEE68050080BDAE /* RestaurantDetailCell.m */,
+			);
+			name = RestaurantDetailVC;
+			sourceTree = "<group>";
+		};
+		1458C5441DF55D2500046083 /* ReviewVC */ = {
+			isa = PBXGroup;
+			children = (
+				633DFC7D1DF1448B0000DDA0 /* ReviewDetatilViewController.h */,
+				633DFC7E1DF1448B0000DDA0 /* ReviewDetatilViewController.m */,
+				637645C91DF065FA0059366A /* ReviewViewController.h */,
+				637645CA1DF065FA0059366A /* ReviewViewController.m */,
+			);
+			name = ReviewVC;
+			sourceTree = "<group>";
+		};
+		1458C5451DF55D2C00046083 /* RestaurantDetailVC */ = {
+			isa = PBXGroup;
+			children = (
+				1458C5431DF55D0500046083 /* RestaurantDetailVC */,
+				1458C5441DF55D2500046083 /* ReviewVC */,
+				1458C5461DF55D4F00046083 /* MenuTableVC */,
+			);
+			name = RestaurantDetailVC;
+			sourceTree = "<group>";
+		};
+		1458C5461DF55D4F00046083 /* MenuTableVC */ = {
+			isa = PBXGroup;
+			children = (
+				633DFC801DF16CA40000DDA0 /* MenuTableViewController.h */,
+				633DFC811DF16CA40000DDA0 /* MenuTableViewController.m */,
+			);
+			name = MenuTableVC;
+			sourceTree = "<group>";
+		};
+		1458C5471DF55D8700046083 /* RestaurantInfo */ = {
+			isa = PBXGroup;
+			children = (
+				63263D6B1DEC1B3E0069DD2B /* FIDataManager.h */,
+				63263D6C1DEC1B3E0069DD2B /* FIDataManager.m */,
+			);
+			name = RestaurantInfo;
+			sourceTree = "<group>";
+		};
+		1458C5481DF55D8E00046083 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				63263D6E1DEC1B470069DD2B /* FILocationManager.h */,
+				63263D6F1DEC1B470069DD2B /* FILocationManager.m */,
+			);
+			name = Location;
+			sourceTree = "<group>";
+		};
+		1458C5491DF55D9900046083 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				63263D711DEC1B500069DD2B /* FILoginManager.h */,
+				63263D721DEC1B500069DD2B /* FILoginManager.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		1458C54A1DF55DB000046083 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				63263D771DEC1B690069DD2B /* FIUIManager.h */,
+				63263D781DEC1B690069DD2B /* FIUIManager.m */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
 		5BE571551C97AB7E2F0B197E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -264,14 +392,10 @@
 		63263D7D1DEC1B860069DD2B /* FIManager */ = {
 			isa = PBXGroup;
 			children = (
-				63263D6B1DEC1B3E0069DD2B /* FIDataManager.h */,
-				63263D6C1DEC1B3E0069DD2B /* FIDataManager.m */,
-				63263D6E1DEC1B470069DD2B /* FILocationManager.h */,
-				63263D6F1DEC1B470069DD2B /* FILocationManager.m */,
-				63263D711DEC1B500069DD2B /* FILoginManager.h */,
-				63263D721DEC1B500069DD2B /* FILoginManager.m */,
-				63263D771DEC1B690069DD2B /* FIUIManager.h */,
-				63263D781DEC1B690069DD2B /* FIUIManager.m */,
+				1458C5471DF55D8700046083 /* RestaurantInfo */,
+				1458C5481DF55D8E00046083 /* Location */,
+				1458C5491DF55D9900046083 /* Login */,
+				1458C54A1DF55DB000046083 /* UI */,
 			);
 			name = FIManager;
 			sourceTree = "<group>";
@@ -297,32 +421,12 @@
 		63263D8C1DEC1C7D0069DD2B /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				63263D4F1DEC1A960069DD2B /* HomeViewController.h */,
-				63263D501DEC1A960069DD2B /* HomeViewController.m */,
-				143D8DCB1DEC618B00EDDDF7 /* RestaurantListCell.h */,
-				143D8DCC1DEC618B00EDDDF7 /* RestaurantListCell.m */,
-				634D63F91DED50CD00EB5903 /* MapViewController.h */,
-				634D63FA1DED50CD00EB5903 /* MapViewController.m */,
-				63263D801DEC1C4D0069DD2B /* LoginViewController.h */,
-				63263D811DEC1C4D0069DD2B /* LoginViewController.m */,
-				63263D831DEC1C590069DD2B /* MyPageViewController.h */,
-				63263D841DEC1C590069DD2B /* MyPageViewController.m */,
-				6375BF201DF424DB00E9E9A9 /* MyPageTableViewCell.h */,
-				6375BF211DF424DB00E9E9A9 /* MyPageTableViewCell.m */,
-				63263D861DEC1C650069DD2B /* SearchViewController.h */,
-				63263D871DEC1C650069DD2B /* SearchViewController.m */,
-				143D8F2B1DEFE59300EDDDF7 /* SearchingResultTableViewCell.h */,
-				143D8F2C1DEFE59300EDDDF7 /* SearchingResultTableViewCell.m */,
-				63263D891DEC1C6E0069DD2B /* RestaurantDetailViewController.h */,
-				63263D8A1DEC1C6E0069DD2B /* RestaurantDetailViewController.m */,
-				633DFC7D1DF1448B0000DDA0 /* ReviewDetatilViewController.h */,
-				633DFC7E1DF1448B0000DDA0 /* ReviewDetatilViewController.m */,
-				637645C91DF065FA0059366A /* ReviewViewController.h */,
-				637645CA1DF065FA0059366A /* ReviewViewController.m */,
-				63BF10861DEE68050080BDAE /* RestaurantDetailCell.h */,
-				63BF10871DEE68050080BDAE /* RestaurantDetailCell.m */,
-				633DFC801DF16CA40000DDA0 /* MenuTableViewController.h */,
-				633DFC811DF16CA40000DDA0 /* MenuTableViewController.m */,
+				1458C53E1DF55CAF00046083 /* HomeVC */,
+				1458C53F1DF55CBE00046083 /* MapVC */,
+				1458C5401DF55CCE00046083 /* LoginVC */,
+				1458C5411DF55CD400046083 /* MyPageVC */,
+				1458C5421DF55CEA00046083 /* SearchVC */,
+				1458C5451DF55D2C00046083 /* RestaurantDetailVC */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";

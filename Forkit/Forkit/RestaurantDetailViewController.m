@@ -53,7 +53,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 
 - (IBAction)clickPopButton:(UIButton *)sender
 {
-    self.navigationController.navigationBarHidden = NO; // 수정해야함
+//    self.navigationController.navigationBarHidden = NO; // 수정해야함
     [self.navigationController popViewControllerAnimated:YES];
 }
 
