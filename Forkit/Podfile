@@ -6,7 +6,7 @@ target 'Forkit' do
   # use_frameworks!
 
   # Pods for Forkit
-
+  pod 'ActionSheetPicker-3.0'
   pod 'AFNetworking', '~> 3.1'
   pod 'SDWebImage', '~> 3.8'
   pod 'QBImagePickerController', '~> 3.4'

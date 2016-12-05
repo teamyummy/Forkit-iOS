@@ -11,6 +11,7 @@
 @interface FIDataManager : NSObject
 
 @property NSMutableArray *shopDatas;
+@property NSString *currentSearchFilterName;
 
 + (instancetype)sharedManager;
 
