@@ -14,9 +14,9 @@ static NSString *const borderView = @"borderView";
 
 @implementation CustomUIView
 
-- (void)awakeFromNib
+- (void)layoutSubviews
 {
-    [super awakeFromNib];
+    [super layoutSubviews];
     [self setRightBorderWithStroke:0.75 alpha:0.18];
 }
 
