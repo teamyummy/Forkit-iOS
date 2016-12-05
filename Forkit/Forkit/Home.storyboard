@@ -34,7 +34,7 @@
                                                     <action selector="clickSortButton:" destination="pMs-rk-fVP" eventType="touchUpInside" id="kAt-Hc-hsQ"/>
                                                 </connections>
                                             </button>
-                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8xi-VW-E2w">
+                                            <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8xi-VW-E2w">
                                                 <rect key="frame" x="59" y="0.0" width="68" height="44"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dummyImage" translatesAutoresizingMaskIntoConstraints="NO" id="OIq-9k-6Sc">
@@ -299,6 +299,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="restaurantTableView" destination="m3d-k4-j7R" id="su0-OD-7cy"/>
+                        <outlet property="sortingButton" destination="ncc-Ie-Hbj" id="Ii9-6P-1Du"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="neI-cA-DnE" userLabel="First Responder" sceneMemberID="firstResponder"/>
