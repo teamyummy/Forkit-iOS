@@ -152,6 +152,11 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+//    return self.dataList.count;
+    return 1;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.dataList.count;
 }
 
@@ -178,13 +183,13 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
     
     RestaurantListCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    cell.RestaurantTitleLabel.text = self.dataList[indexPath.row][@"name"];
+    cell.RestaurantTitleLabel.text = self.dataList[indexPath.section][@"name"];
     //! 지금은 내부 이미지를 사용하기 때문에 imageNamed 를 사용하였음
-    cell.RestaurantImageView.image = [UIImage imageNamed:self.dataList[indexPath.row][@"image"]];
-    cell.RestaurantScoreLabel.text = self.dataList[indexPath.row][@"score"];
-    cell.RestaurantAddressLabel.text = self.dataList[indexPath.row][@"address"];
-    cell.RestaurantReviewCountLabel.text = self.dataList[indexPath.row][@"review_count"];
-    cell.RestaurantLikeCountLabel.text = self.dataList[indexPath.row][@"favorite_count"];
+    cell.RestaurantImageView.image = [UIImage imageNamed:self.dataList[indexPath.section][@"image"]];
+    cell.RestaurantScoreLabel.text = self.dataList[indexPath.section][@"score"];
+    cell.RestaurantAddressLabel.text = self.dataList[indexPath.section][@"address"];
+    cell.RestaurantReviewCountLabel.text = self.dataList[indexPath.section][@"review_count"];
+    cell.RestaurantLikeCountLabel.text = self.dataList[indexPath.section][@"favorite_count"];
     
     return cell;
 }
