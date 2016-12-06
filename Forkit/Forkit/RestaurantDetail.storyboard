@@ -20,18 +20,18 @@
                         <viewControllerLayoutGuide type="bottom" id="gxi-Ew-y3i"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="YLZ-ge-YpJ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="330" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="puc-aa-eEn">
-                                <rect key="frame" x="0.0" y="-24" width="375" height="691"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="330" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="puc-aa-eEn">
+                                <rect key="frame" x="0.0" y="-24" width="375" height="1224"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RestaurantDetailTitleCell" id="hNw-Wa-IiF" customClass="RestaurantDetailTitleCell">
                                         <rect key="frame" x="0.0" y="28" width="375" height="330"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" contentMode="center" tableViewCell="hNw-Wa-IiF" id="UL7-kw-ce0">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="329.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="330"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dummyFoodImage" translatesAutoresizingMaskIntoConstraints="NO" id="9RI-1z-Grf">
@@ -262,7 +262,7 @@
                                         <rect key="frame" x="0.0" y="358" width="375" height="330"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" contentMode="center" tableViewCell="Yjz-eG-VTG" id="cJi-sl-uZT">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="329.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="330"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uc2-th-KUG">
@@ -406,7 +406,7 @@
                                                     </constraints>
                                                 </stackView>
                                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXQ-FI-iHZ">
-                                                    <rect key="frame" x="0.0" y="192" width="375" height="117"/>
+                                                    <rect key="frame" x="0.0" y="192" width="375" height="118"/>
                                                 </scrollView>
                                             </subviews>
                                             <constraints>
@@ -427,10 +427,10 @@
                                         <rect key="frame" x="0.0" y="688" width="375" height="330"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="6Ig-hd-B5O" id="3l8-Ld-tK2">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="329.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="330"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" restorationIdentifier="bottomBorderView" translatesAutoresizingMaskIntoConstraints="NO" id="qMc-0Z-vzJ">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qMc-0Z-vzJ">
                                                     <rect key="frame" x="20" y="0.0" width="335" height="48"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.87" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="플레이스 리뷰" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z3G-FA-voa">
@@ -471,9 +471,13 @@
                                         <rect key="frame" x="0.0" y="1018" width="375" height="330"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="A1z-KM-Yu1" id="jcO-Lo-fGx">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="329.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="330"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YiH-lw-eqg" customClass="BottomBorderView">
+                                                    <rect key="frame" x="19.5" y="0.0" width="335" height="330"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dummyFoodImage" translatesAutoresizingMaskIntoConstraints="NO" id="0su-54-KUf">
                                                     <rect key="frame" x="20" y="20" width="40" height="40"/>
                                                     <constraints>
@@ -546,11 +550,15 @@
                                                 </stackView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="YiH-lw-eqg" firstAttribute="centerY" secondItem="jcO-Lo-fGx" secondAttribute="centerY" id="0eR-zu-0f6"/>
                                                 <constraint firstItem="0su-54-KUf" firstAttribute="leading" secondItem="jcO-Lo-fGx" secondAttribute="leading" constant="20" id="1b2-Cp-2dv"/>
                                                 <constraint firstItem="bfk-cY-4ft" firstAttribute="leading" secondItem="Av8-i4-1gZ" secondAttribute="leading" id="4X0-KG-VoF"/>
                                                 <constraint firstItem="0su-54-KUf" firstAttribute="top" secondItem="jcO-Lo-fGx" secondAttribute="top" constant="20" id="EUu-FC-bIo"/>
                                                 <constraint firstItem="bfk-cY-4ft" firstAttribute="top" secondItem="Av8-i4-1gZ" secondAttribute="bottom" constant="4" id="KpG-9r-fWS"/>
+                                                <constraint firstItem="YiH-lw-eqg" firstAttribute="height" secondItem="jcO-Lo-fGx" secondAttribute="height" id="Rnh-nJ-7fA"/>
                                                 <constraint firstItem="Av8-i4-1gZ" firstAttribute="leading" secondItem="0su-54-KUf" secondAttribute="trailing" constant="8" id="Rnm-19-oAV"/>
+                                                <constraint firstItem="YiH-lw-eqg" firstAttribute="width" secondItem="jcO-Lo-fGx" secondAttribute="width" constant="-40" id="VdP-ZM-8iv"/>
+                                                <constraint firstItem="YiH-lw-eqg" firstAttribute="centerX" secondItem="jcO-Lo-fGx" secondAttribute="centerX" id="hRj-VG-VpK"/>
                                                 <constraint firstAttribute="trailing" secondItem="bfk-cY-4ft" secondAttribute="trailing" constant="20" id="jp9-02-qtE"/>
                                                 <constraint firstItem="Jcp-Cx-2yg" firstAttribute="leading" secondItem="Av8-i4-1gZ" secondAttribute="trailing" constant="4" id="om1-aw-dkD"/>
                                                 <constraint firstItem="Av8-i4-1gZ" firstAttribute="top" secondItem="0su-54-KUf" secondAttribute="top" id="xkT-sL-3AD"/>
@@ -633,6 +641,8 @@
                             <constraint firstItem="tNJ-eY-ho8" firstAttribute="top" secondItem="YLZ-ge-YpJ" secondAttribute="top" id="zok-8g-Mv7"/>
                         </constraints>
                     </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="1200"/>
                     <connections>
                         <outlet property="RestaurantDetailTableView" destination="puc-aa-eEn" id="pak-Fb-RGb"/>
                         <outlet property="customNavigationBar" destination="tNJ-eY-ho8" id="EH7-2Q-AJ8"/>
@@ -652,14 +662,14 @@
                         <viewControllerLayoutGuide type="bottom" id="r93-JS-3sX"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="sxo-MX-o4W">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T3e-QZ-gDn">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="1087"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pKR-Lp-iZN">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1087"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dummyFoodImage" translatesAutoresizingMaskIntoConstraints="NO" id="x2w-96-5Z5">
                                                 <rect key="frame" x="19.5" y="19.5" width="40" height="40"/>
@@ -802,7 +812,7 @@
             <objects>
                 <tableViewController id="AO4-uh-0Wg" customClass="MenuTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="S74-3x-7xI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93333333730697632" green="0.93333333730697632" blue="0.93333333730697632" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
@@ -877,7 +887,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PWj-2k-6S1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-686" y="-789"/>
+            <point key="canvasLocation" x="1177" y="-507"/>
         </scene>
         <!--Review View Controller-->
         <scene sceneID="ytz-O7-2dw">
@@ -1090,7 +1100,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kWa-Tp-T0J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1178" y="-503"/>
+            <point key="canvasLocation" x="1962" y="242"/>
         </scene>
     </scenes>
     <resources>

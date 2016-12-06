@@ -10,10 +10,12 @@
 
 @interface CustomUIView : UIView
 
-
 @end
 
 @interface RoundView : CustomUIView
 
+@end
+
+@interface BottomBorderView : CustomUIView
 
 @end

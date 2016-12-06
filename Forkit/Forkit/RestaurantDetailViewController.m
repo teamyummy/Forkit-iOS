@@ -146,8 +146,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.selected = NO;
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 #pragma mark - Present Review Controller
 - (IBAction)presentReviewController:(UIButton *)sender

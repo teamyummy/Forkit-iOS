@@ -65,3 +65,30 @@ static NSString *const borderView = @"borderView";
 }
 
 @end
+
+@implementation BottomBorderView
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    [self setBorderWithStroke:0.75 alpha:0.18];
+}
+
+- (void)setBorderWithStroke:(CGFloat)stroke alpha:(CGFloat)alpha
+{
+    CALayer *border = [CALayer layer];
+    
+    CGFloat height = self.frame.size.height;
+    CGFloat width = self.frame.size.width;
+    
+    border.frame = CGRectMake(0, height-stroke, width, stroke);
+    
+    UIColor *color = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:alpha];
+    
+    border.backgroundColor = color.CGColor;
+    
+    [self.layer addSublayer:border];
+    
+}
+
+@end

@@ -119,10 +119,6 @@ static const CGFloat diminishRate = 0.9;
     }
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
 
 
 - (IBAction)clickDismissButton:(UIButton *)sender

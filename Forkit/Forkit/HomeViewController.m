@@ -72,7 +72,7 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBarHidden = NO;
 }
 
@@ -154,6 +154,11 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
                                      }
                                           origin:sender];
 }
+#pragma mark - Table view delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
 #pragma mark - Table view data source
 
@@ -187,7 +192,6 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     RestaurantListCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     cell.RestaurantTitleLabel.text = self.dataList[indexPath.section][@"name"];

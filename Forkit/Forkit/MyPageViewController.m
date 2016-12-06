@@ -77,7 +77,6 @@ typedef NS_ENUM(NSInteger, ButtonTag)
     self.testArr = @[@"1", @"1", @"1", @"1", @"1", @"1", @"1", @"1", @"1"];
     self.checkListState = ListStateReview;
     [[NSUserDefaults standardUserDefaults] setObject:UserInfoValueNotLogin forKey:UserInfoKeyLoginState];
-    
     /*
     [FIRequestObject requestRestaurantList];
     [FIRequestObject requestReviewListWithRestaurantPk:@"1"];
@@ -87,7 +86,11 @@ typedef NS_ENUM(NSInteger, ButtonTag)
                                                     contents:@"되라되라되라"
                                                        score:3];
      */
-    
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -214,14 +217,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /* 네비로 바꿔야함
-    if (indexPath.section == SectionNumberReviewList)
-    {
-        UIStoryboard *reviewStoryboard = [UIStoryboard storyboardWithName:@"RestaurantDetail" bundle:nil];
-        ReviewDetatilViewController *reviewDetailVC = [reviewStoryboard instantiateViewControllerWithIdentifier:@"reviewDetailVC"];
-        [self presentViewController:reviewDetailVC animated:YES completion:nil];
-    }
-    */
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 #pragma mark - Custom Method
 - (void)notSelectButton:(ButtonTag)buttonTag ButtonCell:(ButtonCell *)buttonCell

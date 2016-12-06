@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createTextField];
+    self.tabBarController.tabBar.hidden = YES;
 }
 
 #pragma mark - View Creation
@@ -56,6 +57,7 @@
 
 - (IBAction)clickPopButton:(UIBarButtonItem *)sender
 {
+    [self.searchBar endEditing:YES];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
