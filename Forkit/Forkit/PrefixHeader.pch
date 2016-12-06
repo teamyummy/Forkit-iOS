@@ -18,6 +18,7 @@ alpha:1.0]
 #include <UIKit/UIKit.h>
 #include "FIDataManager.h"
 #include "FIUtilities.h"
+#import "FIRequestObject.h"
 
 #pragma mark - Custom UI Components
 
@@ -30,6 +31,38 @@ alpha:1.0]
 #include "CustomCollectionViewCell.h"
 #include "CustomCollectionViewFlowLayout.h"
 
+#pragma mark - JSON Key
+
+//common key
+static NSString *const JSONCommonPrimaryKey = @"id";
+static NSString *const JSONCommonImagesKey = @"images";
+static NSString *const JSONCommonCreatedDateKey = @"created_date";
+static NSString *const JSONCommonBigImageURLKey = @"img";
+static NSString *const JSONCommonSmallImageURLKey = @"img_s";
+static NSString *const JSONCommonThumbnailImageURLKey = @"img_t";
+
+//restaurant list key
+static NSString *const JSONRestaurnatRegisterKey = @"register";
+static NSString *const JSONRestaurnatNameKey = @"name";
+static NSString *const JSONRestaurnatAddressKey = @"address";
+static NSString *const JSONRestaurnatPhoneNumberKey = @"phone";
+static NSString *const JSONRestaurnatLatitudeKey = @"latitude";
+static NSString *const JSONRestaurnatLongitudeKey = @"longitude";
+static NSString *const JSONRestaurnatParkingDescriptionKey = @"desc_parking";
+static NSString *const JSONRestaurnatDeliveryDescriptionKey = @"desc_delivery";
+static NSString *const JSONRestaurnatOperationHourKey = @"operation_hour";
+static NSString *const JSONRestaurnatTotalReviewCountKey = @"review_count";
+static NSString *const JSONRestaurnatTotalReviewScoreKey = @"review_score";
+static NSString *const JSONRestaurnatTotalLikeKey = @"total_like";
+
+//review list key
+static NSString *const JSONReviewAuthorKey = @"author";
+static NSString *const JSONReviewContentKey = @"content";
+static NSString *const JSONReviewScoreKey = @"score";
+
+//menu list key
+static NSString *const JSONMenuNameKey = @"name";
+static NSString *const JSONMenupriceKey = @"content";
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 

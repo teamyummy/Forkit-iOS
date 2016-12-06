@@ -7,9 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+//PrimaryKey
+typedef NSString PrimaryKey;
 
 @interface FIRequestObject : NSObject
 
-+ (instancetype)sharedManager;
++ (void)requestRestaurantList;
++ (void)requestReviewListWithRestaurantPk:(PrimaryKey *)restaurantPk;
++ (void)requestDeleteReviewWithRestaurantPk:(PrimaryKey *)restaurantPk reviewPk:(PrimaryKey *)reviewPk;
 
++ (void)requestUploadReviewListWithRestaurantPk:(PrimaryKey *)restaurantPk image:(UIImage *)image contents:(NSString *)contents score:(NSInteger)score;
 @end
