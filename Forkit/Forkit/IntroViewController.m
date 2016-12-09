@@ -1,42 +1,44 @@
 //
-//  LoginViewController.m
+//  IntroViewController.m
 //  Forkit
 //
 //  Created by david on 2016. 12. 6..
 //  Copyright © 2016년 david. All rights reserved.
 //
 
-#import "LoginViewController.h"
+#import "IntroViewController.h"
 
-@interface LoginViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *idTextField;
-@property (weak, nonatomic) IBOutlet UITextField *pwTextField;
-@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@interface IntroViewController ()
 
 @end
 
-@implementation LoginViewController
+@implementation IntroViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.navigationBarHidden = NO;
+    [self preferredStatusBarStyle];
     // Do any additional setup after loading the view.
 }
-
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
-    [self.idTextField becomeFirstResponder];
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (IBAction)clickLoginButton:(UIButton *)sender
+
+- (UIStatusBarStyle)preferredStatusBarStyle
 {
-    [FIRequestObject requestLoginTokenWithUserId:self.idTextField.text
-                                          userPw:self.pwTextField.text];
+    return UIStatusBarStyleLightContent;
+}
+
+
+- (IBAction)clickDismissButton:(UIButton *)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*

@@ -124,9 +124,11 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
     CGRect rawFrame = [value CGRectValue];
     CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
     
+    _scrollConstraint.constant = keyboardFrame.size.height - 12;
+    
     [UIView animateWithDuration:0.3 animations:^{
-        
-        _scrollConstraint.constant = keyboardFrame.size.height - 12;
+    
+        [self.view layoutIfNeeded];
         
     }];
 }
@@ -230,7 +232,6 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
     [imagePickerController dismissViewControllerAnimated:YES completion:^{
         
         [self showSelectedImage];
-        NSLog(@"%@",weakSelf.testImageList);
         
     }];
 }

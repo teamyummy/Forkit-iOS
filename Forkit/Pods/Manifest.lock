@@ -1,5 +1,4 @@
 PODS:
-  - ActionSheetPicker-3.0 (2.2.0)
   - AFNetworking (3.1.0):
     - AFNetworking/NSURLSession (= 3.1.0)
     - AFNetworking/Reachability (= 3.1.0)
@@ -21,17 +20,15 @@ PODS:
   - SDWebImage/Core (3.8.2)
 
 DEPENDENCIES:
-  - ActionSheetPicker-3.0
   - AFNetworking (~> 3.1)
   - QBImagePickerController (~> 3.4)
   - SDWebImage (~> 3.8)
 
 SPEC CHECKSUMS:
-  ActionSheetPicker-3.0: d11a4c12c6aaf704b8a3f56d179198c99f3e41e6
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: fe744fcccdf33346c44a443ebd9deef913ece116
+PODFILE CHECKSUM: 52d2e8fe79511659d2d938e361447a58ee32c7b4
 
 COCOAPODS: 1.1.1

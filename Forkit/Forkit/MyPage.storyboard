@@ -495,11 +495,12 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="jll-sY-hLB"/>
                                                     </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <state key="normal" title="로그인하기">
                                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="clickLoginButton:" destination="vsX-q8-dVS" eventType="touchUpInside" id="SL5-aX-W8D"/>
+                                                        <segue destination="6Xt-tH-cHC" kind="show" id="qa6-Qr-dyR"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -562,6 +563,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oj8-oT-SQh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1791" y="367"/>
+        </scene>
+        <!--LoginNavigationController-->
+        <scene sceneID="md7-QD-Bch">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Login" referencedIdentifier="LoginNavigationController" id="6Xt-tH-cHC" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Igc-xP-w7A" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1754" y="619"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hYS-jx-ff3">

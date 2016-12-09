@@ -9,7 +9,10 @@
 #import "MenuTableViewController.h"
 #import "RestaurantDetailCell.h"
 
+
 @interface MenuTableViewController ()
+
+@property NSArray *menuList;
 
 @end
 
@@ -19,16 +22,23 @@
     [super viewDidLoad];
     self.navigationController.navigationBarHidden = NO;
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    MenuTableViewController * __weak weakSelf = self;
+    [FIRequestObject requestMenuListWithRestaurantPk:_restaurnatPk
+                           didReceiveUpdateDataBlock:^{
+
+                               [weakSelf didReceiveUpdateMenuList];
+                           }];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)didReceiveUpdateMenuList
+{
+    self.menuList = [[FIMenuDataManager sharedManager] menuDatas];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -39,12 +49,25 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 10;
+    return _menuList.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"menuCell" forIndexPath:indexPath];
+    
+    MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:@"menuCell" forIndexPath:indexPath];
+    
+//    cell.imageView.image
+    if (_menuList.count != 0 && _menuList != nil)
+    {
+        NSDictionary *menuDict = [_menuList objectAtIndex:indexPath.row];
+        if ([menuDict objectForKey:JSONCommonThumbnailImageURLKey] != nil)
+        {
+            [cell.menuImageView sd_setImageWithURL:[menuDict objectForKey:JSONCommonThumbnailImageURLKey]];
+        }
+        cell.menuNameLabel.text = [menuDict objectForKey:JSONMenuNameKey];
+        cell.menuCostLabel.text = [menuDict objectForKey:JSONMenuPriceKey];
+    }
     
     return cell;
 }

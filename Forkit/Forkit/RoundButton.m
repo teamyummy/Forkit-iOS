@@ -16,3 +16,14 @@
     self.layer.cornerRadius = self.frame.size.height/2;
 }
 @end
+
+@implementation RoundColorButton
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.layer.cornerRadius = self.frame.size.height/2;
+    self.layer.borderWidth = 0.75;
+    self.layer.borderColor = [FIUtilities createKeyColor].CGColor;
+}
+@end

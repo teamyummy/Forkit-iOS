@@ -14,14 +14,24 @@
 
 @interface RestaurantDetailTitleCell : RestaurantDetailCell
 
+@property (weak, nonatomic) IBOutlet UILabel *restaurantTitleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *titleImageView;
 @property (weak, nonatomic) IBOutlet UIView *scoreView;
+@property (weak, nonatomic) IBOutlet UILabel *scoreAvgLabel;
+@property (weak, nonatomic) IBOutlet UILabel *reviewCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tagLabel;
 
 @end
 
 @interface RestaurantDetailInfoCell : RestaurantDetailCell
 
 @property (weak, nonatomic) IBOutlet UIScrollView *reviewPhotoScrollView;
+@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+@property (weak, nonatomic) IBOutlet UILabel *phoneNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *operationHourLabel;
+@property (weak, nonatomic) IBOutlet UILabel *deliveryInfoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *parkingInfoLabel;
 
 @end
 
@@ -33,7 +43,7 @@
 
 @interface RestaurantDetailReviewCell : RestaurantDetailCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *reviewProfileImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *reviewFoodImageView;
 @property (weak, nonatomic) IBOutlet UILabel *reviewIdLabel;
 @property (weak, nonatomic) IBOutlet UILabel *reviewTextLabel;
 

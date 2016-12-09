@@ -7,15 +7,21 @@
 //
 
 #import "SearchViewController.h"
-#import "SearchingResultTableViewCell.h"
+#import "RestaurantListCell.h"
+#import "RestaurantDetailViewController.h"
+
+//cell reuse identifier
+static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
 
 @interface SearchViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UITextViewDelegate>
 
-@property UITextField *searchBar;
-@property NSArray *searchingResult;
-@property UILabel *resultLabel;
+@property UITextField *searchBarTextField;
+@property (weak, nonatomic) IBOutlet UILabel *resultLabel;
 @property NSString *currentTypedCharacter;
-//@property UITableView *searchResultTableView;
+
+//set search restaurant data list
+@property NSArray *searchDataList;
+
 @property (weak, nonatomic) IBOutlet UITableView *searchResultTableView;
 
 @end
@@ -23,59 +29,95 @@
 @implementation SearchViewController
 
 #pragma mark - View Life Cycle
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self createTextField];
-    self.tabBarController.tabBar.hidden = YES;
 }
 
-#pragma mark - View Creation
-
-- (void)createTextField
+- (void)viewWillAppear:(BOOL)animated
 {
-    self.searchResultTableView.contentInset = UIEdgeInsetsMake(-60, 0, 0, 0);
-    
-    self.searchBar = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, 21.0)];
-    self.searchBar.textAlignment = NSTextAlignmentCenter;
-    self.searchBar.textColor = [UIColor whiteColor];
-    self.searchBar.tintColor = [UIColor whiteColor];
-    self.searchBar.delegate = self;
-    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone; // 첫 글자 소문자로 변경
-    self.navigationItem.titleView = self.searchBar;
-    
-    self.resultLabel = [[UILabel alloc] init];
-    self.resultLabel.text = @"";
-    self.resultLabel.frame = CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, 30);
-    self.resultLabel.textAlignment = NSTextAlignmentCenter;
-    
-    [self.view addSubview:self.resultLabel];
-    
-    [self.searchBar becomeFirstResponder];
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
 }
-
-#pragma mark - IBActions
-
-- (IBAction)clickPopButton:(UIBarButtonItem *)sender
+- (void)viewDidAppear:(BOOL)animated
 {
-    [self.searchBar endEditing:YES];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (IBAction)clcikSearchButton:(UIBarButtonItem *)sender {
-    NSLog(@"buttonCliced %@", self.searchBar.text);
-    self.resultLabel.text = @"";
-    self.searchingResult = [[NSArray alloc] initWithArray:[[FIDataManager sharedManager] searchName:self.searchBar.text]];
-    
-    if (self.searchingResult.count == 0) {
-        self.resultLabel.text = @"검색결과가 없습니다.";
-    }
-    
-    [self.searchResultTableView reloadData];
+    [super viewDidAppear:animated];
+    [self.searchBarTextField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark - View Creation
+
+- (void)createTextField
+{
+    self.searchBarTextField = [[UITextField alloc]initWithFrame:CGRectMake(0,
+                                                                  0,
+                                                                  self.navigationController.navigationBar.frame.size.width,
+                                                                  21.0)];
+    self.searchBarTextField.textAlignment = NSTextAlignmentCenter;
+    self.searchBarTextField.textColor = [UIColor whiteColor];
+    self.searchBarTextField.tintColor = [UIColor whiteColor];
+    self.searchBarTextField.delegate = self;
+    self.searchBarTextField.autocapitalizationType = UITextAutocapitalizationTypeNone; // 첫 글자 소문자로 변경
+    self.navigationItem.titleView = _searchBarTextField;
+}
+
+#pragma mark - click Button
+
+- (IBAction)clickPopButton:(UIBarButtonItem *)sender
+{
+    [self.searchBarTextField endEditing:YES];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)clcikSearchButton:(UIBarButtonItem *)sender
+{
+    NSString *searchValue = self.searchBarTextField.text;
+    
+    if (searchValue.length == 0 ||
+        [searchValue containsString:@" "] ||
+        [searchValue containsString:@"&"] ||
+        [searchValue containsString:@"?"] ||
+        [searchValue containsString:@"="])
+    {
+        _searchDataList = nil;
+        [self.searchResultTableView reloadData];
+        self.resultLabel.text = @"다시 입력해 주세요";
+    } else
+    {
+        [self.searchBarTextField endEditing:YES];
+        self.resultLabel.text = @" ";
+        //request
+        SearchViewController * __weak weakSelf = self;
+        
+        [FIRequestObject requestRestaurantList:@{ParamNameSerachKey:searchValue}
+                     didReceiveUpdateDataBlock:^{
+                         
+                         [weakSelf didReceiveListUpdated];
+                         
+                     }];
+    }
+}
+
+//completion request
+- (void)didReceiveListUpdated
+{
+    if ([[[FIDataManager sharedManager] shopDatas] count] == 0)
+    {
+         self.resultLabel.text = @"검색결과가 없습니다.";
+        [self.searchBarTextField becomeFirstResponder];
+    }else
+    {
+        self.resultLabel.text = @" ";
+    }
+    self.searchDataList = [[FIDataManager sharedManager] shopDatas];
+    [self.searchResultTableView reloadData];
 }
 
 #pragma mark - Text Field Delegate
@@ -85,40 +127,78 @@
     return YES;
 }
 
+/*
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if (([self.currentTypedCharacter isEqualToString:@" "] && [string isEqualToString:@" "]) || ([self.currentTypedCharacter isEqualToString:@""] && [string isEqualToString:@""])) {
+    if (([self.currentTypedCharacter isEqualToString:@" "] &&
+         [string isEqualToString:@" "]) ||
+        ([self.currentTypedCharacter isEqualToString:@""] &&
+         [string isEqualToString:@""]))
+    {
         self.searchBar.text = @"";
     }
     self.currentTypedCharacter = string;
     return YES;
 }
+ */
 
 #pragma mark - Table View Delegate
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.searchingResult.count;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.searchDataList.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    SearchingResultTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchingResultCell" forIndexPath:indexPath];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    RestaurantListCell *cell = [tableView dequeueReusableCellWithIdentifier:ReuseIdentifierRestaurantList forIndexPath:indexPath];
     
-    cell.imageView.image = [UIImage imageNamed:@"dummyFoodImage"];
-    cell.shopNameLabel.text = self.searchingResult[indexPath.row][@"name"];
-    cell.shopAddressLabel.text = self.searchingResult[indexPath.row][@"address"];
-    cell.scoreImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
-    cell.shopInfoDetailLabel.text = [NSString stringWithFormat:@"리뷰 %@ 즐겨찾기 %@", self.searchingResult[indexPath.row][@"review_count"], self.searchingResult[indexPath.row][@"favorite_count"]];
+    NSDictionary *restaurantDataTempDict;
+    restaurantDataTempDict = [self.searchDataList objectAtIndex:indexPath.row];
+    
+    if (self.searchDataList != nil)
+    {
+        
+        cell.restaurantTitleLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatNameKey];
+        
+        cell.restaurantAddressLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatAddressKey];
+        
+        cell.restaurantScoreLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatAvgReviewScoreKey];
+        
+        cell.restaurantReviewCountLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatTotalReviewCountKey];
+        
+        cell.restaurantLikeCountLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatTotalLikeKey];
+        
+        NSArray *images = [restaurantDataTempDict objectForKey:JSONCommonImagesKey];
+        
+        if (images != nil && [images count] != 0)
+        {
+            [cell.restaurantImageView sd_setImageWithURL:[[images objectAtIndex:0] objectForKey:JSONCommonSmallImageURLKey]];
+        }
+    }
     
     return cell;
 }
 
-/*
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController isKindOfClass:[RestaurantDetailViewController class]])
+    {
+        RestaurantListCell *cell = sender;
+        NSIndexPath *cellIndex = [_searchResultTableView indexPathForCell:cell];
+        NSDictionary *restaurantDatas = [_searchDataList objectAtIndex:cellIndex.row];
+        
+        RestaurantDetailViewController *restaurantDetailVC = segue.destinationViewController;
+        restaurantDetailVC.restaurantDatas = restaurantDatas;
+    }
 }
-*/
+
 
 @end

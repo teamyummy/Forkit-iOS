@@ -10,7 +10,8 @@
 
 @implementation FILoginManager
 
-+ (instancetype)sharedManager {
++ (instancetype)sharedManager
+{
     static FILoginManager *sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -19,5 +20,6 @@
     
     return sharedManager;
 }
+
 
 @end

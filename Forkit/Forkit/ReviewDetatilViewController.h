@@ -10,4 +10,6 @@
 
 @interface ReviewDetatilViewController : UIViewController
 
+@property NSDictionary *deatilReviewData;
+
 @end

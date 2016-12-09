@@ -77,15 +77,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
     self.testArr = @[@"1", @"1", @"1", @"1", @"1", @"1", @"1", @"1", @"1"];
     self.checkListState = ListStateReview;
     [[NSUserDefaults standardUserDefaults] setObject:UserInfoValueNotLogin forKey:UserInfoKeyLoginState];
-    /*
-    [FIRequestObject requestRestaurantList];
-    [FIRequestObject requestReviewListWithRestaurantPk:@"1"];
-    [FIRequestObject requestDeleteReviewWithRestaurantPk:@"1" reviewPk:@"3"];
-    [FIRequestObject requestUploadReviewListWithRestaurantPk:@"1"
-                                                       image:[UIImage imageNamed:@"dummyImage"]
-                                                    contents:@"되라되라되라"
-                                                       score:3];
-     */
+    
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -263,6 +255,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
         }
         sender.selected = YES;
         [self.myPageTableView reloadSections:[NSIndexSet indexSetWithIndex:SectionNumberReviewList] withRowAnimation:rowAnimation];
+        
     }
 }
 - (IBAction)clickLoginButton:(UIButton *)sender

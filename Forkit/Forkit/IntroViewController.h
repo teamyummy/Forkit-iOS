@@ -1,5 +1,5 @@
 //
-//  LoginViewController.h
+//  IntroViewController.h
 //  Forkit
 //
 //  Created by david on 2016. 12. 6..
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoginViewController : UIViewController
+@interface IntroViewController : UIViewController
 
 @end

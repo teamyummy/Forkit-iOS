@@ -11,3 +11,7 @@
 @interface RoundButton : UIButton
 
 @end
+
+@interface RoundColorButton : RoundButton
+
+@end

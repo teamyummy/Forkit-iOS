@@ -10,6 +10,8 @@
 #import "RestaurantDetailCell.h"
 #import "ReviewViewController.h"
 #import "CustomUIView.h"
+#import "MenuTableViewController.h"
+#import "ReviewDetatilViewController.h"
 
 static NSString * const reuseIdentifierTitleCell = @"RestaurantDetailTitleCell";
 static NSString * const reuseIdentifierInfoCell = @"RestaurantDetailInfoCell";
@@ -18,10 +20,11 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 
 @interface RestaurantDetailViewController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *customNavigationBar;
-@property (weak, nonatomic) IBOutlet UITableView *RestaurantDetailTableView;
+@property (weak, nonatomic) IBOutlet UITableView *restaurantDetailTableView;
 @property (weak, nonatomic) IBOutlet UILabel *customNavigationTitle;
-@property NSArray *testArr;
-@property NSArray *reivewTestList;
+
+@property NSMutableArray *scrollImageList;
+@property NSArray *reviewList;
 
 @end
 
@@ -30,13 +33,16 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    [self.navigationController setNavigationBarHidden:YES];
-   
     [self preferredStatusBarStyle];
-//    self.edgesForExtendedLayout = UIRectEdgeTop;
-//    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.testArr = @[@"dummyFoodImage", @"dummyFoodImage", @"dummyFoodImage", @"dummyFoodImage", @"dummyFoodImage"];
-    self.reivewTestList = @[@"review", @"review", @"review", @"review", @"review", @"review"];
+    
+    RestaurantDetailViewController * __weak weakSelf = self;
+    
+    [FIRequestObject requestReviewListWithRestaurantPk:[NSString stringWithFormat:@"%@" ,[self.restaurantDatas objectForKey:JSONCommonPrimaryKey]] didReceiveUpdateDataBlock:^{
+        [weakSelf didReceiveReviewDataUpdated];
+    }];
+    
+    self.scrollImageList = [NSMutableArray array];
+    self.customNavigationTitle.text = [_restaurantDatas objectForKey:JSONRestaurnatNameKey];
     
 }
 - (void)viewWillAppear:(BOOL)animated
@@ -51,9 +57,28 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     // Dispose of any resources that can be recreated.
 }
 
+- (void)didReceiveReviewDataUpdated
+{
+    self.reviewList = [[FIReviewDataManager sharedManager] reviewDatas];
+    
+    for (NSDictionary *tempDict in _reviewList)
+    {
+        NSArray *imageData = [tempDict objectForKey:JSONCommonImagesKey];
+        if (imageData.count != 0 &&
+            imageData != nil)
+        {
+            for (NSInteger i = 0; i < imageData.count; i++)
+            {
+                [self.scrollImageList addObject:[imageData[i] objectForKey:JSONCommonThumbnailImageURLKey]];
+            }
+        }
+    }
+    [self.restaurantDetailTableView reloadData];
+//    [self.restaurantDetailTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 2)] withRowAnimation:UITableViewRowAnimationNone];
+}
+
 - (IBAction)clickPopButton:(UIButton *)sender
 {
-//    self.navigationController.navigationBarHidden = NO; // 수정해야함
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -74,7 +99,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 {
     if (section == 3)
     {
-        return self.reivewTestList.count;
+        return self.reviewList.count;
     }
     return 1;
 }
@@ -84,6 +109,29 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     if (indexPath.section == 0)
     {
         RestaurantDetailTitleCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierTitleCell forIndexPath:indexPath];
+        
+        cell.restaurantTitleLabel.text = [_restaurantDatas objectForKey:JSONRestaurnatNameKey];
+        
+        cell.scoreAvgLabel.text = [NSString stringWithFormat:@"%@", [_restaurantDatas objectForKey:JSONRestaurnatAvgReviewScoreKey]];
+        
+        cell.reviewCountLabel.text = [NSString stringWithFormat:@"%@", [_restaurantDatas objectForKey:JSONRestaurnatTotalReviewCountKey]];
+        
+        cell.likeCountLabel.text = [NSString stringWithFormat:@"%@", [_restaurantDatas objectForKey:JSONRestaurnatTotalLikeKey]];
+        
+        if ([_restaurantDatas objectForKey:JSONRestaurnatTagsKey] != nil && [[_restaurantDatas objectForKey:JSONRestaurnatTagsKey] count] != 0)
+        {
+            NSDictionary *tagDict = [[_restaurantDatas objectForKey:JSONRestaurnatTagsKey] objectAtIndex:0];
+            
+            cell.tagLabel.text = [tagDict objectForKey:JSONRestaurnatTagNameKey];
+        }
+        
+        NSArray *images = [_restaurantDatas objectForKey:JSONCommonImagesKey];
+        
+        if (images != nil && [images count] != 0)
+        {
+            [cell.titleImageView sd_setImageWithURL:[[images objectAtIndex:0] objectForKey:JSONCommonBigImageURLKey]];
+        }
+        
         return cell;
     } else if (indexPath.section == 1)
     {
@@ -91,14 +139,48 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
         
         [self createScrollViewWithCell:cell];
         
+        cell.addressLabel.text = [_restaurantDatas objectForKey:JSONRestaurnatAddressKey];
+        
+        cell.phoneNumberLabel.text = [_restaurantDatas objectForKey:JSONRestaurnatPhoneNumberKey];
+        
+        cell.operationHourLabel.text = [_restaurantDatas objectForKey:JSONRestaurnatOperationHourKey];
+        
+        cell.deliveryInfoLabel.text = [_restaurantDatas objectForKey:JSONRestaurnatDeliveryDescriptionKey];
+        
+        cell.parkingInfoLabel.text = [_restaurantDatas objectForKey:JSONRestaurnatParkingDescriptionKey];
+        
         return cell;
     } else if (indexPath.section == 2)
     {
         RestaurantDetailReviewTitleCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierReviewTitleCell forIndexPath:indexPath];
+        cell.reviewCountLabel.text = [NSString stringWithFormat:@"%ld",[_reviewList count]];
         return cell;
     } else if (indexPath.section == 3)
     {
         RestaurantDetailReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierReviewCell forIndexPath:indexPath];
+        
+        NSDictionary *reviewDict = [_reviewList objectAtIndex:indexPath.row];
+        
+        if (reviewDict != nil && reviewDict.count != 0)
+        {
+            cell.reviewIdLabel.text = [reviewDict objectForKey:JSONReviewAuthorKey];
+            cell.reviewTextLabel.text = [reviewDict objectForKey:JSONReviewContentKey];
+            
+            NSNumber *reviewScore = [reviewDict objectForKey:JSONReviewScoreKey];
+            
+            for (NSInteger i = 1; i <= reviewScore.integerValue; i++)
+            {
+                UIButton *likeButton = (UIButton *)[self.view viewWithTag:i];
+                likeButton.selected = YES;
+            }
+            
+            NSArray *images = [reviewDict objectForKey:JSONCommonImagesKey];
+            
+            if (images != nil && images.count != 0)
+            {
+                [cell.reviewFoodImageView sd_setImageWithURL:[[images objectAtIndex:0] objectForKey:JSONCommonThumbnailImageURLKey]];
+            }
+        }
         return cell;
     }
     return nil;
@@ -152,7 +234,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 - (IBAction)presentReviewController:(UIButton *)sender
 {
     self.tabBarController.tabBar.hidden = YES;
-    ReviewViewController *testAlertVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ReviewVC"];
+    ReviewViewController *reviewAlertVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ReviewVC"];
     
     /*
     self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
@@ -162,12 +244,12 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
         testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
     }];
      */
-    [self addChildViewController:testAlertVC];
-    [self.view addSubview:testAlertVC.view];
-    testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+    [self addChildViewController:reviewAlertVC];
+    [self.view addSubview:reviewAlertVC.view];
+    reviewAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     
     [UIView animateWithDuration:0.2 animations:^{
-        testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.70];
+        reviewAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.70];
     }];
 }
 
@@ -178,13 +260,15 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     CGFloat scrollViewHeight = cell.reviewPhotoScrollView.frame.size.height;
     CGFloat scrollViewLeading = 20;
     CGFloat contentImageViewWidth = scrollViewWidth - (scrollViewLeading * 2);
-    cell.reviewPhotoScrollView.contentSize = CGSizeMake((scrollViewWidth /3) * _testArr.count - scrollViewLeading, scrollViewHeight);
+    cell.reviewPhotoScrollView.contentSize = CGSizeMake((scrollViewWidth /3) * _scrollImageList.count - scrollViewLeading, scrollViewHeight);
     NSInteger i = 0;
     
-    for (NSString *imageName in _testArr)
+    for (NSString *imageURLString in _scrollImageList)
     {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((i * contentImageViewWidth/3) + scrollViewLeading, 0, contentImageViewWidth/3, scrollViewHeight)];
-        [imageView setImage:[UIImage imageNamed:imageName]];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:imageURLString]];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
         [cell.reviewPhotoScrollView addSubview:imageView];
         i += 1;
     }
@@ -220,6 +304,18 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
+    if ([segue.destinationViewController isKindOfClass:[MenuTableViewController class]])
+    {
+        MenuTableViewController *menuTableVC = segue.destinationViewController;
+        menuTableVC.restaurnatPk = [NSString stringWithFormat:@"%@", [_restaurantDatas objectForKey:JSONCommonPrimaryKey]];
+    } else if ([segue.destinationViewController isKindOfClass:[ReviewDetatilViewController class]])
+    {
+        RestaurantDetailReviewCell *cell = (RestaurantDetailReviewCell *)sender;
+        NSIndexPath *cellIndex = [_restaurantDetailTableView indexPathForCell:cell];
+        
+        ReviewDetatilViewController *reviewDetatilVC = segue.destinationViewController;
+        reviewDetatilVC.deatilReviewData = [_reviewList objectAtIndex:cellIndex.row];
+    }
 }
 
 

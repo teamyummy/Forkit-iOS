@@ -10,4 +10,6 @@
 
 @interface RestaurantDetailViewController : UIViewController
 
+@property NSDictionary *restaurantDatas;
+
 @end

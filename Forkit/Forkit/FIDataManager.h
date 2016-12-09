@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FIReviewDataManager.h"
+#import "FIMenuDataManager.h"
 
 @interface FIDataManager : NSObject
 
-@property NSMutableArray *shopDatas;
-@property NSString *currentSearchFilterName;
+@property (nonatomic) NSMutableArray *shopDatas;
 
 + (instancetype)sharedManager;
 
-- (NSArray *)searchName:(NSString *)name;
 
 @end

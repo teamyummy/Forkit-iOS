@@ -7,19 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomUIView.h"
 
 @interface RestaurantListCell : UITableViewCell
 
-/*
-@property UIImageView *RestaurantImageView;
-/// CustomTitleLabel 을 상속받아 사용 가능
-@property UILabel *RestaurantTitleLabel;
-*/
-@property (weak, nonatomic) IBOutlet UILabel *RestaurantTitleLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *RestaurantImageView;
-@property (weak, nonatomic) IBOutlet UILabel *RestaurantAddressLabel;
-@property (weak, nonatomic) IBOutlet UILabel *RestaurantScoreLabel;
-@property (weak, nonatomic) IBOutlet UILabel *RestaurantReviewCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *RestaurantLikeCountLabel;
+@property (weak, nonatomic) IBOutlet UIView *restaurantRoundView;
+@property (weak, nonatomic) IBOutlet UILabel *restaurantTitleLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *restaurantImageView;
+@property (weak, nonatomic) IBOutlet UILabel *restaurantAddressLabel;
+@property (weak, nonatomic) IBOutlet UILabel *restaurantScoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *restaurantReviewCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *restaurantLikeCountLabel;
 
 @end

@@ -10,6 +10,8 @@
 
 @interface FILoginManager : NSObject
 
+@property NSString *loginToken;
+
 + (instancetype)sharedManager;
 
 @end

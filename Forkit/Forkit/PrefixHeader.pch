@@ -19,20 +19,20 @@ alpha:1.0]
 #include "FIDataManager.h"
 #include "FIUtilities.h"
 #import "FIRequestObject.h"
+#import <UIImageView+WebCache.h>
 
 #pragma mark - Custom UI Components
 
 #include "CustomTitleLabel.h"
 
-#include "CustomTableViewController.h"
 #include "RestaurantListCell.h"
 
-#include "CustomCollectionViewController.h"
-#include "CustomCollectionViewCell.h"
-#include "CustomCollectionViewFlowLayout.h"
+
+#pragma mark - Parameter Key
+static NSString *const ParamNameSerachKey = @"search";
+static NSString *const ParamNameTagskey = @"tags";
 
 #pragma mark - JSON Key
-
 //common key
 static NSString *const JSONCommonPrimaryKey = @"id";
 static NSString *const JSONCommonImagesKey = @"images";
@@ -52,8 +52,10 @@ static NSString *const JSONRestaurnatParkingDescriptionKey = @"desc_parking";
 static NSString *const JSONRestaurnatDeliveryDescriptionKey = @"desc_delivery";
 static NSString *const JSONRestaurnatOperationHourKey = @"operation_hour";
 static NSString *const JSONRestaurnatTotalReviewCountKey = @"review_count";
-static NSString *const JSONRestaurnatTotalReviewScoreKey = @"review_score";
+static NSString *const JSONRestaurnatAvgReviewScoreKey = @"review_average";
 static NSString *const JSONRestaurnatTotalLikeKey = @"total_like";
+static NSString *const JSONRestaurnatTagsKey = @"tags";
+static NSString *const JSONRestaurnatTagNameKey = @"name";
 
 //review list key
 static NSString *const JSONReviewAuthorKey = @"author";
@@ -62,7 +64,8 @@ static NSString *const JSONReviewScoreKey = @"score";
 
 //menu list key
 static NSString *const JSONMenuNameKey = @"name";
-static NSString *const JSONMenupriceKey = @"content";
+static NSString *const JSONMenuPriceKey = @"price";
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 

@@ -1,86 +1,105 @@
-/*
- Copyright (c) 2011, Tim Cinel (see AUTHORS)
- All rights reserved.
- 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright
- notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
- * Neither the name of the <organization> nor the
- names of its contributors may be used to endorse or promote products
- derived from this software without specific prior written permission.
- 
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
- DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
+//
+//  ViewController.m
+//  Forkit
+//
+//  Created by david on 2016. 11. 28..
+//  Copyright © 2016년 david. All rights reserved.
+//
 #import "HomeViewController.h"
 #import "RestaurantListCell.h"
-#import "ActionSheetPicker.h"
+#import "RestaurantDetailViewController.h"
+#import "SearchViewController.h"
 
-static NSString * const reuseIdentifier = @"RestaurantListCell";
+//cell reuse identifier
+static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
 
-@interface HomeViewController ()<UITableViewDelegate, UITableViewDataSource ,UIScrollViewDelegate>
+@interface HomeViewController ()<UITableViewDelegate, UITableViewDataSource ,UIScrollViewDelegate ,UIPickerViewDelegate, UIPickerViewDataSource>
 
-///dummy Data
-@property NSMutableArray *dataList;
-@property NSArray *scrollTestImageList;
+//Data
+@property NSArray *restaurantDataList;
+@property NSMutableArray *scrollImageList;
 
+//UI
 @property (weak, nonatomic) IBOutlet UITableView *restaurantTableView;
 @property (weak, nonatomic) IBOutlet UIButton *sortingButton;
-
 @property UIPageControl *pageControl;
 
 @end
 
 @implementation HomeViewController
 
-
+#pragma mark - view controller life cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // 검색필터 이름 초기값을 '최신순'으로 설정
-    FIDataManager *sortingManager = [FIDataManager sharedManager];
-    [sortingManager setCurrentSearchFilterName:@"최신순"];
-    [self.sortingButton setTitle:sortingManager.currentSearchFilterName forState:UIControlStateNormal];
     
-    // 일단 지금은 FIDataManager 에 저장된 가게정보 전체를 다 가져옴
-    self.dataList = sortingManager.shopDatas;
+    //weakSelf
+    HomeViewController * __weak weakSelf = self;
     
-    self.scrollTestImageList = @[@"dummyFoodImage",@"dummyFoodImage",@"dummyFoodImage"];
+    //request restaurant list
+    [FIRequestObject requestRestaurantList:nil
+                 didReceiveUpdateDataBlock:^{
+                     [weakSelf didReceiveListUpdated];
+                 }];
     
-    _restaurantTableView.showsVerticalScrollIndicator = NO;
+    //alloc scroll image
+    self.scrollImageList = [NSMutableArray array];
     
-    [self createScrollView];
+    //set logo image navigation item
     UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dummyLogo"]];
     logoImageView.frame = CGRectMake(0, 0, 0, 20);
     logoImageView.contentMode = UIViewContentModeScaleAspectFit;
-     
     self.navigationItem.titleView = logoImageView;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBarHidden = NO;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - custom method
+//completion request
+- (void)didReceiveListUpdated
+{
+    self.restaurantDataList = [[FIDataManager sharedManager] shopDatas];
+    
+    if (4 < _restaurantDataList.count)
+    {//음식점 리스트의 갯수가 5개 이상
+        for (NSInteger i = 0; i < 5; i++)
+        {
+            NSDictionary *tempRestarantData = [_restaurantDataList objectAtIndex:i];
+            NSArray *imageDatas = [tempRestarantData objectForKey:JSONCommonImagesKey];
+            [self.scrollImageList addObject:[imageDatas[0] objectForKey:JSONCommonSmallImageURLKey]];
+        }
+        //음식점 리스트의 갯수가 4개 이하 1개 이상
+    } else if (_restaurantDataList.count != 0 &&
+               _restaurantDataList != nil)
+    {
+        for (NSDictionary *tempDict in _restaurantDataList)
+        {
+            NSArray *imageData = [tempDict objectForKey:JSONCommonImagesKey];
+            {
+                [self.scrollImageList addObject:[imageData[0] objectForKey:JSONCommonSmallImageURLKey]];
+            }
+        }
+    }
+    [self createScrollView];
+    [self.restaurantTableView reloadData];
 }
 
 - (void)createPageControllWithSuperViewHeight:(CGFloat)height superView:(UIView *)superView
 {
     _pageControl = [[UIPageControl alloc] init];
     _pageControl.frame = CGRectMake(0, height - 16, 0, 0);
-    _pageControl.numberOfPages = _scrollTestImageList.count;
+    _pageControl.numberOfPages = _scrollImageList.count;
     _pageControl.currentPage = 0;
     _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
     _pageControl.currentPageIndicatorTintColor = [FIUtilities createKeyColor];
@@ -96,17 +115,17 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
     UIView *coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, scrollViewHeight)];
     UIScrollView *imageScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, scrollViewWidth, scrollViewHeight)];
     
-    [imageScrollView setContentSize:CGSizeMake(_scrollTestImageList.count * scrollViewWidth, scrollViewHeight)];
+    [imageScrollView setContentSize:CGSizeMake(_scrollImageList.count * scrollViewWidth, scrollViewHeight)];
     
     //create Content Image View
-    for (NSString *imageName in _scrollTestImageList)
+    for (NSString *imageURL in _scrollImageList)
     {
         static NSInteger i = 0;
         
         UIImageView *foodScrollImageView = [[UIImageView alloc] init];
 
         foodScrollImageView.frame = CGRectMake(scrollViewWidth * i, 0, scrollViewWidth, scrollViewHeight);
-        foodScrollImageView.image = [UIImage imageNamed:imageName];
+        [foodScrollImageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
         foodScrollImageView.contentMode = UIViewContentModeScaleAspectFill;
         foodScrollImageView.clipsToBounds = YES;
         [imageScrollView addSubview:foodScrollImageView];
@@ -126,34 +145,64 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
 #pragma mark - click Button
 - (IBAction)clickSortButton:(UIButton *)sender
 {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"\n\n\n\n\n\n\n\n" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(8, 8, alert.view.frame.size.width - 8 * 4.5, 160)];
+    containerView.backgroundColor = [UIColor clearColor];
+    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, containerView.frame.size.width, containerView.frame.size.height)];
+    pickerView.showsSelectionIndicator = YES;
+    pickerView.delegate = self;
+    pickerView.dataSource = self;
     
-    HomeViewController __weak *wself = self;
+    UIToolbar *tools=[[UIToolbar alloc]initWithFrame:CGRectMake(0, 0,containerView.frame.size.width,40)];
+    tools.barStyle = UIBarStyleBlackOpaque;
 
-    FIDataManager *sortingManager = [FIDataManager sharedManager];
     
-    NSArray *searchFilter = @[@"최신순", @"평점순", @"리뷰순"];
+    UIBarButtonItem *doneButton=[[UIBarButtonItem alloc]initWithTitle:@"Done"
+                                                                style:UIBarButtonItemStyleDone
+                                                               target:self
+                                                               action:@selector(btnActinDoneClicked)];
     
-    [ActionSheetStringPicker showPickerWithTitle:@"검색필터"
-                                            rows:searchFilter
-                                initialSelection:0
-                                       doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
-                                           NSLog(@"Picker: %@, Index: %ld, value: %@",
-                                                 picker, selectedIndex, selectedValue);
-                                           
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               [sortingManager setCurrentSearchFilterName:(NSString *) selectedValue];
-                                               [wself.sortingButton setTitle:(NSString *)selectedValue forState:UIControlStateNormal]; // 새로 선택된 필터이름을 버튼에 세팅
-                                               
-                                               // 태그 결과를 FIDataManager 에게 반영
-                                               // 태그 결과가 반영된 검색 기능 추가해야 함
-                                               // [wself.tableView reloadData];
-                                           });
-                                       }
-                                     cancelBlock:^(ActionSheetStringPicker *picker) {
-                                         NSLog(@"Block Picker Canceled");
-                                     }
-                                          origin:sender];
+    doneButton.imageInsets=UIEdgeInsetsMake(200, 6, 50, 25);
+    UIBarButtonItem *flexSpace= [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:nil action:nil];
+    
+    NSArray *array = [[NSArray alloc]initWithObjects:flexSpace,doneButton,nil];
+    
+    [tools setItems:array];
+    
+    [containerView addSubview:tools];
+    
+    [containerView addSubview:pickerView];
+    
+    [alert.view addSubview:containerView];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"확인" style:UIAlertActionStyleDefault handler:nil];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"취소" style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:okAction];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
+
+- (void)btnActinDoneClicked
+{
+    
+}
+
+#pragma mark - Picker view delegate
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    NSArray *sortTitleArr = @[@"최신순", @"평점순", @"리뷰순"];
+    return sortTitleArr[row];
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return 3;
+}
+
 #pragma mark - Table view delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -161,46 +210,50 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
 }
 
 #pragma mark - Table view data source
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-//    return self.dataList.count;
-    return 1;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.dataList.count;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    /*
-    if (section == 0)
-    {
-        return 0;
-    }
-     */
     return 8;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *headerView = [[UIView alloc] init];
-    headerView.backgroundColor = [UIColor clearColor];
-    return headerView;
+    UIView *clearColorView = [[UIView alloc] init];
+    clearColorView.backgroundColor = [UIColor clearColor];
+    return clearColorView;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.restaurantDataList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RestaurantListCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+    RestaurantListCell *cell = [tableView dequeueReusableCellWithIdentifier:ReuseIdentifierRestaurantList forIndexPath:indexPath];
     
-    cell.RestaurantTitleLabel.text = self.dataList[indexPath.section][@"name"];
-    //! 지금은 내부 이미지를 사용하기 때문에 imageNamed 를 사용하였음
-    cell.RestaurantImageView.image = [UIImage imageNamed:self.dataList[indexPath.section][@"image"]];
-    cell.RestaurantScoreLabel.text = self.dataList[indexPath.section][@"score"];
-    cell.RestaurantAddressLabel.text = self.dataList[indexPath.section][@"address"];
-    cell.RestaurantReviewCountLabel.text = self.dataList[indexPath.section][@"review_count"];
-    cell.RestaurantLikeCountLabel.text = self.dataList[indexPath.section][@"favorite_count"];
+    NSDictionary *restaurantDataTempDict;
+    restaurantDataTempDict = [self.restaurantDataList objectAtIndex:indexPath.row];
+    
+    if (self.restaurantDataList != nil)
+    {
+
+    cell.restaurantTitleLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatNameKey];
+        
+    cell.restaurantAddressLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatAddressKey];
+        
+    cell.restaurantScoreLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatAvgReviewScoreKey];
+        
+    cell.restaurantReviewCountLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatTotalReviewCountKey];
+        
+    cell.restaurantLikeCountLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatTotalLikeKey];
+        
+    NSArray *images = [restaurantDataTempDict objectForKey:JSONCommonImagesKey];
+        
+        if (images != nil && [images count] != 0)
+        {
+            [cell.restaurantImageView sd_setImageWithURL:[[images objectAtIndex:0] objectForKey:JSONCommonSmallImageURLKey]];
+        }
+    }
     
     return cell;
 }
@@ -218,17 +271,20 @@ static NSString * const reuseIdentifier = @"RestaurantListCell";
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController isKindOfClass:[RestaurantDetailViewController class]])
+    {
+        RestaurantListCell *cell = sender;
+        NSIndexPath *cellIndex = [_restaurantTableView indexPathForCell:cell];
+        NSDictionary *restaurantDatas = [_restaurantDataList objectAtIndex:cellIndex.row];
+        
+        RestaurantDetailViewController *restaurantDetailVC = segue.destinationViewController;
+        restaurantDetailVC.restaurantDatas = restaurantDatas;
+    } else if ([segue.destinationViewController isKindOfClass:[SearchViewController class]])
+    {
+        
+    }
 }
 
 

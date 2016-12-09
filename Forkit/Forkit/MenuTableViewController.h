@@ -10,4 +10,6 @@
 
 @interface MenuTableViewController : UITableViewController
 
+@property NSString *restaurnatPk;
+
 @end

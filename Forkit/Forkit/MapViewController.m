@@ -11,9 +11,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import "Annotation.h"
 
-#import "CustomCollectionViewController.h"
-#import "CustomCollectionViewCell.h"
-
 @interface MapViewController () <CLLocationManagerDelegate, MKMapViewDelegate, UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *FIMapView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
