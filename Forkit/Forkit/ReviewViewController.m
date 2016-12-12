@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
 @property (weak, nonatomic) IBOutlet UIScrollView *selectedImageScrollView;
 @property (weak, nonatomic) IBOutlet UITextView *reviewTextView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollConstraint;
-@property NSMutableArray *testImageList;
+@property NSMutableArray *imageList;
 @end
 
 @implementation ReviewViewController
@@ -57,7 +57,7 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
 #pragma mark - Show Selected Image View
 - (void)showSelectedImage
 {
-    if(self.testImageList != nil)
+    if(self.imageList != nil)
     {
         NSInteger i = 0;
         CGFloat pickerImageButtonWidth = 60;
@@ -69,11 +69,11 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
         CGFloat imageViewOffset = pickerImageButtonWidth + imageViewMargin;
         
         //set content size
-        self.selectedImageScrollView.contentSize = CGSizeMake((self.testImageList.count * imageViewOffset) + firstOffset,
+        self.selectedImageScrollView.contentSize = CGSizeMake((self.imageList.count * imageViewOffset) + firstOffset,
                                                               pickerImageButtonWidth);
         
         //show selected image
-        for (UIImage *image in self.testImageList)
+        for (UIImage *image in self.imageList)
         {
             //selected image view
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((i * imageViewOffset) + firstOffset,
@@ -138,7 +138,7 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
 //show image picker view
 - (IBAction)clickShowImagePickerButton:(UIButton *)sender
 {
-    self.testImageList = nil;
+    self.imageList = nil;
     
     QBImagePickerController *imagePickerController = [QBImagePickerController new];
     imagePickerController.delegate = self;
@@ -192,6 +192,10 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
         } return;
     }
 }
+- (IBAction)clickRegisterReviewButton:(id)sender
+{
+    
+}
 
 #pragma mark - QBImagePicker Delegate
 - (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController
@@ -203,7 +207,7 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
 - (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets
 {
     PHImageManager *manager = [PHImageManager defaultManager];
-    self.testImageList = [NSMutableArray arrayWithCapacity:[assets count]];
+    self.imageList = [NSMutableArray arrayWithCapacity:[assets count]];
     
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.version = PHImageRequestOptionsVersionCurrent;
@@ -224,7 +228,7 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
                             
                             blockImage = image;
                             
-                            [weakSelf.testImageList addObject:blockImage];
+                            [weakSelf.imageList addObject:blockImage];
                         }];
     }
     
@@ -242,7 +246,7 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
     {
         NSInteger removeIndex = sender.tag;
 
-        [self.testImageList removeObjectAtIndex:removeIndex];
+        [self.imageList removeObjectAtIndex:removeIndex];
         
         for (UIView *view in self.selectedImageScrollView.subviews)
         {

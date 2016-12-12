@@ -301,7 +301,6 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="reviewIdLabel" destination="hqJ-Xj-bvY" id="VM8-hu-KFK"/>
-                                            <outlet property="reviewProfileImageView" destination="23x-Qb-2HN" id="MVy-Mh-IKX"/>
                                             <outlet property="reviewTextLabel" destination="JIG-K7-tIe" id="yOM-OP-TUW"/>
                                             <segue destination="g0Y-0b-UoD" kind="show" id="LjV-9p-Z1A"/>
                                         </connections>
@@ -414,6 +413,7 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="rqc-fW-TzU" secondAttribute="trailing" constant="12" id="37l-Xb-57x"/>
                                                 <constraint firstItem="yhm-Pf-YHI" firstAttribute="centerY" secondItem="Bew-hm-9ze" secondAttribute="centerY" id="713-sc-znQ"/>
@@ -438,12 +438,12 @@
                                             <constraint firstItem="OkB-Gh-PIL" firstAttribute="centerY" secondItem="Drb-MB-FWf" secondAttribute="centerY" id="yXi-Eu-pJ1"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="RestaurantAddressLabel" destination="yhm-Pf-YHI" id="2Wg-4j-dmk"/>
-                                            <outlet property="RestaurantImageView" destination="rqc-fW-TzU" id="TM4-LN-Gz5"/>
-                                            <outlet property="RestaurantLikeCountLabel" destination="TJS-bF-oaG" id="iaL-gx-dpy"/>
-                                            <outlet property="RestaurantReviewCountLabel" destination="piA-eG-jMM" id="YwX-JC-Iic"/>
-                                            <outlet property="RestaurantScoreLabel" destination="ktv-AX-IaT" id="vkv-8u-bcj"/>
-                                            <outlet property="RestaurantTitleLabel" destination="cv3-jJ-XHn" id="wh9-1P-k9Z"/>
+                                            <outlet property="restaurantAddressLabel" destination="yhm-Pf-YHI" id="OID-zm-4tT"/>
+                                            <outlet property="restaurantImageView" destination="rqc-fW-TzU" id="Jtn-IR-32t"/>
+                                            <outlet property="restaurantLikeCountLabel" destination="TJS-bF-oaG" id="OpV-Ut-A24"/>
+                                            <outlet property="restaurantReviewCountLabel" destination="piA-eG-jMM" id="sPy-Xx-6db"/>
+                                            <outlet property="restaurantScoreLabel" destination="ktv-AX-IaT" id="sYq-gK-9k1"/>
+                                            <outlet property="restaurantTitleLabel" destination="cv3-jJ-XHn" id="xRk-r5-e44"/>
                                             <segue destination="P6K-Am-dIo" kind="show" id="Cab-2O-Dhn"/>
                                         </connections>
                                     </tableViewCell>

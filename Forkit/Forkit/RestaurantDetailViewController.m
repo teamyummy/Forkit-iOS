@@ -77,11 +77,6 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 //    [self.restaurantDetailTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 2)] withRowAnimation:UITableViewRowAnimationNone];
 }
 
-- (IBAction)clickPopButton:(UIButton *)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
@@ -230,27 +225,60 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-#pragma mark - Present Review Controller
+
+ 
+
+#pragma mark - Click Button Method
 - (IBAction)presentReviewController:(UIButton *)sender
 {
-    self.tabBarController.tabBar.hidden = YES;
-    ReviewViewController *reviewAlertVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ReviewVC"];
-    
-    /*
-    self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    [self presentViewController:testAlertVC animated:YES completion:nil];
-    testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
-    [UIView animateWithDuration:0.5 animations:^{
-        testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
-    }];
-     */
-    [self addChildViewController:reviewAlertVC];
-    [self.view addSubview:reviewAlertVC.view];
-    reviewAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
-    
-    [UIView animateWithDuration:0.2 animations:^{
-        reviewAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.70];
-    }];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] isEqualToString:UserInfoValueNotLogin] ||
+        [[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] == nil)
+    {
+        [self showAlert];
+    } else
+    {
+        self.tabBarController.tabBar.hidden = YES;
+        ReviewViewController *reviewAlertVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ReviewVC"];
+        
+        /*
+         self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+         [self presentViewController:testAlertVC animated:YES completion:nil];
+         testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+         [UIView animateWithDuration:0.5 animations:^{
+         testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+         }];
+         */
+        [self addChildViewController:reviewAlertVC];
+        [self.view addSubview:reviewAlertVC.view];
+        reviewAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            reviewAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.70];
+        }];
+    }
+}
+
+- (IBAction)clickLikeButton:(UIButton *)sender
+{
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] isEqualToString:UserInfoValueNotLogin] ||
+        [[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] == nil)
+    {
+        [self showAlert];
+    } else
+    {
+        if ([sender isSelected] == NO)
+        {
+            sender.selected = YES;
+        } else
+        {
+            sender.selected = NO;
+        }
+    }
+}
+
+- (IBAction)clickPopButton:(UIButton *)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Scroll View Method
@@ -295,6 +323,19 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
             _customNavigationTitle.textColor = [UIColor clearColor];
         }
     }
+}
+#pragma mark - Alert
+- (void)showAlert
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:@"로그인이 필요한 서비스 입니다."
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"확인"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:nil];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Navigation

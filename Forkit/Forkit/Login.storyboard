@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -31,10 +32,13 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tr6-Oc-sQW">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="msA-oI-qE7">
-                                        <rect key="frame" x="308" y="7" width="59" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="disMiss">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="msA-oI-qE7">
+                                        <rect key="frame" x="16" y="4" width="36" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="36" id="eGe-58-psM"/>
+                                            <constraint firstAttribute="width" secondItem="msA-oI-qE7" secondAttribute="height" multiplier="1:1" id="nDr-8e-4b3"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="dummyImage">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -43,6 +47,8 @@
                                     </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="msA-oI-qE7" firstAttribute="centerY" secondItem="Tr6-Oc-sQW" secondAttribute="centerY" id="YTs-mL-ahT"/>
+                                    <constraint firstItem="msA-oI-qE7" firstAttribute="leading" secondItem="Tr6-Oc-sQW" secondAttribute="leading" constant="16" id="hLH-NW-Zae"/>
                                     <constraint firstAttribute="height" constant="44" id="uYv-Z0-zaf"/>
                                 </constraints>
                             </view>
@@ -133,6 +139,9 @@
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="rDr-Qc-HEy" id="XPc-me-fkH"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -152,7 +161,7 @@
                                         <color key="tintColor" red="1" green="0.75686275960000005" blue="0.027450980619999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -166,7 +175,7 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h7R-eR-ICz" customClass="RoundButton">
                                 <rect key="frame" x="60" y="188" width="255" height="44"/>
-                                <color key="backgroundColor" red="1" green="0.75686275960000005" blue="0.027450980619999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.87843137979507446" green="0.87843137979507446" blue="0.87843137979507446" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="0Bx-ez-5R4"/>
                                 </constraints>
@@ -196,7 +205,7 @@
                     <navigationItem key="navigationItem" title="로그인" id="nWB-5o-Zc6"/>
                     <connections>
                         <outlet property="idTextField" destination="xYX-ZT-i4j" id="woN-kf-it7"/>
-                        <outlet property="loginButton" destination="h7R-eR-ICz" id="9tV-Qj-q4l"/>
+                        <outlet property="loginButton" destination="h7R-eR-ICz" id="bvz-Bt-fP9"/>
                         <outlet property="pwTextField" destination="u3f-az-wqg" id="RJi-Kq-uk7"/>
                     </connections>
                 </viewController>
@@ -227,6 +236,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="dummyImage" width="3860" height="180"/>
         <image name="dummyLogo" width="24" height="24"/>
         <image name="introImage" width="16" height="16"/>
     </resources>

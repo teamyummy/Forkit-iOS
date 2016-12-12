@@ -8,7 +8,7 @@
 #import "HomeViewController.h"
 #import "RestaurantListCell.h"
 #import "RestaurantDetailViewController.h"
-#import "SearchViewController.h"
+#import "MapViewController.h"
 
 //cell reuse identifier
 static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
@@ -281,9 +281,11 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
         
         RestaurantDetailViewController *restaurantDetailVC = segue.destinationViewController;
         restaurantDetailVC.restaurantDatas = restaurantDatas;
-    } else if ([segue.destinationViewController isKindOfClass:[SearchViewController class]])
+    } else if ([segue.destinationViewController isKindOfClass:[UINavigationController class]])
     {
-        
+        UINavigationController *mapNavigationVC = segue.destinationViewController;
+        MapViewController *mapVC = (MapViewController *)[mapNavigationVC visibleViewController];
+        mapVC.restaurantDataList = _restaurantDataList;
     }
 }
 

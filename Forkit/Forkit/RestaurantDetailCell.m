@@ -41,19 +41,20 @@
 #pragma mark - Click Button Method
 - (IBAction)clickLikeButton:(UIButton *)sender
 {
-    if ([sender isSelected] == NO)
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] isEqualToString:UserInfoValueLogin])
     {
-        sender.selected = YES;
-        _likeRoundView.layer.borderColor = [FIUtilities createKeyColor].CGColor;
-        _likeImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
-        _likeLabel.textColor = [FIUtilities createKeyColor];
-        
-    } else
-    {
-        sender.selected = NO;
-        _likeRoundView.layer.borderColor = [FIUtilities createGrayColor].CGColor;
-        _likeImageView.image = [UIImage imageNamed:@"dummyImage"];
-        _likeLabel.textColor = [UIColor blackColor];
+        if ([sender isSelected] == NO)
+        {
+            _likeRoundView.layer.borderColor = [FIUtilities createKeyColor].CGColor;
+            _likeImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
+            _likeLabel.textColor = [FIUtilities createKeyColor];
+            
+        } else
+        {
+            _likeRoundView.layer.borderColor = [FIUtilities createGrayColor].CGColor;
+            _likeImageView.image = [UIImage imageNamed:@"dummyImage"];
+            _likeLabel.textColor = [UIColor blackColor];
+        }
     }
 }
 

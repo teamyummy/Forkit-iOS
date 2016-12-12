@@ -16,7 +16,7 @@
 
 @implementation Annotation
 
-- (instancetype)initWithTitle:(NSString *)title AndCoordinate:(CLLocationCoordinate2D)coordinate {
+- (instancetype)initWithTitle:(NSString *)title AndCoordinate:(CLLocationCoordinate2D)coordinate{
     self = [super init];
     if (self) {
         self.title = title;

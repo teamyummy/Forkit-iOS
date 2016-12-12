@@ -12,13 +12,6 @@
 #import "RestaurantListCell.h"
 #import "RestaurantDetailCell.h"
 
-//user info key
-static NSString * const UserInfoKeyLoginState = @"UserInfoKeyLoginState";
-
-//user info value
-static NSString * const UserInfoValueLogin = @"1";
-static NSString * const UserInfoValueNotLogin = @"0";
-
 //cell reuse Identifier
 static NSString * const ReuseIdentifierProfileCell = @"MyPageProfileCell";
 static NSString * const ReuseIdentifierButtonCell = @"MyPageButtonCell";
@@ -76,12 +69,14 @@ typedef NS_ENUM(NSInteger, ButtonTag)
     //test data setting
     self.testArr = @[@"1", @"1", @"1", @"1", @"1", @"1", @"1", @"1", @"1"];
     self.checkListState = ListStateReview;
-    [[NSUserDefaults standardUserDefaults] setObject:UserInfoValueNotLogin forKey:UserInfoKeyLoginState];
+//    [[NSUserDefaults standardUserDefaults] setObject:UserInfoValueNotLogin forKey:UserInfoKeyLoginState];
     
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.myPageTableView reloadData];
     self.navigationController.navigationBarHidden = YES;
 }
 
@@ -243,7 +238,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
             cell.reviewButtonLabel.textColor = [FIUtilities createKeyColor];
             cell.reviewButtonImageView.image = [UIImage imageNamed:@"dummyImage"];
             self.checkListState = ListStateReview;
-            rowAnimation = UITableViewRowAnimationLeft;
+            rowAnimation = UITableViewRowAnimationRight;
             
         } else if (sender.tag == ButtonTagLikeList)
         {//like
@@ -251,7 +246,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
             cell.likeButtonLabel.textColor = [FIUtilities createKeyColor];
             cell.likeButtonImageView.image = [UIImage imageNamed:@"dummyImage"];
             self.checkListState = ListStateLikeRestaurant;
-            rowAnimation = UITableViewRowAnimationRight;
+            rowAnimation = UITableViewRowAnimationLeft;
         }
         sender.selected = YES;
         [self.myPageTableView reloadSections:[NSIndexSet indexSetWithIndex:SectionNumberReviewList] withRowAnimation:rowAnimation];

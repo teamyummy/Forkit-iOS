@@ -10,6 +10,8 @@
 //PrimaryKey
 typedef NSString PrimaryKey;
 typedef void(^DidReceiveUpdateDataBlock)(void);
+typedef void(^DidReceiveSuccessLoginBlock)(void);
+typedef void(^DidReceiveFailedLoginBlock)(void);
 
 @interface FIRequestObject : NSObject
 
@@ -44,17 +46,19 @@ typedef void(^DidReceiveUpdateDataBlock)(void);
 /**
  리뷰 업로드(UPLOAD)
  @param restaurantPk 음식점 primary key
- @param image 리뷰 이미지
+ @param images 리뷰 이미지
  @param contents 리뷰 내용
  @param score 음식점 점수
  */
-+ (void)requestUploadReviewListWithRestaurantPk:(PrimaryKey *)restaurantPk image:(UIImage *)image contents:(NSString *)contents score:(NSInteger)score;
++ (void)requestUploadReviewListWithRestaurantPk:(PrimaryKey *)restaurantPk images:(NSArray *)images contents:(NSString *)contents score:(NSInteger)score;
 
 /**
  로그인(POST)
  @param userId 아이디
  @param userPw 비밀번호
+ @param success 성공 할 경우 블럭
+ @param failed 실패 경우 블럭
  */
-+ (void)requestLoginTokenWithUserId:(NSString *)userId userPw:(NSString *)userPw;
++ (void)requestLoginTokenWithUserId:(NSString *)userId userPw:(NSString *)userPw success:(DidReceiveSuccessLoginBlock)success failed:(DidReceiveFailedLoginBlock)failed;
 
 @end

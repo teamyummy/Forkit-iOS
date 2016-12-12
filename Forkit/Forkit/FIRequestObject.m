@@ -235,13 +235,14 @@ static NSString *const BasePathString = @"api/v1/";
 /*
  특정 음식점에 따른 리뷰 등록 (POST)
  */
-+ (void)requestUploadReviewListWithRestaurantPk:(PrimaryKey *)restaurantPk image:(UIImage *)image contents:(NSString *)contents score:(NSInteger)score
++ (void)requestUploadReviewListWithRestaurantPk:(PrimaryKey *)restaurantPk images:(NSArray *)images contents:(NSString *)contents score:(NSInteger)score
 {
     //create URL
     NSString *requsetURL = [FIRequestObject requestURLString:RequestTypeReviewList
                                                 restaurantPk:restaurantPk
                                                     reviewPk:nil];
     
+    /*
     //create bodyParms
     NSMutableDictionary *bodyParms = [NSMutableDictionary dictionary];
     [bodyParms setObject:contents forKey:JSONReviewContentKey];
@@ -294,6 +295,7 @@ static NSString *const BasePathString = @"api/v1/";
 
     
     [uploadTask resume];
+     */
 }
 
 /*
@@ -325,8 +327,8 @@ static NSString *const BasePathString = @"api/v1/";
 /*
  로그인 (POST)
  */
-+ (void)requestLoginTokenWithUserId:(NSString *)userId userPw:(NSString *)userPw
-{
++ (void)requestLoginTokenWithUserId:(NSString *)userId userPw:(NSString *)userPw success:(DidReceiveSuccessLoginBlock)success failed:(DidReceiveFailedLoginBlock)failed
+{    
     //create URL
     NSString *requsetURL = [FIRequestObject requestURLString:RequestTypeLoginToken
                                                 restaurantPk:nil
@@ -338,16 +340,15 @@ static NSString *const BasePathString = @"api/v1/";
     [bodyParms setObject:userId forKey:ParamNameUserIDKey];
     [bodyParms setObject:userPw forKey:ParamNameUserPWKey];
     
-    NSData *userIdData = [userId dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *userPwData = [userPw dataUsingEncoding:NSUTF8StringEncoding];
+//    NSData *userIdData = [userId dataUsingEncoding:NSUTF8StringEncoding];
+//    NSData *userPwData = [userPw dataUsingEncoding:NSUTF8StringEncoding];
     
     //create Request
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST"
                                                                                               URLString:requsetURL
-                                                                                             parameters:bodyParms constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-                                                                                                 [formData appendPartWithFormData:userIdData name:ParamNameUserIDKey];
-                                                                                                 [formData appendPartWithFormData:userPwData name:ParamNameUserPWKey];
-    } error:nil];
+                                                                                             parameters:bodyParms
+                                                                              constructingBodyWithBlock:nil
+                                                                                                  error:nil];
     
     //create URLSession
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
@@ -367,9 +368,11 @@ static NSString *const BasePathString = @"api/v1/";
                                                                         NSString *token = [responseObject objectForKey:responseStr];
                                                                         NSString *loginToken = [NSString stringWithFormat:@"Token %@",token];
                                                                         [[FILoginManager sharedManager] setLoginToken:loginToken];
+                                                                        [[NSUserDefaults standardUserDefaults] setObject:UserInfoValueLogin forKey:UserInfoKeyLoginState];
+                                                                        success();
                                                                     } else
-                                                                    {//failure login
-                                                                        
+                                                                    {//failed login
+                                                                        failed();
                                                                     }
                                                                 }
                                                             }];
