@@ -231,8 +231,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 #pragma mark - Click Button Method
 - (IBAction)presentReviewController:(UIButton *)sender
 {
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] isEqualToString:UserInfoValueNotLogin] ||
-        [[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] == nil)
+    if (![FILoginManager isOnLogin])
     {
         [self showAlert];
     } else
@@ -260,8 +259,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 
 - (IBAction)clickLikeButton:(UIButton *)sender
 {
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] isEqualToString:UserInfoValueNotLogin] ||
-        [[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] == nil)
+    if (![FILoginManager isOnLogin])
     {
         [self showAlert];
     } else

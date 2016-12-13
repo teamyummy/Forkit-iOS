@@ -7,14 +7,15 @@
 //
 
 #import "MapViewController.h"
-#import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "Annotation.h"
+#import "RestaurantAnnotationProtocol.h"
+#import "RestaurantAnnotationView.h"
 #import "RestaurantListCollectionViewCell.h"
 #import "RestaurantDetailViewController.h"
 
 static const NSInteger collcetionSectionMargin = 20;
 static const NSInteger collcetionCellMargin = 8;
+static const NSInteger annotationIndexStart = 100;
 static CGFloat collcetionCellWidth;
 
 @interface MapViewController () <MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
@@ -23,9 +24,7 @@ static CGFloat collcetionCellWidth;
 @property (weak, nonatomic) IBOutlet MKMapView *restaurantMapView;
 @property (weak, nonatomic) IBOutlet UICollectionView *restaurantCollectionView;
 
-@property NSInteger annotationIndexArraryCount;
 @property NSInteger annotationIndex;
-@property NSMutableArray *annotationIndexArrary;
 
 @property MKCoordinateRegion region;
 
@@ -37,9 +36,7 @@ static CGFloat collcetionCellWidth;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _annotationIndexArrary = [NSMutableArray array];
-    _annotationIndex = 100;
-    _annotationIndexArraryCount = 0;
+    _annotationIndex = annotationIndexStart;
     
     [self setCollectionCellSizeAndScrollWidth];
     [self updateMapViewLocation:CLLocationCoordinate2DMake(37.516287, 127.020015)];
@@ -65,6 +62,8 @@ static CGFloat collcetionCellWidth;
     [_restaurantCollectionView addGestureRecognizer:_invisibleScrollView.panGestureRecognizer];
 }
 
+#pragma mark - custom method
+
 - (void)updateMapViewLocation:(CLLocationCoordinate2D)coordinates
 {
     //반경
@@ -79,10 +78,12 @@ static CGFloat collcetionCellWidth;
 {
     for (NSDictionary *restaurantDict in _restaurantDataList)
     {
-        Annotation *restaurantAnnotation = [[Annotation alloc] initWithTitle:[restaurantDict objectForKey:JSONRestaurnatNameKey]
+        RestaurantAnnotationProtocol *restaurantAnnotation = [[RestaurantAnnotationProtocol alloc] initWithTitle:[restaurantDict objectForKey:JSONRestaurnatNameKey]
                                                                AndCoordinate:CLLocationCoordinate2DMake([restaurantDict[JSONRestaurnatLatitudeKey] floatValue],
                                                                                                         [restaurantDict[JSONRestaurnatLongitudeKey] floatValue])];
-        restaurantAnnotation.index = _annotationIndex;
+        restaurantAnnotation.indexPath = _annotationIndex;
+        restaurantAnnotation.isSelected = NO;
+        
         _annotationIndex += 1;
         [self.restaurantMapView addAnnotation:restaurantAnnotation];
     }
@@ -168,63 +169,54 @@ static CGFloat collcetionCellWidth;
 {
     MKPointAnnotation *annotation = (MKPointAnnotation*)view.annotation;
     [self updateMapViewLocation:CLLocationCoordinate2DMake(annotation.coordinate.latitude, annotation.coordinate.longitude)];
+    RestaurantAnnotationView *restaurantAnnotationView = (RestaurantAnnotationView *)view;
+    [self clickAnnotationButton:restaurantAnnotationView mapView:mapView];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
-    static NSString *const mapAnnotationIdentifier = @"pin";
+    if([annotation isKindOfClass:[MKUserLocation class]])
+    {
+        return nil;
+    }
+    static NSString *const MapAnnotationIdentifier = @"pin";
     
-    Annotation *myAnnotation = (Annotation *)annotation;
-    [_annotationIndexArrary addObject:[NSNumber numberWithInteger:myAnnotation.index]];
-    
-    MKAnnotationView *newAnnotation = (MKAnnotationView *) [self.restaurantMapView dequeueReusableAnnotationViewWithIdentifier:mapAnnotationIdentifier];
-    
-    newAnnotation.canShowCallout = NO;
+    RestaurantAnnotationProtocol *myAnnotation = (RestaurantAnnotationProtocol *)annotation;
+    RestaurantAnnotationView *newAnnotation = (RestaurantAnnotationView *) [self.restaurantMapView dequeueReusableAnnotationViewWithIdentifier:MapAnnotationIdentifier];
     
     if (newAnnotation == nil)
     {
-        newAnnotation = [[MKAnnotationView alloc] initWithAnnotation:myAnnotation reuseIdentifier:mapAnnotationIdentifier];
+        newAnnotation = [[RestaurantAnnotationView alloc] initWithAnnotation:myAnnotation reuseIdentifier:MapAnnotationIdentifier];
     }
-    [self createButtonWithAnnotation:newAnnotation];
+    
+    NSInteger annotationIndexPath = myAnnotation.indexPath;
+    
+    newAnnotation.indexPath = annotationIndexPath;
+    newAnnotation.locationButton.tag = annotationIndexPath;
+    newAnnotation.locationButton.selected = myAnnotation.isSelected;
     
     return newAnnotation;
 }
 
-- (void)createButtonWithAnnotation:(MKAnnotationView *)annotation
+- (void)clickAnnotationButton:(RestaurantAnnotationView *)annotationView mapView:(MKMapView *)mapView
 {
-    UIButton *locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [locationButton setBackgroundImage:[UIImage imageNamed:@"dummyFoodImage"]
-                              forState:UIControlStateNormal];
-    [locationButton setBackgroundImage:[UIImage imageNamed:@"dummyImage"]
-                              forState:UIControlStateSelected];
-    
-    [locationButton addTarget:self
-                       action:@selector(clickAnnotationButton:)
-             forControlEvents:UIControlEventTouchUpInside];
-    
-    locationButton.frame = CGRectMake(0, 0, 30, 30);
-    locationButton.tag = [[_annotationIndexArrary objectAtIndex:_annotationIndexArraryCount] integerValue];
-
-    locationButton.userInteractionEnabled = YES;
-    
-    annotation.frame = CGRectMake(0, 0, 30, 30);
-    [annotation addSubview:locationButton];
-    
-    _annotationIndexArraryCount += 1;
-}
-
-- (void)clickAnnotationButton:(UIButton *)sender
-{
-    for (NSInteger i = 100; i < _annotationIndexArrary.count + 100; i++)
+    NSArray *annotations = mapView.annotations;
+    for (NSInteger i = 100; i < mapView.annotations.count + annotationIndexStart; i++)
     {
-        UIButton *allButton = (UIButton *)[self.view viewWithTag:i];
-        allButton.selected = NO;
+        RestaurantAnnotationProtocol *annotation = annotations[i - annotationIndexStart];
+        if ([annotation isKindOfClass:[RestaurantAnnotationProtocol class]])
+        {
+            annotation.isSelected = NO;
+            UIButton *button = (UIButton *)[mapView viewWithTag:i];
+            button.selected = NO;
+        }
     }
-    if (sender.selected == NO)
+    if (annotationView.locationButton.selected == NO)
     {//selected
-        sender.selected = YES;
-        
-        NSInteger pageNumber = sender.tag - 100;
+        annotationView.locationButton.selected = YES;
+        RestaurantAnnotationProtocol *restaurantAnnotation = (RestaurantAnnotationProtocol *)annotationView.annotation;
+        restaurantAnnotation.isSelected = YES;
+        NSInteger pageNumber = annotationView.locationButton.tag - annotationIndexStart;
         CGPoint pageOffset = CGPointMake(pageNumber * (collcetionCellWidth + 8.f), 0);
         [UIView animateWithDuration:0.2 animations:^{
             _restaurantCollectionView.contentOffset = pageOffset;

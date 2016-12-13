@@ -29,7 +29,6 @@
 		63263D851DEC1C590069DD2B /* MyPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D841DEC1C590069DD2B /* MyPageViewController.m */; };
 		63263D881DEC1C650069DD2B /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D871DEC1C650069DD2B /* SearchViewController.m */; };
 		63263D8B1DEC1C6E0069DD2B /* RestaurantDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D8A1DEC1C6E0069DD2B /* RestaurantDetailViewController.m */; };
-		632A76F91DED9FB0001F7448 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 632A76F71DED9FB0001F7448 /* Annotation.m */; };
 		6331E4F21DF5162A00640EDF /* RoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6331E4F11DF5162A00640EDF /* RoundButton.m */; };
 		633DFC7F1DF1448B0000DDA0 /* ReviewDetatilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633DFC7E1DF1448B0000DDA0 /* ReviewDetatilViewController.m */; };
 		633DFC821DF16CA40000DDA0 /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633DFC811DF16CA40000DDA0 /* MenuTableViewController.m */; };
@@ -43,6 +42,8 @@
 		63C9247C1DF8233400AD5DFD /* FIMenuDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C9247B1DF8233400AD5DFD /* FIMenuDataManager.m */; };
 		63CEC74D1DFD6495003B13D9 /* RestaurantListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CEC74C1DFD6495003B13D9 /* RestaurantListCollectionViewCell.m */; };
 		63E601221DF6DA200095A355 /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E601211DF6DA200095A355 /* IntroViewController.m */; };
+		63EBB5821E000BB700A5F277 /* RestaurantAnnotationProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EBB5811E000BB700A5F277 /* RestaurantAnnotationProtocol.m */; };
+		63EBB5851E000BE300A5F277 /* RestaurantAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EBB5841E000BE300A5F277 /* RestaurantAnnotationView.m */; };
 		9E9A93D2D6547F088C766762 /* libPods-Forkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DED7EF2E592FD69C0B68A5 /* libPods-Forkit.a */; };
 /* End PBXBuildFile section */
 
@@ -87,8 +88,6 @@
 		63263D871DEC1C650069DD2B /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		63263D891DEC1C6E0069DD2B /* RestaurantDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantDetailViewController.h; sourceTree = "<group>"; };
 		63263D8A1DEC1C6E0069DD2B /* RestaurantDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantDetailViewController.m; sourceTree = "<group>"; };
-		632A76F61DED9FB0001F7448 /* Annotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
-		632A76F71DED9FB0001F7448 /* Annotation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
 		6331E4F01DF5162A00640EDF /* RoundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundButton.h; sourceTree = "<group>"; };
 		6331E4F11DF5162A00640EDF /* RoundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundButton.m; sourceTree = "<group>"; };
 		633DFC7D1DF1448B0000DDA0 /* ReviewDetatilViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewDetatilViewController.h; sourceTree = "<group>"; };
@@ -99,6 +98,7 @@
 		634D63FA1DED50CD00EB5903 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		634D63FC1DED5FC900EB5903 /* CustomUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomUIView.h; sourceTree = "<group>"; };
 		634D63FD1DED5FC900EB5903 /* CustomUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomUIView.m; sourceTree = "<group>"; };
+		635B74A81DFFC55A00F8DFDB /* Forkit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Forkit.entitlements; sourceTree = "<group>"; };
 		6375BF201DF424DB00E9E9A9 /* MyPageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPageTableViewCell.h; sourceTree = "<group>"; };
 		6375BF211DF424DB00E9E9A9 /* MyPageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPageTableViewCell.m; sourceTree = "<group>"; };
 		6375BF231DF433BD00E9E9A9 /* RoundImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundImageView.h; sourceTree = "<group>"; };
@@ -115,6 +115,10 @@
 		63CEC74C1DFD6495003B13D9 /* RestaurantListCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantListCollectionViewCell.m; sourceTree = "<group>"; };
 		63E601201DF6DA200095A355 /* IntroViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroViewController.h; sourceTree = "<group>"; };
 		63E601211DF6DA200095A355 /* IntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroViewController.m; sourceTree = "<group>"; };
+		63EBB5801E000BB700A5F277 /* RestaurantAnnotationProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantAnnotationProtocol.h; sourceTree = "<group>"; };
+		63EBB5811E000BB700A5F277 /* RestaurantAnnotationProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantAnnotationProtocol.m; sourceTree = "<group>"; };
+		63EBB5831E000BE300A5F277 /* RestaurantAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantAnnotationView.h; sourceTree = "<group>"; };
+		63EBB5841E000BE300A5F277 /* RestaurantAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantAnnotationView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,10 +174,12 @@
 			children = (
 				634D63F91DED50CD00EB5903 /* MapViewController.h */,
 				634D63FA1DED50CD00EB5903 /* MapViewController.m */,
+				63EBB5801E000BB700A5F277 /* RestaurantAnnotationProtocol.h */,
+				63EBB5811E000BB700A5F277 /* RestaurantAnnotationProtocol.m */,
+				63EBB5831E000BE300A5F277 /* RestaurantAnnotationView.h */,
+				63EBB5841E000BE300A5F277 /* RestaurantAnnotationView.m */,
 				63CEC74B1DFD6495003B13D9 /* RestaurantListCollectionViewCell.h */,
 				63CEC74C1DFD6495003B13D9 /* RestaurantListCollectionViewCell.m */,
-				632A76F61DED9FB0001F7448 /* Annotation.h */,
-				632A76F71DED9FB0001F7448 /* Annotation.m */,
 			);
 			name = MapVC;
 			sourceTree = "<group>";
@@ -302,6 +308,7 @@
 		63263D481DEC1A960069DD2B /* Forkit */ = {
 			isa = PBXGroup;
 			children = (
+				635B74A81DFFC55A00F8DFDB /* Forkit.entitlements */,
 				63840CA11DFE3D4700FC7EE3 /*  AppDelegate */,
 				143D8DC71DEC5F5C00EDDDF7 /* CustomUIComponents */,
 				63263D8C1DEC1C7D0069DD2B /* ViewController */,
@@ -433,6 +440,11 @@
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = NN7QXHC8A3;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -524,7 +536,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				632A76F91DED9FB0001F7448 /* Annotation.m in Sources */,
 				6375BF251DF433BD00E9E9A9 /* RoundImageView.m in Sources */,
 				63CEC74D1DFD6495003B13D9 /* RestaurantListCollectionViewCell.m in Sources */,
 				633DFC821DF16CA40000DDA0 /* MenuTableViewController.m in Sources */,
@@ -533,6 +544,7 @@
 				63C9247C1DF8233400AD5DFD /* FIMenuDataManager.m in Sources */,
 				63263D511DEC1A960069DD2B /* HomeViewController.m in Sources */,
 				143D8DC61DEC5F5200EDDDF7 /* CustomTitleLabel.m in Sources */,
+				63EBB5821E000BB700A5F277 /* RestaurantAnnotationProtocol.m in Sources */,
 				63263D731DEC1B500069DD2B /* FILoginManager.m in Sources */,
 				634D63FB1DED50CD00EB5903 /* MapViewController.m in Sources */,
 				63263D821DEC1C4D0069DD2B /* LoginViewController.m in Sources */,
@@ -550,6 +562,7 @@
 				637645CB1DF065FA0059366A /* ReviewViewController.m in Sources */,
 				63E601221DF6DA200095A355 /* IntroViewController.m in Sources */,
 				63263D8B1DEC1C6E0069DD2B /* RestaurantDetailViewController.m in Sources */,
+				63EBB5851E000BE300A5F277 /* RestaurantAnnotationView.m in Sources */,
 				6331E4F21DF5162A00640EDF /* RoundButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -663,6 +676,7 @@
 			baseConfigurationReference = 0198E406FB92B0367115781B /* Pods-Forkit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Forkit/Forkit.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = NN7QXHC8A3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -680,6 +694,7 @@
 			baseConfigurationReference = 54B8D78D84F258A20229EC1D /* Pods-Forkit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Forkit/Forkit.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = NN7QXHC8A3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

@@ -10,8 +10,22 @@
 
 @interface FILoginManager : NSObject
 
-@property NSString *loginToken;
+///로그인 토큰(키체인 사용)
+@property (nonatomic) NSString *loginToken;
 
+///singleton method
 + (instancetype)sharedManager;
+
+///로그인 상태 저장 (자동로그인)
++ (void)setLoginState;
+
+///로그인 상태 여부
++ (BOOL)isOnLogin;
+
+///로그인 상태 제거
++ (void)removeLoginState;
+
+///로그인 토큰 제거
+- (void)removeLoginToken;
 
 @end

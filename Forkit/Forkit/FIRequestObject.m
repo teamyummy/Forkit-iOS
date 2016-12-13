@@ -237,12 +237,13 @@ static NSString *const BasePathString = @"api/v1/";
  */
 + (void)requestUploadReviewListWithRestaurantPk:(PrimaryKey *)restaurantPk images:(NSArray *)images contents:(NSString *)contents score:(NSInteger)score
 {
+    /*
     //create URL
     NSString *requsetURL = [FIRequestObject requestURLString:RequestTypeReviewList
                                                 restaurantPk:restaurantPk
                                                     reviewPk:nil];
     
-    /*
+    
     //create bodyParms
     NSMutableDictionary *bodyParms = [NSMutableDictionary dictionary];
     [bodyParms setObject:contents forKey:JSONReviewContentKey];
@@ -354,28 +355,30 @@ static NSString *const BasePathString = @"api/v1/";
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
     
+    id uploadTaskHandler = ^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+        
+        NSLog(@"%@",response);
+        NSArray *resposeArr = [responseObject allKeys];
+        for (NSString *responseStr in resposeArr)
+        {
+            if ([responseStr isEqualToString:@"token"])
+            {//success login
+                NSString *token = [responseObject objectForKey:responseStr];
+                NSString *loginToken = [NSString stringWithFormat:@"Token %@",token];
+                [[FILoginManager sharedManager] setLoginToken:loginToken];
+                [FILoginManager setLoginState];
+                success();
+            } else
+            {//failed login
+                failed();
+            }
+        }
+    };
+    
     //create UploadTask
     NSURLSessionDataTask *uploadTask = [manager uploadTaskWithStreamedRequest:request
                                                                      progress:nil
-                                                            completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-                                                                
-                                                                NSLog(@"%@",response);
-                                                                NSArray *resposeArr = [responseObject allKeys];
-                                                                for (NSString *responseStr in resposeArr)
-                                                                {
-                                                                    if ([responseStr isEqualToString:@"token"])
-                                                                    {//success login
-                                                                        NSString *token = [responseObject objectForKey:responseStr];
-                                                                        NSString *loginToken = [NSString stringWithFormat:@"Token %@",token];
-                                                                        [[FILoginManager sharedManager] setLoginToken:loginToken];
-                                                                        [[NSUserDefaults standardUserDefaults] setObject:UserInfoValueLogin forKey:UserInfoKeyLoginState];
-                                                                        success();
-                                                                    } else
-                                                                    {//failed login
-                                                                        failed();
-                                                                    }
-                                                                }
-                                                            }];
+                                                            completionHandler:uploadTaskHandler];
     [uploadTask resume];
 }
 

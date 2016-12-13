@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - KeychainItemWrapper (1.2)
   - QBImagePickerController (3.4.0)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
@@ -21,14 +22,16 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1)
+  - KeychainItemWrapper
   - QBImagePickerController (~> 3.4)
   - SDWebImage (~> 3.8)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  KeychainItemWrapper: 67a240172ed669842bc6bc13ed554dcd50469fa2
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: 52d2e8fe79511659d2d938e361447a58ee32c7b4
+PODFILE CHECKSUM: cf65d0d9044f647b2af021f5fe705fa3514c9bdd
 
 COCOAPODS: 1.1.1

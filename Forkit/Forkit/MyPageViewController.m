@@ -87,7 +87,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] isEqualToString:UserInfoValueLogin])
+    if ([FILoginManager isOnLogin])
     {//login
         return 3;
     }
@@ -109,7 +109,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
 {
     if (indexPath.section == SectionNumberProfile)
     {//profile
-        if ([[[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] isEqualToString:UserInfoValueLogin])
+        if ([FILoginManager isOnLogin])
         {
             ProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:ReuseIdentifierProfileCell
                                                                 forIndexPath:indexPath];
@@ -123,7 +123,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
         
     } else if (indexPath.section == SectionNumberButton)
     {//button
-        if ([[[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] isEqualToString:UserInfoValueLogin])
+        if ([FILoginManager isOnLogin])
         {
             ButtonCell *cell = [tableView dequeueReusableCellWithIdentifier:ReuseIdentifierButtonCell
                                                                forIndexPath:indexPath];
@@ -164,8 +164,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
             
         case SectionNumberButton:
             rowHeight = ButtonCellHeight;
-            if ([[[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] isEqualToString:UserInfoValueNotLogin]||
-                [[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] == nil)
+            if (![FILoginManager isOnLogin])
             {
                 rowHeight = self.view.frame.size.height - ProfileCellHeight;
             }
@@ -183,8 +182,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == SectionNumberProfile ||
-        [[[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] isEqualToString:UserInfoValueNotLogin]||
-        [[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] == nil)
+        ![FILoginManager isOnLogin])
     {
         return 0;
     }
@@ -253,15 +251,11 @@ typedef NS_ENUM(NSInteger, ButtonTag)
         
     }
 }
-- (IBAction)clickLoginButton:(UIButton *)sender
-{
-    [[NSUserDefaults standardUserDefaults] setObject:UserInfoValueLogin forKey:UserInfoKeyLoginState];
-    [self.myPageTableView reloadData];
-}
 
 - (IBAction)clickLogoutButton:(UIButton *)sender
 {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:UserInfoKeyLoginState];
+    [FILoginManager removeLoginState];
+    [[FILoginManager sharedManager] removeLoginToken];
     [self.myPageTableView reloadData];
 }
 

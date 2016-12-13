@@ -66,13 +66,7 @@ static NSString *const JSONReviewScoreKey = @"score";
 static NSString *const JSONMenuNameKey = @"name";
 static NSString *const JSONMenuPriceKey = @"price";
 
-#pragma mark - User info key
-//user info key
-static NSString * const UserInfoKeyLoginState = @"UserInfoKeyLoginState";
 
-//user info value
-static NSString * const UserInfoValueLogin = @"1";
-static NSString * const UserInfoValueNotLogin = @"0";
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "FIReviewDataManager.h"
 #import "FIMenuDataManager.h"
+#import "FILoginManager.h"
 
 @interface FIDataManager : NSObject
 

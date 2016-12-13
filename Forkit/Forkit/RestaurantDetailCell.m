@@ -41,7 +41,7 @@
 #pragma mark - Click Button Method
 - (IBAction)clickLikeButton:(UIButton *)sender
 {
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:UserInfoKeyLoginState] isEqualToString:UserInfoValueLogin])
+    if ([FILoginManager isOnLogin])
     {
         if ([sender isSelected] == NO)
         {
