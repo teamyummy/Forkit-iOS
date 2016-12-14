@@ -30,6 +30,7 @@
 		63263D881DEC1C650069DD2B /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D871DEC1C650069DD2B /* SearchViewController.m */; };
 		63263D8B1DEC1C6E0069DD2B /* RestaurantDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63263D8A1DEC1C6E0069DD2B /* RestaurantDetailViewController.m */; };
 		6331E4F21DF5162A00640EDF /* RoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6331E4F11DF5162A00640EDF /* RoundButton.m */; };
+		633C1CE01E0128D20003FE5C /* FIMyPageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 633C1CDF1E0128D20003FE5C /* FIMyPageManager.m */; };
 		633DFC7F1DF1448B0000DDA0 /* ReviewDetatilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633DFC7E1DF1448B0000DDA0 /* ReviewDetatilViewController.m */; };
 		633DFC821DF16CA40000DDA0 /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633DFC811DF16CA40000DDA0 /* MenuTableViewController.m */; };
 		634D63FB1DED50CD00EB5903 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 634D63FA1DED50CD00EB5903 /* MapViewController.m */; };
@@ -90,6 +91,8 @@
 		63263D8A1DEC1C6E0069DD2B /* RestaurantDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantDetailViewController.m; sourceTree = "<group>"; };
 		6331E4F01DF5162A00640EDF /* RoundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundButton.h; sourceTree = "<group>"; };
 		6331E4F11DF5162A00640EDF /* RoundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundButton.m; sourceTree = "<group>"; };
+		633C1CDE1E0128D20003FE5C /* FIMyPageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIMyPageManager.h; sourceTree = "<group>"; };
+		633C1CDF1E0128D20003FE5C /* FIMyPageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIMyPageManager.m; sourceTree = "<group>"; };
 		633DFC7D1DF1448B0000DDA0 /* ReviewDetatilViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewDetatilViewController.h; sourceTree = "<group>"; };
 		633DFC7E1DF1448B0000DDA0 /* ReviewDetatilViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewDetatilViewController.m; sourceTree = "<group>"; };
 		633DFC801DF16CA40000DDA0 /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
@@ -265,6 +268,8 @@
 				63C924751DF822A600AD5DFD /* FIReviewDataManager.m */,
 				63C9247A1DF8233400AD5DFD /* FIMenuDataManager.h */,
 				63C9247B1DF8233400AD5DFD /* FIMenuDataManager.m */,
+				633C1CDE1E0128D20003FE5C /* FIMyPageManager.h */,
+				633C1CDF1E0128D20003FE5C /* FIMyPageManager.m */,
 			);
 			name = RestaurantInfo;
 			sourceTree = "<group>";
@@ -546,6 +551,7 @@
 				143D8DC61DEC5F5200EDDDF7 /* CustomTitleLabel.m in Sources */,
 				63EBB5821E000BB700A5F277 /* RestaurantAnnotationProtocol.m in Sources */,
 				63263D731DEC1B500069DD2B /* FILoginManager.m in Sources */,
+				633C1CE01E0128D20003FE5C /* FIMyPageManager.m in Sources */,
 				634D63FB1DED50CD00EB5903 /* MapViewController.m in Sources */,
 				63263D821DEC1C4D0069DD2B /* LoginViewController.m in Sources */,
 				63C924761DF822A600AD5DFD /* FIReviewDataManager.m in Sources */,

@@ -59,6 +59,26 @@ static NSString *const  KeyChainIdentifierloginToken = @"KeyChainIdentifierlogin
     [_wrapper resetKeychainItem];
 }
 
+#pragma mark - user ID
+- (void)setUserId:(NSString *)userId
+{
+    if ([[_wrapper objectForKey:(__bridge id)(kSecValueData)] isEqualToString:@""] ||
+        [_wrapper objectForKey:(__bridge id)(kSecValueData)] == nil)
+    {
+        [_wrapper setObject:userId forKey:(__bridge id)(kSecValueData)];
+    }
+}
+
+- (NSString *)userId
+{
+    return [_wrapper objectForKey:(__bridge id)(kSecValueData)];
+}
+
+- (void)removeUserId
+{
+    [_wrapper resetKeychainItem];
+}
+
 #pragma mark - login state
 + (void)setLoginState
 {

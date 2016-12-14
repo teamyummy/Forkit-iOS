@@ -61,4 +61,9 @@ typedef void(^DidReceiveFailedLoginBlock)(void);
  */
 + (void)requestLoginTokenWithUserId:(NSString *)userId userPw:(NSString *)userPw success:(DidReceiveSuccessLoginBlock)success failed:(DidReceiveFailedLoginBlock)failed;
 
++ (void)requestMyFavorRestaurantList:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
+
++ (void)requestMyRegisterReview:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
+
++ (void)requestFavorRestaurantWithRestaurantPk:(PrimaryKey *)RestaurantPk likePk:(PrimaryKey *)likePk;
 @end

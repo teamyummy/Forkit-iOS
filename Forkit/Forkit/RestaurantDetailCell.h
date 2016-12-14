@@ -22,6 +22,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tagLabel;
 
+@property (weak, nonatomic) IBOutlet UIButton *likeButton;
+@property (weak, nonatomic) IBOutlet UIImageView *likeButtonImageView;
+@property (weak, nonatomic) IBOutlet UILabel *likeButtonLabel;
+@property (weak, nonatomic) IBOutlet RoundView *likeButtonRoundView;
+
 @end
 
 @interface RestaurantDetailInfoCell : RestaurantDetailCell

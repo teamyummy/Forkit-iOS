@@ -56,6 +56,8 @@ static NSString *const JSONRestaurnatAvgReviewScoreKey = @"review_average";
 static NSString *const JSONRestaurnatTotalLikeKey = @"total_like";
 static NSString *const JSONRestaurnatTagsKey = @"tags";
 static NSString *const JSONRestaurnatTagNameKey = @"name";
+static NSString *const JSONRestaurnatMyLikeKey = @"my_like";
+static NSString *const JSONRestaurnatMyLikePrimaryKey = @"my_like_id";
 
 //review list key
 static NSString *const JSONReviewAuthorKey = @"author";

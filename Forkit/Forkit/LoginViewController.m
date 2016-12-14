@@ -104,7 +104,7 @@
 
 - (void)showAlert
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"오류"
                                                                    message:@"아이디 혹은 비밀번호가 틀렸습니다"
                                                             preferredStyle:UIAlertControllerStyleAlert];
     

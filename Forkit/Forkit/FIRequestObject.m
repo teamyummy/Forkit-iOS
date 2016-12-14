@@ -18,7 +18,10 @@ typedef NS_ENUM(NSInteger, RequestType)
     RequestTypeReviewList,
     RequestTypeReviewDetail,
     RequestTypeMenuList,
-    RequestTypeLoginToken
+    RequestTypeLoginToken,
+    RequestTypeMyLikeRestaurant,
+    RequestTypeMyReview,
+    RequestTypeFavor
 };
 
 //URL Name
@@ -26,6 +29,9 @@ static NSString *const URLNameRestaurants = @"restaurants/";
 static NSString *const URLNameReviews = @"reviews/";
 static NSString *const URLNameMenus = @"menus/";
 static NSString *const URLNameLogin = @"token-auth/";
+static NSString *const URLNameMyLikeRestaurant = @"/my/favor-rests/";
+static NSString *const URLNameMyReview = @"my/author-reviews/";
+static NSString *const URLNameFavor = @"favors/";
 
 //Prameter Name
 static NSString *const ParamNameUserIDKey = @"username";
@@ -49,6 +55,16 @@ static NSString *const BasePathString = @"api/v1/";
     if (type == RequestTypeLoginToken)
     {//Restaurant List
         [URLString appendString:URLNameLogin];
+        return URLString;
+        
+    } else if (type == RequestTypeMyLikeRestaurant)
+    {//My Like Restaurant
+        [URLString appendString:URLNameMyLikeRestaurant];
+        return URLString;
+        
+    } else if (type == RequestTypeMyReview)
+    {//My Review
+        [URLString appendString:URLNameMyReview];
         return URLString;
         
     } else
@@ -79,6 +95,10 @@ static NSString *const BasePathString = @"api/v1/";
             case RequestTypeLoginToken:
                 [URLString appendString:URLNameLogin];
                 break;
+        //Favor
+            case RequestTypeFavor:
+                [URLString appendString:URLNameFavor];
+                break;
                 
             default:
                 NSLog(@"요청한 URL이 없습니다");
@@ -94,51 +114,20 @@ static NSString *const BasePathString = @"api/v1/";
  */
 + (void)requestRestaurantList:(NSDictionary *)paramDict didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
 {
-    
     //URL String
     NSString *URLString = [FIRequestObject requestURLString:RequestTypeRestaurantList
                                                restaurantPk:nil
                                                    reviewPk:nil];
-    /*
-    //Request
-    NSMutableURLRequest *requset = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
-    requset.HTTPMethod = @"GET";
     
-    //Session
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
-    //completion Handler Block
-    id completionHandlerBlock = ^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-        NSLog(@"%@",response);
-        if (error != nil)
-        {
-            NSLog(@"Error occured : %@",error);
-        }
-        if (responseObject == nil)
-        {
-            NSLog(@"Data dosen't exist");
-        }else
-        {
-            [[FIDataManager sharedManager]setShopDatas:[NSMutableArray arrayWithArray: [responseObject objectForKey:@"results"]]];
-            didReceiveUpdateDataBlock();
-            
-        }
-    };
-    
-    //Task
-    NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:requset
-                                                completionHandler:completionHandlerBlock];
-     
-    //Resume
-    [dataTask resume];
-     */
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    if ([FILoginManager isOnLogin])
+    {
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        [manager.requestSerializer setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
+    }
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
-    /*
-     메니져를 통해 리퀘스트를 날릴 url과 쿼리를 설정한다.
-     */
     [manager GET:URLString
       parameters:paramDict
         progress:nil
@@ -148,7 +137,7 @@ static NSString *const BasePathString = @"api/v1/";
          } failure:^(NSURLSessionTask *operation, NSError *error) {
              NSLog(@"%@", error);
          }];
-     
+    
 }
 
 /*
@@ -172,7 +161,7 @@ static NSString *const BasePathString = @"api/v1/";
     //Data Task
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request
                                                 completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-                                                    NSLog(@"%@",response);
+                                                    
                                                     if (error != nil)
                                                     {
                                                         NSLog(@"Error occured : %@",error);
@@ -213,7 +202,7 @@ static NSString *const BasePathString = @"api/v1/";
     //Data Task
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request
                                                 completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-                                                    NSLog(@"%@",response);
+                                                    
                                                     if (error != nil)
                                                     {
                                                         NSLog(@"Error occured : %@",error);
@@ -304,6 +293,7 @@ static NSString *const BasePathString = @"api/v1/";
  */
 + (void)requestDeleteReviewWithRestaurantPk:(PrimaryKey *)restaurantPk reviewPk:(PrimaryKey *)reviewPk
 {
+    
     //URL String
     NSString *URLString = [FIRequestObject requestURLString:RequestTypeReviewDetail
                                                restaurantPk:restaurantPk
@@ -323,7 +313,9 @@ static NSString *const BasePathString = @"api/v1/";
                                                     NSLog(@"%@",response);
                                                 }];
     [dataTask resume];
+     
 }
+
 
 /*
  로그인 (POST)
@@ -341,9 +333,6 @@ static NSString *const BasePathString = @"api/v1/";
     [bodyParms setObject:userId forKey:ParamNameUserIDKey];
     [bodyParms setObject:userPw forKey:ParamNameUserPWKey];
     
-//    NSData *userIdData = [userId dataUsingEncoding:NSUTF8StringEncoding];
-//    NSData *userPwData = [userPw dataUsingEncoding:NSUTF8StringEncoding];
-    
     //create Request
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST"
                                                                                               URLString:requsetURL
@@ -357,7 +346,7 @@ static NSString *const BasePathString = @"api/v1/";
     
     id uploadTaskHandler = ^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         
-        NSLog(@"%@",response);
+        
         NSArray *resposeArr = [responseObject allKeys];
         for (NSString *responseStr in resposeArr)
         {
@@ -367,6 +356,7 @@ static NSString *const BasePathString = @"api/v1/";
                 NSString *loginToken = [NSString stringWithFormat:@"Token %@",token];
                 [[FILoginManager sharedManager] setLoginToken:loginToken];
                 [FILoginManager setLoginState];
+                [[FILoginManager sharedManager] setUserId:userId];
                 success();
             } else
             {//failed login
@@ -380,6 +370,136 @@ static NSString *const BasePathString = @"api/v1/";
                                                                      progress:nil
                                                             completionHandler:uploadTaskHandler];
     [uploadTask resume];
+}
+
++ (void)requestMyFavorRestaurantList:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
+{
+    //URL String
+    NSString *URLString = [FIRequestObject requestURLString:RequestTypeMyLikeRestaurant
+                                               restaurantPk:nil
+                                                   reviewPk:nil];
+    
+    //Request
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
+    
+    request.HTTPMethod = @"GET";
+    [request setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
+    
+    //Session
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    //Data Task
+    NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request
+                                                completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+
+                                                    if (error != nil)
+                                                    {
+                                                        NSLog(@"Error occured : %@",error);
+                                                    }
+                                                    if (responseObject == nil)
+                                                    {
+                                                        NSLog(@"Data dosen't exist");
+                                                    }else
+                                                    {
+                                                        //responseObject를 my favor list manager에 저장
+                                                        [[FIDataManager sharedManager]setShopDatas:[NSMutableArray arrayWithArray: responseObject]];
+                                                        didReceiveUpdateDataBlock();
+                                                    }
+                                                }];
+    [dataTask resume];
+}
+
++ (void)requestMyRegisterReview:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
+{
+    //URL String
+    NSString *URLString = [FIRequestObject requestURLString:RequestTypeMyReview
+                                               restaurantPk:nil
+                                                   reviewPk:nil];
+    
+    //Request
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
+    
+    request.HTTPMethod = @"GET";
+    [request setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
+    
+    //Session
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    //Data Task
+    NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request
+                                                completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+                                                    
+                                                    if (error != nil)
+                                                    {
+                                                        NSLog(@"Error occured : %@",error);
+                                                    }
+                                                    if (responseObject == nil)
+                                                    {
+                                                        NSLog(@"Data dosen't exist");
+                                                    }else
+                                                    {
+                                                        //responseObject를 my favor list manager에 저장
+                                                        [[FIReviewDataManager sharedManager] setReviewDatas:[NSMutableArray arrayWithArray:responseObject]];
+                                                        didReceiveUpdateDataBlock();
+                                                    }
+                                                }];
+    [dataTask resume];
+}
+
++ (void)requestFavorRestaurantWithRestaurantPk:(PrimaryKey *)RestaurantPk likePk:(PrimaryKey *)likePk
+{
+    NSString *URLString = [FIRequestObject requestURLString:RequestTypeFavor
+                                               restaurantPk:RestaurantPk
+                                                   reviewPk:nil];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    
+    [manager.requestSerializer setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    if (likePk != nil)
+    {//URL String
+        URLString = [NSString stringWithFormat:@"%@%@", URLString, likePk];
+        
+        //Request
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
+        request.HTTPMethod = @"DELETE";
+        [request setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
+        
+        //Session
+        NSURLSession *session = [NSURLSession sharedSession];
+        
+        //Data Task
+        NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                                    completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                                                        NSLog(@"%@",response);
+                                                    }];
+        [dataTask resume];
+        
+        
+        /*
+        [manager DELETE:URLString
+             parameters:nil
+                success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                    
+                    NSLog(@"responseObject : %@",responseObject);
+                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                }];
+         */
+    } else
+    {
+        [manager POST:URLString
+           parameters:nil
+             progress:nil
+              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                  
+              } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                  
+              }];
+    }
 }
 
 @end

@@ -12,4 +12,6 @@
 
 @property NSDictionary *deatilReviewData;
 
+@property NSString *restaurantPk;
+
 @end

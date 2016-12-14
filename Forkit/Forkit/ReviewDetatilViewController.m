@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (weak, nonatomic) IBOutlet UIView *containerTextView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewBottomConstraint;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *reviewDeleteButton;
 
 @end
 
@@ -25,7 +26,13 @@
     [super viewDidLoad];
     self.navigationController.navigationBarHidden = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
+    if ([[[FILoginManager sharedManager] userId] isEqualToString:[_deatilReviewData objectForKey:JSONReviewAuthorKey]])
+    {
+        self.reviewDeleteButton.enabled = YES;
+    } else
+    {
+        self.reviewDeleteButton.enabled = NO;
+    }
     [self updateDetailReview];
 }
 
@@ -90,10 +97,37 @@
         [_containerTextView addSubview:imageView];
     }
 }
+
 - (IBAction)clickPopButton:(UIBarButtonItem *)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+- (IBAction)clickRemoveReviewButton:(UIBarButtonItem *)sender
+{
+    [self showAlert];
+}
+
+#pragma mark - Alert
+- (void)showAlert
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"리뷰 삭제"
+                                                                   message:@"정말로 삭제 하시겠습니까?"
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"삭제"
+                                                       style:UIAlertActionStyleDestructive
+                                                     handler:^(UIAlertAction * _Nonnull action) {
+                                                         /*
+                                                         [FIRequestObject requestDeleteReviewWithRestaurantPk:[_deatilReviewData objectForKey:JSONCommonPrimaryKey] reviewPk:[_deatilReviewData objectForKey:JSONCommonPrimaryKey]];
+                                                          */
+                                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                                         [self.navigationController popViewControllerAnimated:NO];
+                                                     }];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

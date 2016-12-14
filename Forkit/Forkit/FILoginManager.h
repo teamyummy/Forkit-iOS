@@ -13,6 +13,9 @@
 ///로그인 토큰(키체인 사용)
 @property (nonatomic) NSString *loginToken;
 
+///사용자 아이디(키체인 사용)
+@property (nonatomic) NSString *userId;
+
 ///singleton method
 + (instancetype)sharedManager;
 
@@ -27,5 +30,8 @@
 
 ///로그인 토큰 제거
 - (void)removeLoginToken;
+
+///사용자 아이디 제거
+- (void)removeUserId;
 
 @end

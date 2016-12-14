@@ -8,7 +8,6 @@
 
 #import "RestaurantDetailCell.h"
 #import "RestaurantDetailViewController.h"
-#import "CustomUIView.h"
 
 #pragma mark - Detail Cell Class
 @implementation RestaurantDetailCell
@@ -22,12 +21,6 @@
 @end
 
 #pragma mark - Title Cell Class
-@interface RestaurantDetailTitleCell()
-@property (weak, nonatomic) IBOutlet RoundView *likeRoundView;
-@property (weak, nonatomic) IBOutlet UIImageView *likeImageView;
-@property (weak, nonatomic) IBOutlet UILabel *likeLabel;
-@end
-
 @implementation RestaurantDetailTitleCell
 
 #pragma mark - Life Cycle
@@ -45,15 +38,15 @@
     {
         if ([sender isSelected] == NO)
         {
-            _likeRoundView.layer.borderColor = [FIUtilities createKeyColor].CGColor;
-            _likeImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
-            _likeLabel.textColor = [FIUtilities createKeyColor];
+            _likeButtonRoundView.layer.borderColor = [FIUtilities createKeyColor].CGColor;
+            _likeButtonImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
+            _likeButtonLabel.textColor = [FIUtilities createKeyColor];
             
         } else
         {
-            _likeRoundView.layer.borderColor = [FIUtilities createGrayColor].CGColor;
-            _likeImageView.image = [UIImage imageNamed:@"dummyImage"];
-            _likeLabel.textColor = [UIColor blackColor];
+            _likeButtonRoundView.layer.borderColor = [FIUtilities createGrayColor].CGColor;
+            _likeButtonImageView.image = [UIImage imageNamed:@"dummyImage"];
+            _likeButtonLabel.textColor = [UIColor blackColor];
         }
     }
 }

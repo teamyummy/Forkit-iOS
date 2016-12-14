@@ -16,9 +16,9 @@
 static const NSInteger collcetionSectionMargin = 20;
 static const NSInteger collcetionCellMargin = 8;
 static const NSInteger annotationIndexStart = 100;
-static CGFloat collcetionCellWidth;
+static CGFloat collecetionCellWidth;
 
-@interface MapViewController () <MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface MapViewController () <CLLocationManagerDelegate, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *invisibleScrollView;
 @property (weak, nonatomic) IBOutlet MKMapView *restaurantMapView;
@@ -26,6 +26,7 @@ static CGFloat collcetionCellWidth;
 
 @property NSInteger annotationIndex;
 
+@property CLLocationManager *locationManager;
 @property MKCoordinateRegion region;
 
 @end
@@ -37,12 +38,11 @@ static CGFloat collcetionCellWidth;
 - (void)viewDidLoad {
     [super viewDidLoad];
     _annotationIndex = annotationIndexStart;
-    
+    [self createLoactionManger];
     [self setCollectionCellSizeAndScrollWidth];
     [self updateMapViewLocation:CLLocationCoordinate2DMake(37.516287, 127.020015)];
     [self.restaurantMapView setShowsUserLocation:YES];
-    [self setAnotations];
-    
+    [self createAnotations];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -50,37 +50,28 @@ static CGFloat collcetionCellWidth;
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
 }
+
+#pragma mark - custom method
+
 - (void)setCollectionCellSizeAndScrollWidth
 {
     CGFloat superViewWidth = self.view.frame.size.width;
     
-    collcetionCellWidth = (superViewWidth - collcetionSectionMargin * 2);
+    collecetionCellWidth = (superViewWidth - collcetionSectionMargin * 2);
     
-    _invisibleScrollView.contentSize = CGSizeMake((collcetionCellWidth * 10) + (collcetionCellMargin * 10), 0);
+    _invisibleScrollView.contentSize = CGSizeMake((collecetionCellWidth * 10) + (collcetionCellMargin * 10), 0);
     self.invisibleScrollView.delegate = self;
     
     [_restaurantCollectionView addGestureRecognizer:_invisibleScrollView.panGestureRecognizer];
 }
 
-#pragma mark - custom method
-
-- (void)updateMapViewLocation:(CLLocationCoordinate2D)coordinates
-{
-    //반경
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.025, 0.025);
-    //어떤지역 (좌표의 지점 센터, 반경)
-    self.region = MKCoordinateRegionMake(coordinates, span);
-    
-    [self.restaurantMapView setRegion:_region animated:YES];
-}
-
-- (void)setAnotations
+- (void)createAnotations
 {
     for (NSDictionary *restaurantDict in _restaurantDataList)
     {
         RestaurantAnnotationProtocol *restaurantAnnotation = [[RestaurantAnnotationProtocol alloc] initWithTitle:[restaurantDict objectForKey:JSONRestaurnatNameKey]
-                                                               AndCoordinate:CLLocationCoordinate2DMake([restaurantDict[JSONRestaurnatLatitudeKey] floatValue],
-                                                                                                        [restaurantDict[JSONRestaurnatLongitudeKey] floatValue])];
+                                                                                                   AndCoordinate:CLLocationCoordinate2DMake([restaurantDict[JSONRestaurnatLatitudeKey] floatValue],
+                                                                                                                                            [restaurantDict[JSONRestaurnatLongitudeKey] floatValue])];
         restaurantAnnotation.indexPath = _annotationIndex;
         restaurantAnnotation.isSelected = NO;
         
@@ -89,13 +80,39 @@ static CGFloat collcetionCellWidth;
     }
 }
 
+- (void)createLoactionManger
+{
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [self.locationManager requestWhenInUseAuthorization];
+    [self.locationManager startUpdatingLocation];
+}
+
+- (void)updateMapViewLocation:(CLLocationCoordinate2D)coordinates
+{
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.025, 0.025);
+    self.region = MKCoordinateRegionMake(coordinates, span);
+    [self.restaurantMapView setRegion:_region animated:YES];
+}
+
+//보이는 annotation의 갯수 출력
+- (NSInteger)anotationsInVisibleMapAnnotationCount
+{
+    NSSet *annotationSet = [_restaurantMapView annotationsInMapRect:[_restaurantMapView visibleMapRect]];
+    
+    return annotationSet.count;
+}
+
 #pragma mark - Collection View Delegate
 
+//item
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return self.restaurantDataList.count;
 }
 
+//cell
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -130,32 +147,52 @@ static CGFloat collcetionCellWidth;
     return cell;
 }
 
+//size
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
     ;
-    return CGSizeMake(collcetionCellWidth,
+    return CGSizeMake(collecetionCellWidth,
                       collectionView.frame.size.height);
 }
 
-
+//section margin
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
     return UIEdgeInsetsMake(0, collcetionSectionMargin, 0, collcetionSectionMargin);
 }
 
+//selected
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 
+//Did scroll
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if(_invisibleScrollView)
-    {
         _restaurantCollectionView.contentOffset = _invisibleScrollView.contentOffset;
+}
+
+//End Scroll
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if ([self anotationsInVisibleMapAnnotationCount] != 1)
+    {
+        CGFloat offesetX = _restaurantCollectionView.contentOffset.x;
+        NSInteger pageNumber = (NSInteger)offesetX/(NSInteger)collecetionCellWidth;
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:ButtonClickedNotification
+                                                            object:nil];
+        UIButton *annotationButton = (UIButton *)[_restaurantMapView viewWithTag:pageNumber + annotationIndexStart];
+        annotationButton.selected = YES;
+        RestaurantAnnotationView *annotationView = (RestaurantAnnotationView *)annotationButton.superview;
+        RestaurantAnnotationProtocol *annotation = (RestaurantAnnotationProtocol *)annotationView.annotation;
+        annotation.isSelected = YES;
+        [self updateMapViewLocation:annotation.coordinate];
     }
 }
+
 #pragma mark - Click Button
 
 - (IBAction)clickDismissButton:(UIButton *)sender
@@ -165,21 +202,42 @@ static CGFloat collcetionCellWidth;
 
 #pragma mark - CLLocation Manager Delegate
 
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
+{
+    CLLocation *userRecentLocation = [locations lastObject];
+    [self updateMapViewLocation:userRecentLocation.coordinate];
+
+    [_locationManager stopUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error
+{
+    [_locationManager stopUpdatingLocation];
+}
+
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
+    if ([view.annotation isKindOfClass:[MKUserLocation class]])
+    {
+        return;
+    }
+    
     MKPointAnnotation *annotation = (MKPointAnnotation*)view.annotation;
     [self updateMapViewLocation:CLLocationCoordinate2DMake(annotation.coordinate.latitude, annotation.coordinate.longitude)];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ButtonClickedNotification object:nil];
     RestaurantAnnotationView *restaurantAnnotationView = (RestaurantAnnotationView *)view;
-    [self clickAnnotationButton:restaurantAnnotationView mapView:mapView];
+    [self clickAnnotationButton:restaurantAnnotationView];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
+    static NSString *const MapAnnotationIdentifier = @"mapAnnotationIdentifier";
+    
     if([annotation isKindOfClass:[MKUserLocation class]])
     {
         return nil;
     }
-    static NSString *const MapAnnotationIdentifier = @"pin";
     
     RestaurantAnnotationProtocol *myAnnotation = (RestaurantAnnotationProtocol *)annotation;
     RestaurantAnnotationView *newAnnotation = (RestaurantAnnotationView *) [self.restaurantMapView dequeueReusableAnnotationViewWithIdentifier:MapAnnotationIdentifier];
@@ -198,26 +256,15 @@ static CGFloat collcetionCellWidth;
     return newAnnotation;
 }
 
-- (void)clickAnnotationButton:(RestaurantAnnotationView *)annotationView mapView:(MKMapView *)mapView
+- (void)clickAnnotationButton:(RestaurantAnnotationView *)annotationView
 {
-    NSArray *annotations = mapView.annotations;
-    for (NSInteger i = 100; i < mapView.annotations.count + annotationIndexStart; i++)
-    {
-        RestaurantAnnotationProtocol *annotation = annotations[i - annotationIndexStart];
-        if ([annotation isKindOfClass:[RestaurantAnnotationProtocol class]])
-        {
-            annotation.isSelected = NO;
-            UIButton *button = (UIButton *)[mapView viewWithTag:i];
-            button.selected = NO;
-        }
-    }
     if (annotationView.locationButton.selected == NO)
     {//selected
         annotationView.locationButton.selected = YES;
         RestaurantAnnotationProtocol *restaurantAnnotation = (RestaurantAnnotationProtocol *)annotationView.annotation;
         restaurantAnnotation.isSelected = YES;
         NSInteger pageNumber = annotationView.locationButton.tag - annotationIndexStart;
-        CGPoint pageOffset = CGPointMake(pageNumber * (collcetionCellWidth + 8.f), 0);
+        CGPoint pageOffset = CGPointMake(pageNumber * (collecetionCellWidth + 8.f), 0);
         [UIView animateWithDuration:0.2 animations:^{
             _restaurantCollectionView.contentOffset = pageOffset;
             _invisibleScrollView.contentOffset = pageOffset;

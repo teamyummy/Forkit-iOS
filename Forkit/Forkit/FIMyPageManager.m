@@ -1,21 +1,17 @@
 //
-//  FIDataManager.m
+//  FIMyPageManager.m
 //  Forkit
 //
-//  Created by david on 2016. 11. 28..
+//  Created by david on 2016. 12. 14..
 //  Copyright © 2016년 david. All rights reserved.
 //
 
-#import "FIDataManager.h"
+#import "FIMyPageManager.h"
 
-@interface FIDataManager()
-
-@end
-
-@implementation FIDataManager
+@implementation FIMyPageManager
 
 + (instancetype)sharedManager {
-    static FIDataManager *sharedManager = nil;
+    static FIMyPageManager *sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedManager = [[self alloc] init];
@@ -23,7 +19,6 @@
     
     return sharedManager;
 }
-
 
 - (void)setShopDatas:(NSMutableArray *)shopDatas
 {
@@ -99,20 +94,9 @@
         [tempDict setValue:[shopDict objectForKey:JSONRestaurnatTagsKey]
                     forKey:JSONRestaurnatTagsKey];
         
-        //my_like
-        [tempDict setValue:[shopDict objectForKey:JSONRestaurnatMyLikeKey]
-                    forKey:JSONRestaurnatMyLikeKey];
-        
-        //my_like_id
-        NSNumber *likePk = [shopDict objectForKey:JSONRestaurnatMyLikePrimaryKey];
-        NSString *likePkString = [NSString stringWithFormat:@"%ld", [likePk integerValue]];
-        [tempDict setValue:likePkString
-                    forKey:JSONRestaurnatMyLikePrimaryKey];
-
         //set data
         [tempArr addObject:tempDict];
     }
-    _shopDatas = tempArr;
+    _favorShop = tempArr;
 }
-
 @end

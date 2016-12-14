@@ -193,8 +193,10 @@
                                             <constraint firstItem="sw8-r0-twO" firstAttribute="centerY" secondItem="sWa-oj-l5z" secondAttribute="centerY" id="mTl-08-bMs"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="likeButton" destination="Hxp-ky-6CZ" id="gfY-ve-wSo"/>
                                             <outlet property="likeButtonImageView" destination="XXf-5v-MIw" id="TaS-rW-uRL"/>
                                             <outlet property="likeButtonLabel" destination="Zlx-lG-7lZ" id="uMx-ra-q84"/>
+                                            <outlet property="reviewButton" destination="iwx-B9-C8B" id="QcB-yp-dS1"/>
                                             <outlet property="reviewButtonImageView" destination="v53-OL-V8T" id="nMV-dD-BbE"/>
                                             <outlet property="reviewButtonLabel" destination="1AI-BN-Yc3" id="NwR-Ic-GBm"/>
                                         </connections>
@@ -232,45 +234,50 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jBb-cs-o6q">
                                                     <rect key="frame" x="103" y="21" width="80" height="16"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NbA-co-jzJ">
+                                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NbA-co-jzJ">
                                                             <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="16" id="2eJ-5S-PbS"/>
                                                                 <constraint firstAttribute="width" secondItem="NbA-co-jzJ" secondAttribute="height" multiplier="1:1" id="2nw-mM-P4f"/>
                                                             </constraints>
                                                             <state key="normal" backgroundImage="dummyImage"/>
+                                                            <state key="selected" image="dummyFoodImage"/>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykC-G7-Hd2">
+                                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykC-G7-Hd2">
                                                             <rect key="frame" x="16" y="0.0" width="16" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="ykC-G7-Hd2" secondAttribute="height" multiplier="1:1" id="WJS-me-m1M"/>
                                                                 <constraint firstAttribute="width" constant="16" id="iPW-Yu-g7o"/>
                                                             </constraints>
                                                             <state key="normal" backgroundImage="dummyImage"/>
+                                                            <state key="selected" image="dummyFoodImage"/>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="deK-OG-w35">
+                                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="deK-OG-w35">
                                                             <rect key="frame" x="32" y="0.0" width="16" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="16" id="JQF-AB-XtH"/>
                                                                 <constraint firstAttribute="width" secondItem="deK-OG-w35" secondAttribute="height" multiplier="1:1" id="l3O-UI-zYr"/>
                                                             </constraints>
                                                             <state key="normal" backgroundImage="dummyImage"/>
+                                                            <state key="selected" image="dummyFoodImage"/>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYI-QH-3xf">
+                                                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYI-QH-3xf">
                                                             <rect key="frame" x="48" y="0.0" width="16" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="16" id="GXC-iQ-rL9"/>
                                                                 <constraint firstAttribute="width" secondItem="cYI-QH-3xf" secondAttribute="height" multiplier="1:1" id="ecR-CY-Jxh"/>
                                                             </constraints>
                                                             <state key="normal" backgroundImage="dummyImage"/>
+                                                            <state key="selected" image="dummyFoodImage"/>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hiv-Fw-fxT">
+                                                        <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hiv-Fw-fxT">
                                                             <rect key="frame" x="64" y="0.0" width="16" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="Hiv-Fw-fxT" secondAttribute="height" multiplier="1:1" id="Lpq-1n-D82"/>
                                                                 <constraint firstAttribute="width" constant="16" id="W8k-vW-9O6"/>
                                                             </constraints>
                                                             <state key="normal" backgroundImage="dummyImage"/>
+                                                            <state key="selected" image="dummyFoodImage"/>
                                                         </button>
                                                     </subviews>
                                                     <constraints>
@@ -329,7 +336,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.54000002145767212" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="주소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhm-Pf-YHI">
-                                                    <rect key="frame" x="12" y="63" width="26" height="18"/>
+                                                    <rect key="frame" x="12" y="63" width="215" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -421,6 +428,7 @@
                                                 <constraint firstItem="rqc-fW-TzU" firstAttribute="top" secondItem="Bew-hm-9ze" secondAttribute="top" constant="8" id="Ju8-Tk-bht"/>
                                                 <constraint firstItem="atO-rk-hWb" firstAttribute="leading" secondItem="7yC-RR-Gsf" secondAttribute="trailing" constant="4" id="Nqc-FI-PhO"/>
                                                 <constraint firstItem="TjW-kG-U6n" firstAttribute="leading" secondItem="yhm-Pf-YHI" secondAttribute="leading" id="RMy-km-Qqv"/>
+                                                <constraint firstItem="yhm-Pf-YHI" firstAttribute="width" secondItem="cv3-jJ-XHn" secondAttribute="width" id="SMO-2Z-zKL"/>
                                                 <constraint firstItem="7yC-RR-Gsf" firstAttribute="centerY" secondItem="TjW-kG-U6n" secondAttribute="centerY" id="Ub8-fC-Odl"/>
                                                 <constraint firstItem="atO-rk-hWb" firstAttribute="centerY" secondItem="7yC-RR-Gsf" secondAttribute="centerY" id="aYB-0h-Bxy"/>
                                                 <constraint firstItem="cv3-jJ-XHn" firstAttribute="leading" secondItem="Bew-hm-9ze" secondAttribute="leading" constant="12" id="cOv-2q-DzT"/>

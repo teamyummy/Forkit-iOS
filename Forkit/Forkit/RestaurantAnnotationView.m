@@ -7,8 +7,8 @@
 //
 
 #import "RestaurantAnnotationView.h"
-#import "MapViewController.h"
-
+#import "RestaurantAnnotationProtocol.h"
+//#import "MapViewController.h"
 
 @implementation RestaurantAnnotationView
 
@@ -17,6 +17,10 @@
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         [self createButtonWithAnnotation:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveNoSelectedButton:)
+                                                     name:ButtonClickedNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -34,5 +38,17 @@
     
     annotationView.frame = CGRectMake(0, 0, 30, 30);
     [annotationView addSubview:_locationButton];
+}
+
+- (void)didReceiveNoSelectedButton:(NSNotification *)noti
+{
+    self.locationButton.selected = NO;
+    RestaurantAnnotationProtocol *annotation = (RestaurantAnnotationProtocol *)self.annotation;
+    annotation.isSelected = NO;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end

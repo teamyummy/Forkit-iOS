@@ -252,10 +252,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="likeButton" destination="P2b-9H-VEz" id="mLx-rS-vtj"/>
+                                            <outlet property="likeButtonImageView" destination="9S8-GY-0OC" id="xIH-x4-c2v"/>
+                                            <outlet property="likeButtonLabel" destination="tdI-Nd-LTR" id="hMt-7p-kTR"/>
+                                            <outlet property="likeButtonRoundView" destination="9FF-4s-9cR" id="0tM-2d-5MY"/>
                                             <outlet property="likeCountLabel" destination="CLP-3v-OIG" id="45h-Re-Zox"/>
-                                            <outlet property="likeImageView" destination="9S8-GY-0OC" id="dDa-09-p3f"/>
-                                            <outlet property="likeLabel" destination="tdI-Nd-LTR" id="ycq-B0-WDe"/>
-                                            <outlet property="likeRoundView" destination="9FF-4s-9cR" id="PeU-FC-fzv"/>
                                             <outlet property="restaurantTitleLabel" destination="Vpl-ua-5W9" id="vuW-nP-TYL"/>
                                             <outlet property="reviewCountLabel" destination="Fl5-ew-b7W" id="0Q2-MU-iur"/>
                                             <outlet property="scoreAvgLabel" destination="Bly-xf-KXn" id="Fww-zq-Fid"/>
@@ -816,6 +817,11 @@
                                 <action selector="clickPopButton:" destination="qcX-Kh-4ZO" id="7cd-PU-d57"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="삭제" id="scY-oI-fDl">
+                            <connections>
+                                <action selector="clickRemoveReviewButton:" destination="qcX-Kh-4ZO" id="7Rp-QG-7vo"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -826,6 +832,7 @@
                         <outlet property="contentViewBottomConstraint" destination="7wb-P8-JJU" id="0q6-eY-e1H"/>
                         <outlet property="dateLabel" destination="f98-HH-eib" id="v3b-wr-9vy"/>
                         <outlet property="idTextLabel" destination="UV7-Mk-fva" id="D9q-du-5Zq"/>
+                        <outlet property="reviewDeleteButton" destination="scY-oI-fDl" id="t4G-YW-m4c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DMN-De-dNK" userLabel="First Responder" sceneMemberID="firstResponder"/>

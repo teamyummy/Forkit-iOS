@@ -37,7 +37,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     
     RestaurantDetailViewController * __weak weakSelf = self;
     
-    [FIRequestObject requestReviewListWithRestaurantPk:[NSString stringWithFormat:@"%@" ,[self.restaurantDatas objectForKey:JSONCommonPrimaryKey]] didReceiveUpdateDataBlock:^{
+    [FIRequestObject requestReviewListWithRestaurantPk:[_restaurantDatas objectForKey:JSONCommonPrimaryKey] didReceiveUpdateDataBlock:^{
         [weakSelf didReceiveReviewDataUpdated];
     }];
     
@@ -98,6 +98,21 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     }
     return 1;
 }
+
+- (void)checkMyLikeRestaurantState:(RestaurantDetailTitleCell *)cell
+{
+    if ([FILoginManager isOnLogin])
+    {
+        BOOL isOnMyLikeState = [[_restaurantDatas objectForKey:JSONRestaurnatMyLikeKey] boolValue];
+        if (isOnMyLikeState)
+        {
+            cell.likeButton.selected = YES;
+            cell.likeButtonLabel.textColor = [FIUtilities createKeyColor];
+            cell.likeButtonRoundView.layer.borderColor = [FIUtilities createKeyColor].CGColor;
+            cell.likeButtonImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
+        }
+    }
+}
 //cell
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -105,13 +120,14 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     {
         RestaurantDetailTitleCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierTitleCell forIndexPath:indexPath];
         
+        [self checkMyLikeRestaurantState:cell];
         cell.restaurantTitleLabel.text = [_restaurantDatas objectForKey:JSONRestaurnatNameKey];
         
-        cell.scoreAvgLabel.text = [NSString stringWithFormat:@"%@", [_restaurantDatas objectForKey:JSONRestaurnatAvgReviewScoreKey]];
+        cell.scoreAvgLabel.text = [_restaurantDatas objectForKey:JSONRestaurnatAvgReviewScoreKey];
         
-        cell.reviewCountLabel.text = [NSString stringWithFormat:@"%@", [_restaurantDatas objectForKey:JSONRestaurnatTotalReviewCountKey]];
+        cell.reviewCountLabel.text = [_restaurantDatas objectForKey:JSONRestaurnatTotalReviewCountKey];
         
-        cell.likeCountLabel.text = [NSString stringWithFormat:@"%@", [_restaurantDatas objectForKey:JSONRestaurnatTotalLikeKey]];
+        cell.likeCountLabel.text = [_restaurantDatas objectForKey:JSONRestaurnatTotalLikeKey];
         
         if ([_restaurantDatas objectForKey:JSONRestaurnatTagsKey] != nil && [[_restaurantDatas objectForKey:JSONRestaurnatTagsKey] count] != 0)
         {
@@ -267,9 +283,11 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
         if ([sender isSelected] == NO)
         {
             sender.selected = YES;
+            [FIRequestObject requestFavorRestaurantWithRestaurantPk:[_restaurantDatas objectForKey:JSONCommonPrimaryKey] likePk:nil];
         } else
         {
             sender.selected = NO;
+            [FIRequestObject requestFavorRestaurantWithRestaurantPk:[_restaurantDatas objectForKey:JSONCommonPrimaryKey] likePk:[_restaurantDatas objectForKey:JSONRestaurnatMyLikePrimaryKey]];
         }
     }
 }
@@ -325,7 +343,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 #pragma mark - Alert
 - (void)showAlert
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"로그인"
                                                                    message:@"로그인이 필요한 서비스 입니다."
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
@@ -346,7 +364,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     if ([segue.destinationViewController isKindOfClass:[MenuTableViewController class]])
     {
         MenuTableViewController *menuTableVC = segue.destinationViewController;
-        menuTableVC.restaurnatPk = [NSString stringWithFormat:@"%@", [_restaurantDatas objectForKey:JSONCommonPrimaryKey]];
+        menuTableVC.restaurnatPk = [_restaurantDatas objectForKey:JSONCommonPrimaryKey];
     } else if ([segue.destinationViewController isKindOfClass:[ReviewDetatilViewController class]])
     {
         RestaurantDetailReviewCell *cell = (RestaurantDetailReviewCell *)sender;
@@ -354,6 +372,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
         
         ReviewDetatilViewController *reviewDetatilVC = segue.destinationViewController;
         reviewDetatilVC.deatilReviewData = [_reviewList objectAtIndex:cellIndex.row];
+        reviewDetatilVC.restaurantPk = [_restaurantDatas objectForKey:JSONCommonPrimaryKey];
     }
 }
 
