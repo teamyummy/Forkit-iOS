@@ -263,6 +263,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
          testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
          }];
          */
+        reviewAlertVC.restaurantPk = [_restaurantDatas objectForKey:JSONCommonPrimaryKey];
         [self addChildViewController:reviewAlertVC];
         [self.view addSubview:reviewAlertVC.view];
         reviewAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];

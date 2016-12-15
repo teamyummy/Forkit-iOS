@@ -13,6 +13,7 @@
 
 @interface FIDataManager : NSObject
 
+@property (nonatomic) NSMutableDictionary *shopDataDict;
 @property (nonatomic) NSMutableArray *shopDatas;
 
 + (instancetype)sharedManager;

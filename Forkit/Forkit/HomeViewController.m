@@ -12,12 +12,16 @@
 
 //cell reuse identifier
 static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
+static NSInteger requestPageNumber = 5;
 
-@interface HomeViewController ()<UITableViewDelegate, UITableViewDataSource ,UIScrollViewDelegate ,UIPickerViewDelegate, UIPickerViewDataSource>
+@interface HomeViewController ()<UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource>
 
 //Data
 @property NSArray *restaurantDataList;
 @property NSMutableArray *scrollImageList;
+@property NSDictionary *pagingDataDict;
+
+@property (weak) HomeViewController *weakSelf;
 
 //UI
 @property (weak, nonatomic) IBOutlet UITableView *restaurantTableView;
@@ -34,12 +38,13 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
     [super viewDidLoad];
     
     //weakSelf
-    HomeViewController * __weak weakSelf = self;
+    _weakSelf = self;
     
     //request restaurant list
     [FIRequestObject requestRestaurantList:nil
+                           pagingURLString:nil
                  didReceiveUpdateDataBlock:^{
-                     [weakSelf didReceiveListUpdated];
+                     [_weakSelf didReceiveListUpdated];
                  }];
     
     //alloc scroll image
@@ -69,7 +74,13 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
 //completion request
 - (void)didReceiveListUpdated
 {
-    self.restaurantDataList = [[FIDataManager sharedManager] shopDatas];
+    __block NSMutableArray *blockRestaurantDataList = [NSMutableArray array];
+    [blockRestaurantDataList addObjectsFromArray:_restaurantDataList];
+    [blockRestaurantDataList addObjectsFromArray:[[FIDataManager sharedManager] shopDatas]];
+    
+    _restaurantDataList = blockRestaurantDataList;
+    
+    _pagingDataDict = [[FIDataManager sharedManager] shopDataDict];
     
     if (4 < _restaurantDataList.count)
     {//음식점 리스트의 갯수가 5개 이상
@@ -95,6 +106,19 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
     [self.restaurantTableView reloadData];
 }
 
+- (void)didReceiveListUpdatedPaging
+{
+    __block NSMutableArray *blockRestaurantDataList = [NSMutableArray array];
+    [blockRestaurantDataList addObjectsFromArray:_restaurantDataList];
+    [blockRestaurantDataList addObjectsFromArray:[[FIDataManager sharedManager] shopDatas]];
+    
+    _restaurantDataList = blockRestaurantDataList;
+    
+    _pagingDataDict = [[FIDataManager sharedManager] shopDataDict];
+    
+    [self.restaurantTableView reloadData];
+}
+
 - (void)createPageControllWithSuperViewHeight:(CGFloat)height superView:(UIView *)superView
 {
     _pageControl = [[UIPageControl alloc] init];
@@ -103,9 +127,9 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
     _pageControl.currentPage = 0;
     _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
     _pageControl.currentPageIndicatorTintColor = [FIUtilities createKeyColor];
+    _pageControl.defersCurrentPageDisplay = YES;
     [superView addSubview:_pageControl];
 }
-
 - (void)createScrollView
 {
     //setting Height, Width
@@ -229,6 +253,19 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([_pagingDataDict objectForKey:JSONRestaurantNextKey] != nil &&
+        indexPath.row % 10 == requestPageNumber &&
+        requestPageNumber == indexPath.row)
+    {
+        requestPageNumber = indexPath.row + 10;
+        
+        [FIRequestObject requestRestaurantList:nil
+                               pagingURLString:[_pagingDataDict objectForKey:JSONRestaurantNextKey]
+                     didReceiveUpdateDataBlock:^{
+                         [_weakSelf didReceiveListUpdatedPaging];
+                     }];
+    }
+    
     RestaurantListCell *cell = [tableView dequeueReusableCellWithIdentifier:ReuseIdentifierRestaurantList forIndexPath:indexPath];
     
     NSDictionary *restaurantDataTempDict;
@@ -258,9 +295,14 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
     return cell;
 }
 
+
 #pragma mark - Scroll View Delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if ([scrollView isKindOfClass:[UITableView class]])
+    {
+        return;
+    }
     NSInteger currentOffset = scrollView.contentOffset.x;
     CGFloat scrollViewWidth = scrollView.frame.size.width;
 

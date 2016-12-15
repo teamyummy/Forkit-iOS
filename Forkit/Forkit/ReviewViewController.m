@@ -23,6 +23,8 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
 @property (weak, nonatomic) IBOutlet UIScrollView *selectedImageScrollView;
 @property (weak, nonatomic) IBOutlet UITextView *reviewTextView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollConstraint;
+
+@property NSInteger reviewScore;
 @property NSMutableArray *imageList;
 @end
 
@@ -31,6 +33,7 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
 #pragma mark - App Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _reviewScore = 0;
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -52,6 +55,20 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - show alert
+- (void)showAlert
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"오류"
+                                                                   message:@"score와 content를 입력해주세요"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"확인"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:nil];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Show Selected Image View
@@ -165,6 +182,7 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
 
 - (IBAction)clickScoreButton:(UIButton *)sender
 {
+    _reviewScore = sender.tag - 100;
     if ([sender isSelected] == YES && sender.tag < FiveScoreButton)
     {//selected
         for (NSInteger i = sender.tag + 1; i < FiveScoreButton + 1; i++)
@@ -189,13 +207,27 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
             {
                 checkedButton.selected = YES;
             }
-        } return;
+        }
+        return;
     }
 }
 - (IBAction)clickRegisterReviewButton:(id)sender
 {
-    
+    if (_reviewScore == 0 ||
+        _reviewTextView.text.length == 0 ||
+        [_reviewTextView.text isEqualToString:@" "])
+    {
+        [self showAlert];
+    } else
+    {
+        [FIRequestObject requestUploadReviewListWithRestaurantPk:_restaurantPk
+                                                          images:_imageList
+                                                        contents:_reviewTextView.text
+                                                           score:_reviewScore];
+    }
 }
+
+
 
 #pragma mark - QBImagePicker Delegate
 - (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController

@@ -18,9 +18,10 @@ typedef void(^DidReceiveFailedLoginBlock)(void);
 /**
  음식점 리스트(GET)
  @param paramDict 검색 or 정렬
+ @param pagingURLString page URL
  @param didReceiveUpdateDataBlock 다운로드 완료시 실행할 블럭
  */
-+ (void)requestRestaurantList:(NSDictionary *)paramDict didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
++ (void)requestRestaurantList:(NSDictionary *)paramDict pagingURLString:(NSString *)pagingURLString didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
 
 /**
  특정 음식점에 따른 리뷰 리스트(GET)

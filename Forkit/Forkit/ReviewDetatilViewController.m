@@ -118,9 +118,9 @@
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"삭제"
                                                        style:UIAlertActionStyleDestructive
                                                      handler:^(UIAlertAction * _Nonnull action) {
-                                                         /*
-                                                         [FIRequestObject requestDeleteReviewWithRestaurantPk:[_deatilReviewData objectForKey:JSONCommonPrimaryKey] reviewPk:[_deatilReviewData objectForKey:JSONCommonPrimaryKey]];
-                                                          */
+                                                         
+                                                             [FIRequestObject requestDeleteReviewWithRestaurantPk:[_deatilReviewData objectForKey:JSONReviewRestaurantPrimaryKey] reviewPk:[_deatilReviewData objectForKey:JSONCommonPrimaryKey]];
+                                                         
                                                          [alert dismissViewControllerAnimated:YES completion:nil];
                                                          [self.navigationController popViewControllerAnimated:NO];
                                                      }];

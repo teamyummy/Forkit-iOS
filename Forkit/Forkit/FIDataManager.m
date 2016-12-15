@@ -24,6 +24,21 @@
     return sharedManager;
 }
 
+- (void)setShopDataDict:(NSMutableDictionary *)shopDataDict
+{
+    //next Key
+    _shopDataDict = [NSMutableDictionary dictionary];
+    
+    [_shopDataDict setObject:[shopDataDict objectForKey:JSONRestaurantNextKey]
+                      forKey:JSONRestaurantNextKey];
+    
+    //previous Key
+    [_shopDataDict setObject:[shopDataDict objectForKey:JSONRestaurantPreviousKey]
+                      forKey:JSONRestaurantPreviousKey];
+
+    //shop data
+    [self setShopDatas:[NSMutableArray arrayWithArray: [shopDataDict objectForKey:JSONRestaurantResultsKey]]];
+}
 
 - (void)setShopDatas:(NSMutableArray *)shopDatas
 {

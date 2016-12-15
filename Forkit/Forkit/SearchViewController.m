@@ -97,7 +97,8 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
         SearchViewController * __weak weakSelf = self;
         
         [FIRequestObject requestRestaurantList:@{ParamNameSerachKey:searchValue}
-                     didReceiveUpdateDataBlock:^{
+                               pagingURLString:nil
+                      didReceiveUpdateDataBlock:^{
                          
                          [weakSelf didReceiveListUpdated];
                          

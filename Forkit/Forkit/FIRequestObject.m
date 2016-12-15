@@ -37,6 +37,8 @@ static NSString *const URLNameFavor = @"favors/";
 static NSString *const ParamNameUserIDKey = @"username";
 static NSString *const ParamNameUserPWKey = @"password";
 static NSString *const ParamNameLoginTokenKey = @"Authorization";
+static NSString *const ParamNameReviewImageKey = @"img";
+static NSString *const ParamNameReviewAltKey = @"alt";
 
 //Base URL String
 static NSString *const BaseURLString = @"http://mangoplates.com/";
@@ -75,7 +77,7 @@ static NSString *const BasePathString = @"api/v1/";
             return URLString;
         }
         [URLString appendString:URLNameRestaurants];
-        [URLString appendString:[NSString stringWithFormat:@"%@/",restaurantPk]];
+        [URLString appendString:[NSString stringWithFormat:@"%@/", restaurantPk]];
         
         switch (type)
         {//Review List
@@ -85,7 +87,7 @@ static NSString *const BasePathString = @"api/v1/";
          //Review Deatail
             case RequestTypeReviewDetail:
                 [URLString appendString:URLNameReviews];
-                [URLString appendString:reviewPk];
+                [URLString appendString:[NSString stringWithFormat:@"%@/", reviewPk]];
                 break;
          //Menu List
             case RequestTypeMenuList:
@@ -108,16 +110,20 @@ static NSString *const BasePathString = @"api/v1/";
     }
     return URLString;
 }
-
 /*
  모든 음식점 리스트, 정렬, 검색 (GET)
  */
-+ (void)requestRestaurantList:(NSDictionary *)paramDict didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
++ (void)requestRestaurantList:(NSDictionary *)paramDict pagingURLString:(NSString *)pagingURLString didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
 {
     //URL String
     NSString *URLString = [FIRequestObject requestURLString:RequestTypeRestaurantList
-                                               restaurantPk:nil
+                                             restaurantPk:nil
                                                    reviewPk:nil];
+    
+    if (pagingURLString != nil)
+    {//paging
+        URLString = pagingURLString;
+    }
     
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
@@ -132,7 +138,10 @@ static NSString *const BasePathString = @"api/v1/";
       parameters:paramDict
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject) {
-             [[FIDataManager sharedManager]setShopDatas:[NSMutableArray arrayWithArray: [responseObject objectForKey:@"results"]]];
+  
+             [[FIDataManager sharedManager] setShopDataDict:responseObject];
+             
+             
              didReceiveUpdateDataBlock();
          } failure:^(NSURLSessionTask *operation, NSError *error) {
              NSLog(@"%@", error);
@@ -222,70 +231,77 @@ static NSString *const BasePathString = @"api/v1/";
 }
 
 /*
- 특정 음식점에 따른 리뷰 등록 (POST)
+ 특정 음식점에 따른 리뷰 이미지 (POST)
+ */
++ (void)requestUploadReviewImagesWithRequestURL:(NSString *)requestURL reviewPk:(NSString *)reviewPk images:(NSArray *)images manager:(AFHTTPSessionManager *)manager
+{
+    if (images.count == 0 || images == nil)
+    {
+        return;
+    } else
+    {
+        
+        requestURL = [NSString stringWithFormat:@"%@%@/images/",requestURL,reviewPk];
+        NSMutableDictionary *bodyParms = [NSMutableDictionary dictionary];
+        
+        for (UIImage *image in images)
+        {
+            [bodyParms setObject:@"alt" forKey:ParamNameReviewAltKey];
+            
+            [manager POST:requestURL
+               parameters:bodyParms
+constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    [formData appendPartWithFileData:UIImageJPEGRepresentation(image, 0.7)
+                                name:ParamNameReviewImageKey
+                            fileName:@"image.jpeg"
+                            mimeType:@"image/jpeg"];
+} progress:nil
+                  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                      NSLog(@"%@", responseObject);
+                  } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                      NSLog(@"%@", error);
+                  }];
+        }
+    }
+}
+
+/*
+ 특정 음식점에 따른 리뷰 텍스트 등록 (POST)
  */
 + (void)requestUploadReviewListWithRestaurantPk:(PrimaryKey *)restaurantPk images:(NSArray *)images contents:(NSString *)contents score:(NSInteger)score
 {
-    /*
     //create URL
     NSString *requsetURL = [FIRequestObject requestURLString:RequestTypeReviewList
                                                 restaurantPk:restaurantPk
                                                     reviewPk:nil];
     
+    //Request
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
-    //create bodyParms
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    
+    [manager.requestSerializer setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
     NSMutableDictionary *bodyParms = [NSMutableDictionary dictionary];
     [bodyParms setObject:contents forKey:JSONReviewContentKey];
-    [bodyParms setObject:contents forKey:@"title"];
-    [bodyParms setObject:image forKey:JSONCommonSmallImageURLKey];
+    [bodyParms setObject:@"ioschef review" forKey:JSONReviewTitleKey];
     [bodyParms setObject:[NSNumber numberWithInteger:score] forKey:JSONReviewScoreKey];
     
-    //create construct body block
-    id constructBodyBlock = ^(id<AFMultipartFormData>  _Nonnull formData)
-    {
-        [formData appendPartWithFileData:UIImageJPEGRepresentation(image, 0.1)
-                                    name:JSONCommonThumbnailImageURLKey
-                                fileName:@"image.jpeg"
-                                mimeType:@"image/jpeg"];
-    };
-     
-    [bodyParms setObject:contents forKey:JSONReviewContentKey];
-    [bodyParms setObject:[NSString stringWithFormat:@"%ld", score] forKey:JSONReviewScoreKey];
-    
-    //create Request
-    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST"
-                                                                                              URLString:requsetURL
-                                                                                             parameters:bodyParms constructingBodyWithBlock:constructBodyBlock error:nil];
-    
-    [request setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
-    
-    //create URLSession
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
-    
-    //create UploadTask
-    NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithRequest:request
-                                                               fromData:nil
-                                                               progress:nil
-                                                      completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-                                                          
-                                                          NSLog(@"response: %@", response);
-                                                          if (error != nil)
-                                                          {
-                                                              NSLog(@"Error occured : %@", error);
-                                                          }
-                                                          if (responseObject == nil)
-                                                          {
-                                                              NSLog(@"Data dosen't exist");
-                                                          } else
-                                                          {
-                                                              NSLog(@"%@",responseObject);
-                                                          }
-                                                      }];
-
-    
-    [uploadTask resume];
-     */
+    [manager POST:requsetURL
+       parameters:bodyParms
+         progress:nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+              NSLog(@"%@",responseObject);
+              NSString *reviewPk = [responseObject objectForKey:JSONCommonPrimaryKey];
+              if (reviewPk != nil)
+              {
+                  [FIRequestObject requestUploadReviewImagesWithRequestURL:requsetURL reviewPk:reviewPk images:images manager:manager];
+              }
+          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+              
+          }];
 }
 
 /*
@@ -300,20 +316,21 @@ static NSString *const BasePathString = @"api/v1/";
                                                    reviewPk:reviewPk];
     
     //Request
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
-    request.HTTPMethod = @"DELETE";
-    [request setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
-    //Session
-    NSURLSession *session = [NSURLSession sharedSession];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
     
-    //Data Task
-    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
-                                                completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                                                    NSLog(@"%@",response);
-                                                }];
-    [dataTask resume];
-     
+    [manager.requestSerializer setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager DELETE:URLString
+         parameters:nil
+            success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                NSLog(@"responseObject : %@",responseObject);
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            }];
 }
 
 
@@ -371,7 +388,9 @@ static NSString *const BasePathString = @"api/v1/";
                                                             completionHandler:uploadTaskHandler];
     [uploadTask resume];
 }
-
+/*
+ 나의 즐겨찾기 식당(GET)
+ */
 + (void)requestMyFavorRestaurantList:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
 {
     //URL String
@@ -408,7 +427,9 @@ static NSString *const BasePathString = @"api/v1/";
                                                 }];
     [dataTask resume];
 }
-
+/*
+ 나의 리뷰(GET)
+ */
 + (void)requestMyRegisterReview:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
 {
     //URL String
@@ -446,6 +467,9 @@ static NSString *const BasePathString = @"api/v1/";
     [dataTask resume];
 }
 
+/*
+ 즐겨찾기 요청(POST, DELETE)
+ */
 + (void)requestFavorRestaurantWithRestaurantPk:(PrimaryKey *)RestaurantPk likePk:(PrimaryKey *)likePk
 {
     NSString *URLString = [FIRequestObject requestURLString:RequestTypeFavor
@@ -460,27 +484,11 @@ static NSString *const BasePathString = @"api/v1/";
     
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
+    
     if (likePk != nil)
     {//URL String
-        URLString = [NSString stringWithFormat:@"%@%@", URLString, likePk];
+        URLString = [NSString stringWithFormat:@"%@%@/", URLString, likePk];
         
-        //Request
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
-        request.HTTPMethod = @"DELETE";
-        [request setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
-        
-        //Session
-        NSURLSession *session = [NSURLSession sharedSession];
-        
-        //Data Task
-        NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
-                                                    completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                                                        NSLog(@"%@",response);
-                                                    }];
-        [dataTask resume];
-        
-        
-        /*
         [manager DELETE:URLString
              parameters:nil
                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -488,7 +496,6 @@ static NSString *const BasePathString = @"api/v1/";
                     NSLog(@"responseObject : %@",responseObject);
                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 }];
-         */
     } else
     {
         [manager POST:URLString

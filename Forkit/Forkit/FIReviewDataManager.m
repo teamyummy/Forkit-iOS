@@ -63,6 +63,18 @@
         [tempDict setValue:iso8601String
                     forKey:JSONCommonCreatedDateKey];
         
+        //rest_id
+        if ([reviewDict objectForKey:JSONReviewRestaurantPrimaryKey] != nil)
+        {
+            NSNumber *restaurantPkNumber = [reviewDict objectForKey:JSONReviewRestaurantPrimaryKey];
+            
+            NSString *restaurantPkString = [NSString stringWithFormat:@"%ld", [restaurantPkNumber integerValue]];
+            
+            [tempDict setValue:restaurantPkString
+                        forKey:JSONReviewRestaurantPrimaryKey];
+        }
+        
+        
         //set data
         [tempArr addObject:tempDict];
     }

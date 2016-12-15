@@ -58,12 +58,18 @@ static NSString *const JSONRestaurnatTagsKey = @"tags";
 static NSString *const JSONRestaurnatTagNameKey = @"name";
 static NSString *const JSONRestaurnatMyLikeKey = @"my_like";
 static NSString *const JSONRestaurnatMyLikePrimaryKey = @"my_like_id";
+static NSString *const JSONRestaurantNextKey = @"next";
+static NSString *const JSONRestaurantPreviousKey = @"previous";
+static NSString *const JSONRestaurantResultsKey = @"results";
+
+
 
 //review list key
 static NSString *const JSONReviewAuthorKey = @"author";
 static NSString *const JSONReviewContentKey = @"content";
 static NSString *const JSONReviewScoreKey = @"score";
-
+static NSString *const JSONReviewTitleKey = @"title";
+static NSString *const JSONReviewRestaurantPrimaryKey = @"rest_id";
 //menu list key
 static NSString *const JSONMenuNameKey = @"name";
 static NSString *const JSONMenuPriceKey = @"price";
