@@ -271,6 +271,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
         [UIView animateWithDuration:0.2 animations:^{
             reviewAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.70];
         }];
+        [reviewAlertVC didMoveToParentViewController:self];
     }
 }
 

@@ -240,7 +240,6 @@ static NSString *const BasePathString = @"api/v1/";
         return;
     } else
     {
-        
         requestURL = [NSString stringWithFormat:@"%@%@/images/",requestURL,reviewPk];
         NSMutableDictionary *bodyParms = [NSMutableDictionary dictionary];
         
@@ -291,16 +290,25 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
     
     [manager POST:requsetURL
        parameters:bodyParms
-         progress:nil
+constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    
+    [formData appendPartWithFormData:[contents dataUsingEncoding:NSUTF8StringEncoding] name:JSONReviewContentKey];
+    
+    [formData appendPartWithFormData:[@"ioschef review" dataUsingEncoding:NSUTF8StringEncoding] name:JSONReviewTitleKey];
+    
+    [formData appendPartWithFormData:[[NSString stringWithFormat:@"%ld",score] dataUsingEncoding:NSUTF8StringEncoding] name:JSONReviewScoreKey];
+    
+} progress:nil
           success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-              NSLog(@"%@",responseObject);
+              
+              NSLog(@"%@", responseObject);
               NSString *reviewPk = [responseObject objectForKey:JSONCommonPrimaryKey];
               if (reviewPk != nil)
               {
                   [FIRequestObject requestUploadReviewImagesWithRequestURL:requsetURL reviewPk:reviewPk images:images manager:manager];
               }
           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-              
+              NSLog(@"%@",error);
           }];
 }
 

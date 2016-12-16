@@ -177,6 +177,9 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
                          self.view.alpha = 0;
                      } completion:^(BOOL finished) {
                          [self removeFromParentViewController];
+                         [self willMoveToParentViewController:nil];
+                         [self.view removeFromSuperview];
+                         [self removeFromParentViewController];
                      }];
 }
 

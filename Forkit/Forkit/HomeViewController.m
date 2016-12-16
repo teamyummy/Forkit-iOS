@@ -9,12 +9,13 @@
 #import "RestaurantListCell.h"
 #import "RestaurantDetailViewController.h"
 #import "MapViewController.h"
+#import "SortViewController.h"
 
 //cell reuse identifier
 static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
 static NSInteger requestPageNumber = 5;
 
-@interface HomeViewController ()<UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface HomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 //Data
 @property NSArray *restaurantDataList;
@@ -74,11 +75,7 @@ static NSInteger requestPageNumber = 5;
 //completion request
 - (void)didReceiveListUpdated
 {
-    __block NSMutableArray *blockRestaurantDataList = [NSMutableArray array];
-    [blockRestaurantDataList addObjectsFromArray:_restaurantDataList];
-    [blockRestaurantDataList addObjectsFromArray:[[FIDataManager sharedManager] shopDatas]];
-    
-    _restaurantDataList = blockRestaurantDataList;
+    _restaurantDataList = [[FIDataManager sharedManager] shopDatas];
     
     _pagingDataDict = [[FIDataManager sharedManager] shopDataDict];
     
@@ -169,62 +166,11 @@ static NSInteger requestPageNumber = 5;
 #pragma mark - click Button
 - (IBAction)clickSortButton:(UIButton *)sender
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"\n\n\n\n\n\n\n\n" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(8, 8, alert.view.frame.size.width - 8 * 4.5, 160)];
-    containerView.backgroundColor = [UIColor clearColor];
-    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, containerView.frame.size.width, containerView.frame.size.height)];
-    pickerView.showsSelectionIndicator = YES;
-    pickerView.delegate = self;
-    pickerView.dataSource = self;
-    
-    UIToolbar *tools=[[UIToolbar alloc]initWithFrame:CGRectMake(0, 0,containerView.frame.size.width,40)];
-    tools.barStyle = UIBarStyleBlackOpaque;
-
-    
-    UIBarButtonItem *doneButton=[[UIBarButtonItem alloc]initWithTitle:@"Done"
-                                                                style:UIBarButtonItemStyleDone
-                                                               target:self
-                                                               action:@selector(btnActinDoneClicked)];
-    
-    doneButton.imageInsets=UIEdgeInsetsMake(200, 6, 50, 25);
-    UIBarButtonItem *flexSpace= [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:nil action:nil];
-    
-    NSArray *array = [[NSArray alloc]initWithObjects:flexSpace,doneButton,nil];
-    
-    [tools setItems:array];
-    
-    [containerView addSubview:tools];
-    
-    [containerView addSubview:pickerView];
-    
-    [alert.view addSubview:containerView];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"확인" style:UIAlertActionStyleDefault handler:nil];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"취소" style:UIAlertActionStyleCancel handler:nil];
-    [alert addAction:okAction];
-    [alert addAction:cancelAction];
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
-- (void)btnActinDoneClicked
-{
-    
-}
-
-#pragma mark - Picker view delegate
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    NSArray *sortTitleArr = @[@"최신순", @"평점순", @"리뷰순"];
-    return sortTitleArr[row];
-}
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return 3;
+    SortViewController *sortVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SortVC"];
+    [self.tabBarController addChildViewController:sortVC];
+    [self.tabBarController.view addSubview:sortVC.view];
+    [sortVC didMoveToParentViewController:self];
+    [sortVC setVisibleSortView];
 }
 
 #pragma mark - Table view delegate
@@ -254,7 +200,7 @@ static NSInteger requestPageNumber = 5;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([_pagingDataDict objectForKey:JSONRestaurantNextKey] != nil &&
-        indexPath.row % 10 == requestPageNumber &&
+        indexPath.row % 10 == 5 &&
         requestPageNumber == indexPath.row)
     {
         requestPageNumber = indexPath.row + 10;

@@ -42,6 +42,7 @@
 		63C924761DF822A600AD5DFD /* FIReviewDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C924751DF822A600AD5DFD /* FIReviewDataManager.m */; };
 		63C9247C1DF8233400AD5DFD /* FIMenuDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C9247B1DF8233400AD5DFD /* FIMenuDataManager.m */; };
 		63CEC74D1DFD6495003B13D9 /* RestaurantListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CEC74C1DFD6495003B13D9 /* RestaurantListCollectionViewCell.m */; };
+		63CF19731E038B12007B450C /* SortViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CF19721E038B12007B450C /* SortViewController.m */; };
 		63E601221DF6DA200095A355 /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E601211DF6DA200095A355 /* IntroViewController.m */; };
 		63EBB5821E000BB700A5F277 /* RestaurantAnnotationProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EBB5811E000BB700A5F277 /* RestaurantAnnotationProtocol.m */; };
 		63EBB5851E000BE300A5F277 /* RestaurantAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EBB5841E000BE300A5F277 /* RestaurantAnnotationView.m */; };
@@ -116,6 +117,8 @@
 		63C9247B1DF8233400AD5DFD /* FIMenuDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIMenuDataManager.m; sourceTree = "<group>"; };
 		63CEC74B1DFD6495003B13D9 /* RestaurantListCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantListCollectionViewCell.h; sourceTree = "<group>"; };
 		63CEC74C1DFD6495003B13D9 /* RestaurantListCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantListCollectionViewCell.m; sourceTree = "<group>"; };
+		63CF19711E038B12007B450C /* SortViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortViewController.h; sourceTree = "<group>"; };
+		63CF19721E038B12007B450C /* SortViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortViewController.m; sourceTree = "<group>"; };
 		63E601201DF6DA200095A355 /* IntroViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroViewController.h; sourceTree = "<group>"; };
 		63E601211DF6DA200095A355 /* IntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroViewController.m; sourceTree = "<group>"; };
 		63EBB5801E000BB700A5F277 /* RestaurantAnnotationProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantAnnotationProtocol.h; sourceTree = "<group>"; };
@@ -166,6 +169,8 @@
 			children = (
 				63263D4F1DEC1A960069DD2B /* HomeViewController.h */,
 				63263D501DEC1A960069DD2B /* HomeViewController.m */,
+				63CF19711E038B12007B450C /* SortViewController.h */,
+				63CF19721E038B12007B450C /* SortViewController.m */,
 				143D8DCB1DEC618B00EDDDF7 /* RestaurantListCell.h */,
 				143D8DCC1DEC618B00EDDDF7 /* RestaurantListCell.m */,
 			);
@@ -553,6 +558,7 @@
 				63263D731DEC1B500069DD2B /* FILoginManager.m in Sources */,
 				633C1CE01E0128D20003FE5C /* FIMyPageManager.m in Sources */,
 				634D63FB1DED50CD00EB5903 /* MapViewController.m in Sources */,
+				63CF19731E038B12007B450C /* SortViewController.m in Sources */,
 				63263D821DEC1C4D0069DD2B /* LoginViewController.m in Sources */,
 				63C924761DF822A600AD5DFD /* FIReviewDataManager.m in Sources */,
 				633DFC7F1DF1448B0000DDA0 /* ReviewDetatilViewController.m in Sources */,
