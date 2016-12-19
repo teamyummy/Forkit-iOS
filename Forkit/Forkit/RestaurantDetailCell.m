@@ -39,13 +39,13 @@
         if ([sender isSelected] == NO)
         {
             _likeButtonRoundView.layer.borderColor = [FIUtilities createKeyColor].CGColor;
-            _likeButtonImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
+            _likeButtonImageView.image = [UIImage imageNamed:@"favorSelected"];
             _likeButtonLabel.textColor = [FIUtilities createKeyColor];
             
         } else
         {
             _likeButtonRoundView.layer.borderColor = [FIUtilities createGrayColor].CGColor;
-            _likeButtonImageView.image = [UIImage imageNamed:@"dummyImage"];
+            _likeButtonImageView.image = [UIImage imageNamed:@"favorLine"];
             _likeButtonLabel.textColor = [UIColor blackColor];
         }
     }

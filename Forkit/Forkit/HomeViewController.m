@@ -13,21 +13,22 @@
 
 //cell reuse identifier
 static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
-static NSInteger requestPageNumber = 5;
 
-@interface HomeViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface HomeViewController () <UITableViewDelegate, UITableViewDataSource>
 
 //Data
 @property NSArray *restaurantDataList;
-@property NSMutableArray *scrollImageList;
+@property NSArray *scrollImageList;
 @property NSDictionary *pagingDataDict;
 
 @property (weak) HomeViewController *weakSelf;
+@property NSInteger requestPageNumber;
 
 //UI
 @property (weak, nonatomic) IBOutlet UITableView *restaurantTableView;
 @property (weak, nonatomic) IBOutlet UIButton *sortingButton;
 @property UIPageControl *pageControl;
+@property UIScrollView *imageScrollView;
 
 @end
 
@@ -37,22 +38,24 @@ static NSInteger requestPageNumber = 5;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     //weakSelf
     _weakSelf = self;
+    
+    //block property
+    _weakSelf.didReceiveUpdateDataBlock = ^{
+        [_weakSelf didReceiveListUpdated];
+    };
     
     //request restaurant list
     [FIRequestObject requestRestaurantList:nil
                            pagingURLString:nil
-                 didReceiveUpdateDataBlock:^{
-                     [_weakSelf didReceiveListUpdated];
-                 }];
+                 didReceiveUpdateDataBlock:_weakSelf.didReceiveUpdateDataBlock];
     
     //alloc scroll image
     self.scrollImageList = [NSMutableArray array];
     
     //set logo image navigation item
-    UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dummyLogo"]];
+    UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
     logoImageView.frame = CGRectMake(0, 0, 0, 20);
     logoImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.navigationItem.titleView = logoImageView;
@@ -70,14 +73,23 @@ static NSInteger requestPageNumber = 5;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 #pragma mark - custom method
 //completion request
 - (void)didReceiveListUpdated
 {
+    [self.pageControl removeFromSuperview];
+    self.pageControl = nil;
+    [self.imageScrollView removeFromSuperview];
+    self.imageScrollView = nil;
+    
+    
+    _requestPageNumber = 5;
+    
     _restaurantDataList = [[FIDataManager sharedManager] shopDatas];
     
     _pagingDataDict = [[FIDataManager sharedManager] shopDataDict];
+    
+    NSMutableArray *tempScrollImageList = [NSMutableArray array];
     
     if (4 < _restaurantDataList.count)
     {//음식점 리스트의 갯수가 5개 이상
@@ -85,7 +97,7 @@ static NSInteger requestPageNumber = 5;
         {
             NSDictionary *tempRestarantData = [_restaurantDataList objectAtIndex:i];
             NSArray *imageDatas = [tempRestarantData objectForKey:JSONCommonImagesKey];
-            [self.scrollImageList addObject:[imageDatas[0] objectForKey:JSONCommonSmallImageURLKey]];
+            [tempScrollImageList addObject:[imageDatas[0] objectForKey:JSONCommonSmallImageURLKey]];
         }
         //음식점 리스트의 갯수가 4개 이하 1개 이상
     } else if (_restaurantDataList.count != 0 &&
@@ -95,10 +107,11 @@ static NSInteger requestPageNumber = 5;
         {
             NSArray *imageData = [tempDict objectForKey:JSONCommonImagesKey];
             {
-                [self.scrollImageList addObject:[imageData[0] objectForKey:JSONCommonSmallImageURLKey]];
+                [tempScrollImageList addObject:[imageData[0] objectForKey:JSONCommonSmallImageURLKey]];
             }
         }
     }
+    _scrollImageList = tempScrollImageList;
     [self createScrollView];
     [self.restaurantTableView reloadData];
 }
@@ -127,6 +140,7 @@ static NSInteger requestPageNumber = 5;
     _pageControl.defersCurrentPageDisplay = YES;
     [superView addSubview:_pageControl];
 }
+
 - (void)createScrollView
 {
     //setting Height, Width
@@ -134,29 +148,28 @@ static NSInteger requestPageNumber = 5;
     const CGFloat scrollViewWidth = _restaurantTableView.frame.size.width;
     
     UIView *coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, scrollViewHeight)];
-    UIScrollView *imageScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, scrollViewWidth, scrollViewHeight)];
+    _imageScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, scrollViewWidth, scrollViewHeight)];
     
-    [imageScrollView setContentSize:CGSizeMake(_scrollImageList.count * scrollViewWidth, scrollViewHeight)];
-    
+    [_imageScrollView setContentSize:CGSizeMake(_scrollImageList.count * scrollViewWidth, scrollViewHeight)];
+    NSInteger i = 0;
+
     //create Content Image View
     for (NSString *imageURL in _scrollImageList)
     {
-        static NSInteger i = 0;
-        
         UIImageView *foodScrollImageView = [[UIImageView alloc] init];
 
         foodScrollImageView.frame = CGRectMake(scrollViewWidth * i, 0, scrollViewWidth, scrollViewHeight);
         [foodScrollImageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
         foodScrollImageView.contentMode = UIViewContentModeScaleAspectFill;
         foodScrollImageView.clipsToBounds = YES;
-        [imageScrollView addSubview:foodScrollImageView];
+        [_imageScrollView addSubview:foodScrollImageView];
         i += 1;
     }
     
-    imageScrollView.pagingEnabled = YES;
-    imageScrollView.delegate = self;
-    imageScrollView.showsHorizontalScrollIndicator = NO;
-    [coverView addSubview:imageScrollView];
+    _imageScrollView.pagingEnabled = YES;
+    _imageScrollView.delegate = self;
+    _imageScrollView.showsHorizontalScrollIndicator = NO;
+    [coverView addSubview:_imageScrollView];
     [self createPageControllWithSuperViewHeight:scrollViewHeight superView:coverView];
     
     //setting Table Header View
@@ -200,10 +213,11 @@ static NSInteger requestPageNumber = 5;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([_pagingDataDict objectForKey:JSONRestaurantNextKey] != nil &&
+        [_pagingDataDict objectForKey:JSONRestaurantNextKey] !=(id)[NSNull null] &&
         indexPath.row % 10 == 5 &&
-        requestPageNumber == indexPath.row)
+        _requestPageNumber == indexPath.row)
     {
-        requestPageNumber = indexPath.row + 10;
+        _requestPageNumber = indexPath.row + 10;
         
         [FIRequestObject requestRestaurantList:nil
                                pagingURLString:[_pagingDataDict objectForKey:JSONRestaurantNextKey]

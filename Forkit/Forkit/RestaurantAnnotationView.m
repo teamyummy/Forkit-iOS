@@ -28,15 +28,15 @@
 - (void)createButtonWithAnnotation:(RestaurantAnnotationView *)annotationView
 {
     _locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_locationButton setBackgroundImage:[UIImage imageNamed:@"dummyFoodImage"]
+    [_locationButton setBackgroundImage:[UIImage imageNamed:@"locationDeSelected"]
                               forState:UIControlStateNormal];
-    [_locationButton setBackgroundImage:[UIImage imageNamed:@"dummyImage"]
+    [_locationButton setBackgroundImage:[UIImage imageNamed:@"locationSelected"]
                               forState:UIControlStateSelected];
     
-    _locationButton.frame = CGRectMake(0, 0, 30, 30);
+    _locationButton.frame = CGRectMake(0, 0, 44, 44);
     _locationButton.userInteractionEnabled = NO;
     
-    annotationView.frame = CGRectMake(0, 0, 30, 30);
+    annotationView.frame = CGRectMake(0, 0, 44, 44);
     [annotationView addSubview:_locationButton];
 }
 

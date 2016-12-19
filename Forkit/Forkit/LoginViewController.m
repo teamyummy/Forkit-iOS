@@ -114,6 +114,10 @@
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
+- (IBAction)clickPopButton:(UIBarButtonItem *)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 /*
 #pragma mark - Navigation
 

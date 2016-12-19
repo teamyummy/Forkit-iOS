@@ -23,7 +23,7 @@
 {
     [super layoutSubviews];
     self.layer.cornerRadius = self.frame.size.height/2;
-    self.layer.borderWidth = 0.75;
-    self.layer.borderColor = [FIUtilities createKeyColor].CGColor;
+    self.layer.borderWidth = 1;
+    self.layer.borderColor = [UIColor whiteColor].CGColor;
 }
 @end

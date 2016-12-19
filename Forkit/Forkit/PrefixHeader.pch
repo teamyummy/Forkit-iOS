@@ -31,6 +31,7 @@ alpha:1.0]
 #pragma mark - Parameter Key
 static NSString *const ParamNameSerachKey = @"search";
 static NSString *const ParamNameTagskey = @"tags";
+static NSString *const ParamNameReviewOrderingeKey = @"ordering";
 
 #pragma mark - JSON Key
 //common key

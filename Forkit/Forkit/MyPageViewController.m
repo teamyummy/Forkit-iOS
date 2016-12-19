@@ -159,11 +159,11 @@ typedef NS_ENUM(NSInteger, ButtonTag)
                                                                forIndexPath:indexPath];
             cell.reviewButton.selected = YES;
             cell.reviewButtonLabel.textColor = [FIUtilities createKeyColor];
-            cell.reviewButtonImageView.image = [UIImage imageNamed:@"dummyImage"];
+            cell.reviewButtonImageView.image = [UIImage imageNamed:@"reviewSelected"];
             
             cell.likeButton.selected = NO;
             cell.likeButtonLabel.textColor = [UIColor blackColor];
-            cell.likeButtonImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
+            cell.likeButtonImageView.image = [UIImage imageNamed:@"favorDeSelected"];
             
             return cell;
         } else
@@ -195,12 +195,14 @@ typedef NS_ENUM(NSInteger, ButtonTag)
                     likeButton.selected = YES;
                 }
                 
+                /*
                 NSArray *images = [reviewDict objectForKey:JSONCommonImagesKey];
                 
                 if (images != nil && images.count != 0)
                 {
                     [cell.reviewFoodImageView sd_setImageWithURL:[[images objectAtIndex:0] objectForKey:JSONCommonThumbnailImageURLKey]];
                 }
+                 */
             }
             return cell;
         } else if (self.checkListState == ListStateLikeRestaurant)
@@ -300,11 +302,11 @@ typedef NS_ENUM(NSInteger, ButtonTag)
         if (buttonTag == ButtonTagLikeList)
         {
             buttonCell.likeButtonLabel.textColor = [UIColor blackColor];
-            buttonCell.likeButtonImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
+            buttonCell.likeButtonImageView.image = [UIImage imageNamed:@"favorDeSelected"];
         } else if (buttonTag == ButtonTagMyReview)
         {
             buttonCell.reviewButtonLabel.textColor = [UIColor blackColor];
-            buttonCell.reviewButtonImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
+            buttonCell.reviewButtonImageView.image = [UIImage imageNamed:@"reviewDeSelected"];
         }
     }
 }
@@ -325,7 +327,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
         {//review
             [self notSelectButton:ButtonTagLikeList ButtonCell:cell];
             cell.reviewButtonLabel.textColor = [FIUtilities createKeyColor];
-            cell.reviewButtonImageView.image = [UIImage imageNamed:@"dummyImage"];
+            cell.reviewButtonImageView.image = [UIImage imageNamed:@"reviewSelected"];
             self.checkListState = ListStateReview;
 //            rowAnimation = UITableViewRowAnimationRight;
             
@@ -333,7 +335,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
         {//like
             [self notSelectButton:ButtonTagMyReview ButtonCell:cell];
             cell.likeButtonLabel.textColor = [FIUtilities createKeyColor];
-            cell.likeButtonImageView.image = [UIImage imageNamed:@"dummyImage"];
+            cell.likeButtonImageView.image = [UIImage imageNamed:@"favorSelected"];
             self.checkListState = ListStateLikeRestaurant;
 //            rowAnimation = UITableViewRowAnimationLeft;
         }

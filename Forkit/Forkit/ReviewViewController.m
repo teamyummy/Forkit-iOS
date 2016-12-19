@@ -106,7 +106,7 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
                                                    removeButtonSize,
                                                    removeButtonSize);
             
-            [selectedImageButton setBackgroundImage:[UIImage imageNamed:@"dummyImage"]
+            [selectedImageButton setBackgroundImage:[UIImage imageNamed:@"mapDismiss"]
                                            forState:UIControlStateNormal];
             
             [selectedImageButton addTarget:self

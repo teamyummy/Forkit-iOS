@@ -31,13 +31,13 @@
 
 + (UIColor *)createKeyColor
 {
-    UIColor *keyColor = UIColorFromRGB(0xFFC107);
+    UIColor *keyColor = UIColorFromRGB(0xEF534F);
     return keyColor;
 }
 
 + (UIColor *)createGrayColor
 {
-    UIColor *grayColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.38];
+    UIColor *grayColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.54];
     return grayColor;
 }
 @end

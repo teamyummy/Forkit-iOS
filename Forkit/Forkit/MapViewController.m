@@ -59,7 +59,7 @@ static CGFloat collecetionCellWidth;
     
     collecetionCellWidth = (superViewWidth - collcetionSectionMargin * 2);
     
-    _invisibleScrollView.contentSize = CGSizeMake((collecetionCellWidth * 10) + (collcetionCellMargin * 10), 0);
+    _invisibleScrollView.contentSize = CGSizeMake((collecetionCellWidth * self.restaurantDataList.count) + (collcetionCellMargin * self.restaurantDataList.count), 0);
     self.invisibleScrollView.delegate = self;
     
     [_restaurantCollectionView addGestureRecognizer:_invisibleScrollView.panGestureRecognizer];
@@ -115,7 +115,6 @@ static CGFloat collecetionCellWidth;
 //cell
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     static NSString *const reuseIdentifierdentifierShopCollectionCell = @"shopCollectionCell";
     
     RestaurantListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifierdentifierShopCollectionCell

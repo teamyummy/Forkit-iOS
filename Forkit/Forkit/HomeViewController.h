@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface HomeViewController : UIViewController
+
+@property DidReceiveUpdateDataBlock didReceiveUpdateDataBlock;
 
 @end
 

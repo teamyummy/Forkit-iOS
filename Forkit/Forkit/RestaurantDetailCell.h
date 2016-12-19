@@ -48,7 +48,6 @@
 
 @interface RestaurantDetailReviewCell : RestaurantDetailCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *reviewFoodImageView;
 @property (weak, nonatomic) IBOutlet UILabel *reviewIdLabel;
 @property (weak, nonatomic) IBOutlet UILabel *reviewTextLabel;
 

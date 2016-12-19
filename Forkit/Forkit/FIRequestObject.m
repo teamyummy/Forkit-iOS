@@ -140,9 +140,10 @@ static NSString *const BasePathString = @"api/v1/";
          success:^(NSURLSessionTask *task, id responseObject) {
   
              [[FIDataManager sharedManager] setShopDataDict:responseObject];
-             
-             
-             didReceiveUpdateDataBlock();
+             if (didReceiveUpdateDataBlock != nil)
+             {
+                 didReceiveUpdateDataBlock();
+             }
          } failure:^(NSURLSessionTask *operation, NSError *error) {
              NSLog(@"%@", error);
          }];

@@ -109,7 +109,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
             cell.likeButton.selected = YES;
             cell.likeButtonLabel.textColor = [FIUtilities createKeyColor];
             cell.likeButtonRoundView.layer.borderColor = [FIUtilities createKeyColor].CGColor;
-            cell.likeButtonImageView.image = [UIImage imageNamed:@"dummyFoodImage"];
+            cell.likeButtonImageView.image = [UIImage imageNamed:@"favorSelected"];
         }
     }
 }
@@ -185,12 +185,14 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
                 likeButton.selected = YES;
             }
             
+            /*
             NSArray *images = [reviewDict objectForKey:JSONCommonImagesKey];
             
             if (images != nil && images.count != 0)
             {
                 [cell.reviewFoodImageView sd_setImageWithURL:[[images objectAtIndex:0] objectForKey:JSONCommonThumbnailImageURLKey]];
             }
+             */
         }
         return cell;
     }

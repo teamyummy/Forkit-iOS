@@ -19,12 +19,26 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="LEy-JF-JU1">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="LEy-JF-JU1" secondAttribute="bottom" id="Amb-Qc-JiB"/>
+                            <constraint firstItem="LEy-JF-JU1" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="HU1-mj-jh0"/>
+                            <constraint firstItem="LEy-JF-JU1" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="XoS-gz-9Pq"/>
+                            <constraint firstAttribute="trailing" secondItem="LEy-JF-JU1" secondAttribute="trailing" id="fe4-3I-WMN"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="splash" width="16" height="16"/>
+    </resources>
 </document>
