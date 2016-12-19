@@ -1,51 +1,29 @@
 //
-//  FIDataManager.m
+//  FISearchManager.m
 //  Forkit
 //
-//  Created by david on 2016. 11. 28..
+//  Created by david on 2016. 12. 19..
 //  Copyright © 2016년 david. All rights reserved.
 //
 
-#import "FIDataManager.h"
+#import "FISearchManager.h"
 
-@interface FIDataManager()
-
-@end
-
-@implementation FIDataManager
+@implementation FISearchManager
 
 + (instancetype)sharedManager {
-    static FIDataManager *sharedManager = nil;
+    static FISearchManager *sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedManager = [[self alloc] init];
-        sharedManager.shopDatas = [NSMutableArray array];
-
     });
     
     return sharedManager;
 }
 
-- (void)setShopDataDict:(NSMutableDictionary *)shopDataDict isPaging:(BOOL)isPaging
-{
-    //next Key
-    _shopDataDict = [NSMutableDictionary dictionary];
-    
-    [_shopDataDict setObject:[shopDataDict objectForKey:JSONRestaurantNextKey]
-                      forKey:JSONRestaurantNextKey];
-    
-    //previous Key
-    [_shopDataDict setObject:[shopDataDict objectForKey:JSONRestaurantPreviousKey]
-                      forKey:JSONRestaurantPreviousKey];
-
-    //shop data
-    [self setShopDatas:[NSMutableArray arrayWithArray: [shopDataDict objectForKey:JSONRestaurantResultsKey]] isPaging:isPaging];
-}
-
-- (void)setShopDatas:(NSMutableArray *)shopDatas isPaging:(BOOL)isPaging
+- (void)setSearchShopDatas:(NSMutableArray *)searchShopDatas
 {
     NSMutableArray *tempArr = [NSMutableArray array];
-    for (NSDictionary *shopDict in shopDatas)
+    for (NSDictionary *shopDict in searchShopDatas)
     {
         NSMutableDictionary *tempDict = [NSMutableDictionary new];
         
@@ -112,7 +90,7 @@
         [tempDict setValue:[shopDict objectForKey:JSONCommonImagesKey]
                     forKey:JSONCommonImagesKey];
         
-        //tags
+        //images
         [tempDict setValue:[shopDict objectForKey:JSONRestaurnatTagsKey]
                     forKey:JSONRestaurnatTagsKey];
         
@@ -125,49 +103,11 @@
         NSString *likePkString = [NSString stringWithFormat:@"%ld", [likePk integerValue]];
         [tempDict setValue:likePkString
                     forKey:JSONRestaurnatMyLikePrimaryKey];
-
+        
         //set data
         [tempArr addObject:tempDict];
     }
-    if (isPaging == YES)
-    {
-        [_shopDatas addObjectsFromArray:tempArr];
-    } else
-    {
-        _shopDatas = tempArr;
-    }
-}
-- (void)setShopDetailData:(NSMutableDictionary *)shopDetailData
-{
-    _shopDetailData = [NSMutableDictionary dictionary];
-    
-    //review_count
-    NSNumber *reviewCount = [shopDetailData objectForKey:JSONRestaurnatTotalReviewCountKey];
-    NSString *reviewCountString = [NSString stringWithFormat:@"%ld", [reviewCount integerValue]];
-    [_shopDetailData setValue:reviewCountString
-                forKey:JSONRestaurnatTotalReviewCountKey];
-    
-    //review_average
-    NSNumber *averageNumber = [shopDetailData objectForKey:JSONRestaurnatAvgReviewScoreKey];
-    NSString *averageString = [NSString stringWithFormat:@"%.1lf", [averageNumber floatValue]];
-    [_shopDetailData setValue:averageString
-                forKey:JSONRestaurnatAvgReviewScoreKey];
-    
-    //total_like
-    NSNumber *totalLike = [shopDetailData objectForKey:JSONRestaurnatTotalLikeKey];
-    NSString *totalLikeString = [NSString stringWithFormat:@"%ld", [totalLike integerValue]];
-    [_shopDetailData setValue:totalLikeString
-                forKey:JSONRestaurnatTotalLikeKey];
-    
-    //my_like
-    [_shopDetailData setValue:[shopDetailData objectForKey:JSONRestaurnatMyLikeKey]
-                forKey:JSONRestaurnatMyLikeKey];
-    
-    //my_like_id
-    NSNumber *likePk = [shopDetailData objectForKey:JSONRestaurnatMyLikePrimaryKey];
-    NSString *likePkString = [NSString stringWithFormat:@"%ld", [likePk integerValue]];
-    [_shopDetailData setValue:likePkString
-                forKey:JSONRestaurnatMyLikePrimaryKey];
+    _searchShopDatas = tempArr;
 }
 
 @end

@@ -113,7 +113,7 @@ static NSString *const BasePathString = @"api/v1/";
 /*
  모든 음식점 리스트, 정렬, 검색 (GET)
  */
-+ (void)requestRestaurantList:(NSDictionary *)paramDict pagingURLString:(NSString *)pagingURLString didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
++ (void)requestRestaurantList:(NSDictionary *)paramDict pagingURLString:(NSString *)pagingURLString isPaging:(BOOL)isPaging isSearch:(BOOL)isSearch didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
 {
     //URL String
     NSString *URLString = [FIRequestObject requestURLString:RequestTypeRestaurantList
@@ -138,8 +138,13 @@ static NSString *const BasePathString = @"api/v1/";
       parameters:paramDict
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject) {
-  
-             [[FIDataManager sharedManager] setShopDataDict:responseObject];
+             if (isSearch)
+             {
+                 [[FISearchManager sharedManager] setSearchShopDatas:[responseObject objectForKey:JSONRestaurantResultsKey]];
+             } else
+             {
+                 [[FIDataManager sharedManager] setShopDataDict:responseObject isPaging:isPaging];
+             }
              if (didReceiveUpdateDataBlock != nil)
              {
                  didReceiveUpdateDataBlock();
@@ -234,41 +239,45 @@ static NSString *const BasePathString = @"api/v1/";
 /*
  특정 음식점에 따른 리뷰 이미지 (POST)
  */
-+ (void)requestUploadReviewImagesWithRequestURL:(NSString *)requestURL reviewPk:(NSString *)reviewPk images:(NSArray *)images manager:(AFHTTPSessionManager *)manager
++ (void)requestUploadReviewImagesWithRequestURL:(NSString *)requestURL  restaurantPk:(PrimaryKey *)restaurantPk reviewPk:(NSString *)reviewPk images:(NSArray *)images manager:(AFHTTPSessionManager *)manager didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
 {
     if (images.count == 0 || images == nil)
-    {
+    {[FIRequestObject requestRestaurantDetailDataWithRestaurantPk:restaurantPk didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
         return;
     } else
     {
         requestURL = [NSString stringWithFormat:@"%@%@/images/",requestURL,reviewPk];
         NSMutableDictionary *bodyParms = [NSMutableDictionary dictionary];
-        
-        for (UIImage *image in images)
+        for (NSInteger i = 0; i < images.count; i++)
         {
             [bodyParms setObject:@"alt" forKey:ParamNameReviewAltKey];
-            
-            [manager POST:requestURL
-               parameters:bodyParms
-constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-    [formData appendPartWithFileData:UIImageJPEGRepresentation(image, 0.7)
-                                name:ParamNameReviewImageKey
-                            fileName:@"image.jpeg"
-                            mimeType:@"image/jpeg"];
-} progress:nil
-                  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                      NSLog(@"%@", responseObject);
-                  } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                      NSLog(@"%@", error);
-                  }];
         }
+            
+        [manager POST:requestURL
+           parameters:bodyParms
+constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    for (UIImage *image in images)
+    {
+        [formData appendPartWithFileData:UIImageJPEGRepresentation(image, 0.7)
+                                    name:ParamNameReviewImageKey
+                                fileName:@"image.jpeg"
+                                mimeType:@"image/jpeg"];
+    }
+} progress:nil
+              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                  [FIRequestObject requestRestaurantDetailDataWithRestaurantPk:restaurantPk didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
+                  NSLog(@"%@", responseObject);
+              } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                  NSLog(@"%@", error);
+              }];
+        
     }
 }
 
 /*
  특정 음식점에 따른 리뷰 텍스트 등록 (POST)
  */
-+ (void)requestUploadReviewListWithRestaurantPk:(PrimaryKey *)restaurantPk images:(NSArray *)images contents:(NSString *)contents score:(NSInteger)score
++ (void)requestUploadReviewListWithRestaurantPk:(PrimaryKey *)restaurantPk images:(NSArray *)images contents:(NSString *)contents score:(NSInteger)score didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
 {
     //create URL
     NSString *requsetURL = [FIRequestObject requestURLString:RequestTypeReviewList
@@ -306,7 +315,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
               NSString *reviewPk = [responseObject objectForKey:JSONCommonPrimaryKey];
               if (reviewPk != nil)
               {
-                  [FIRequestObject requestUploadReviewImagesWithRequestURL:requsetURL reviewPk:reviewPk images:images manager:manager];
+                  [FIRequestObject requestUploadReviewImagesWithRequestURL:requsetURL restaurantPk:restaurantPk reviewPk:reviewPk images:images manager:manager didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
               }
           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
               NSLog(@"%@",error);
@@ -316,7 +325,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
 /*
  특정 음식점에 따른 특정 리뷰 (DELETE)
  */
-+ (void)requestDeleteReviewWithRestaurantPk:(PrimaryKey *)restaurantPk reviewPk:(PrimaryKey *)reviewPk
++ (void)requestDeleteReviewWithRestaurantPk:(PrimaryKey *)restaurantPk reviewPk:(PrimaryKey *)reviewPk didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
 {
     
     //URL String
@@ -338,6 +347,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
                 NSLog(@"responseObject : %@",responseObject);
+                didReceiveUpdateDataBlock();
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             }];
 }
@@ -479,7 +489,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
 /*
  즐겨찾기 요청(POST, DELETE)
  */
-+ (void)requestFavorRestaurantWithRestaurantPk:(PrimaryKey *)RestaurantPk likePk:(PrimaryKey *)likePk
++ (void)requestFavorRestaurantWithRestaurantPk:(PrimaryKey *)RestaurantPk likePk:(PrimaryKey *)likePk didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
 {
     NSString *URLString = [FIRequestObject requestURLString:RequestTypeFavor
                                                restaurantPk:RestaurantPk
@@ -503,6 +513,9 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                     
                     NSLog(@"responseObject : %@",responseObject);
+                    
+                    [FIRequestObject requestRestaurantDetailDataWithRestaurantPk:RestaurantPk
+                                                       didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 }];
     } else
@@ -512,10 +525,48 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
              progress:nil
               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                   
+                  [FIRequestObject requestRestaurantDetailDataWithRestaurantPk:RestaurantPk
+                                                     didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
               } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                   
               }];
     }
+}
+
++ (void)requestRestaurantDetailDataWithRestaurantPk:(PrimaryKey *)pk didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
+{
+    //URL String
+    NSString *URLString = [FIRequestObject requestURLString:RequestTypeRestaurantList
+                                               restaurantPk:nil
+                                                   reviewPk:nil];
+    URLString = [NSString stringWithFormat:@"%@%@/",URLString,pk];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    if ([FILoginManager isOnLogin])
+    {
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        [manager.requestSerializer setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
+    }
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:URLString
+      parameters:nil
+        progress:nil
+         success:^(NSURLSessionTask *task, id responseObject) {
+             
+                 if (responseObject == nil)
+                 {
+                     NSLog(@"Data dosen't exist");
+                 }else
+                 {
+                     [[FIDataManager sharedManager] setShopDetailData:responseObject];
+                     didReceiveUpdateDataBlock();
+                 }
+             
+         } failure:^(NSURLSessionTask *operation, NSError *error) {
+             NSLog(@"%@", error);
+         }];
 }
 
 @end

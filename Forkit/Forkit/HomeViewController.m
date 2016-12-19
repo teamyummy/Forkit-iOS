@@ -11,17 +11,17 @@
 #import "MapViewController.h"
 #import "SortViewController.h"
 
-//cell reuse identifier
-static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
-
 @interface HomeViewController () <UITableViewDelegate, UITableViewDataSource>
 
-//Data
-@property NSArray *restaurantDataList;
-@property NSArray *scrollImageList;
-@property NSDictionary *pagingDataDict;
+///data manager
+@property FIDataManager *dataManager;
 
+///table header scroll imageURL data
+@property NSArray *scrollImageList;
+
+///weak self
 @property (weak) HomeViewController *weakSelf;
+///paging number
 @property NSInteger requestPageNumber;
 
 //UI
@@ -38,27 +38,24 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     //weakSelf
     _weakSelf = self;
-    
-    //block property
+    //set block
     _weakSelf.didReceiveUpdateDataBlock = ^{
         [_weakSelf didReceiveListUpdated];
     };
-    
     //request restaurant list
     [FIRequestObject requestRestaurantList:nil
                            pagingURLString:nil
+                                  isPaging:NO
+                                  isSearch:NO
                  didReceiveUpdateDataBlock:_weakSelf.didReceiveUpdateDataBlock];
-    
-    //alloc scroll image
+    //init scroll image data
+    self.dataManager = [FIDataManager sharedManager];
     self.scrollImageList = [NSMutableArray array];
-    
     //set logo image navigation item
-    UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
-    logoImageView.frame = CGRectMake(0, 0, 0, 20);
-    logoImageView.contentMode = UIViewContentModeScaleAspectFit;
-    self.navigationItem.titleView = logoImageView;
+    [self setNavigationItemTitleView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -73,37 +70,55 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma mark - custom method
-//completion request
+#pragma mark - block method
+//list update
 - (void)didReceiveListUpdated
 {
-    [self.pageControl removeFromSuperview];
-    self.pageControl = nil;
-    [self.imageScrollView removeFromSuperview];
-    self.imageScrollView = nil;
+    //init tableHeaderView
+    [_restaurantTableView.tableHeaderView removeFromSuperview];
+    _restaurantTableView.tableHeaderView = nil;
     
-    
+    //init page number
     _requestPageNumber = 5;
-    
-    _restaurantDataList = [[FIDataManager sharedManager] shopDatas];
-    
-    _pagingDataDict = [[FIDataManager sharedManager] shopDataDict];
-    
+
+    //create UI
+    [self createTableHeaderScrollView];
+    [self createScrollView];
+    [_restaurantTableView reloadData];
+}
+
+//paging
+- (void)didReceiveListUpdatedPaging
+{
+    //update data
+    [self.restaurantTableView reloadData];
+}
+
+#pragma mark - create UI method
+- (void)setNavigationItemTitleView
+{
+    UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
+    logoImageView.frame = CGRectMake(0, 0, 0, 20);
+    logoImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.navigationItem.titleView = logoImageView;
+}
+
+- (void)createTableHeaderScrollView
+{
     NSMutableArray *tempScrollImageList = [NSMutableArray array];
-    
-    if (4 < _restaurantDataList.count)
+    if (4 < _dataManager.shopDatas.count)
     {//음식점 리스트의 갯수가 5개 이상
         for (NSInteger i = 0; i < 5; i++)
         {
-            NSDictionary *tempRestarantData = [_restaurantDataList objectAtIndex:i];
+            NSDictionary *tempRestarantData = [_dataManager.shopDatas objectAtIndex:i];
             NSArray *imageDatas = [tempRestarantData objectForKey:JSONCommonImagesKey];
             [tempScrollImageList addObject:[imageDatas[0] objectForKey:JSONCommonSmallImageURLKey]];
         }
         //음식점 리스트의 갯수가 4개 이하 1개 이상
-    } else if (_restaurantDataList.count != 0 &&
-               _restaurantDataList != nil)
+    } else if (_dataManager.shopDatas.count != 0 &&
+               _dataManager.shopDatas != nil)
     {
-        for (NSDictionary *tempDict in _restaurantDataList)
+        for (NSDictionary *tempDict in _dataManager.shopDatas)
         {
             NSArray *imageData = [tempDict objectForKey:JSONCommonImagesKey];
             {
@@ -112,21 +127,6 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
         }
     }
     _scrollImageList = tempScrollImageList;
-    [self createScrollView];
-    [self.restaurantTableView reloadData];
-}
-
-- (void)didReceiveListUpdatedPaging
-{
-    __block NSMutableArray *blockRestaurantDataList = [NSMutableArray array];
-    [blockRestaurantDataList addObjectsFromArray:_restaurantDataList];
-    [blockRestaurantDataList addObjectsFromArray:[[FIDataManager sharedManager] shopDatas]];
-    
-    _restaurantDataList = blockRestaurantDataList;
-    
-    _pagingDataDict = [[FIDataManager sharedManager] shopDataDict];
-    
-    [self.restaurantTableView reloadData];
 }
 
 - (void)createPageControllWithSuperViewHeight:(CGFloat)height superView:(UIView *)superView
@@ -147,11 +147,13 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
     const CGFloat scrollViewHeight = 180;
     const CGFloat scrollViewWidth = _restaurantTableView.frame.size.width;
     
+    //count
+    NSInteger i = 0;
+    
+    //coever view for page control
     UIView *coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, scrollViewHeight)];
     _imageScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, scrollViewWidth, scrollViewHeight)];
-    
     [_imageScrollView setContentSize:CGSizeMake(_scrollImageList.count * scrollViewWidth, scrollViewHeight)];
-    NSInteger i = 0;
 
     //create Content Image View
     for (NSString *imageURL in _scrollImageList)
@@ -207,20 +209,25 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.restaurantDataList.count;
+    return _dataManager.shopDatas.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([_pagingDataDict objectForKey:JSONRestaurantNextKey] != nil &&
-        [_pagingDataDict objectForKey:JSONRestaurantNextKey] !=(id)[NSNull null] &&
+    //cell reuse identifier
+    static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
+    
+    if ([_dataManager.shopDataDict objectForKey:JSONRestaurantNextKey] != nil &&
+        [_dataManager.shopDataDict objectForKey:JSONRestaurantNextKey] !=(id)[NSNull null] &&
         indexPath.row % 10 == 5 &&
         _requestPageNumber == indexPath.row)
     {
         _requestPageNumber = indexPath.row + 10;
         
         [FIRequestObject requestRestaurantList:nil
-                               pagingURLString:[_pagingDataDict objectForKey:JSONRestaurantNextKey]
+                               pagingURLString:[_dataManager.shopDataDict objectForKey:JSONRestaurantNextKey]
+                                      isPaging:YES
+                                      isSearch:NO
                      didReceiveUpdateDataBlock:^{
                          [_weakSelf didReceiveListUpdatedPaging];
                      }];
@@ -229,9 +236,9 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
     RestaurantListCell *cell = [tableView dequeueReusableCellWithIdentifier:ReuseIdentifierRestaurantList forIndexPath:indexPath];
     
     NSDictionary *restaurantDataTempDict;
-    restaurantDataTempDict = [self.restaurantDataList objectAtIndex:indexPath.row];
+    restaurantDataTempDict = [_dataManager.shopDatas objectAtIndex:indexPath.row];
     
-    if (self.restaurantDataList != nil)
+    if (_dataManager.shopDatas != nil)
     {
 
     cell.restaurantTitleLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatNameKey];
@@ -255,7 +262,6 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
     return cell;
 }
 
-
 #pragma mark - Scroll View Delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -272,24 +278,16 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
 }
 
 #pragma mark - Navigation
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.destinationViewController isKindOfClass:[RestaurantDetailViewController class]])
     {
         RestaurantListCell *cell = sender;
         NSIndexPath *cellIndex = [_restaurantTableView indexPathForCell:cell];
-        NSDictionary *restaurantDatas = [_restaurantDataList objectAtIndex:cellIndex.row];
+        NSDictionary *restaurantDatas = [_dataManager.shopDatas objectAtIndex:cellIndex.row];
         
         RestaurantDetailViewController *restaurantDetailVC = segue.destinationViewController;
-        restaurantDetailVC.restaurantDatas = restaurantDatas;
-    } else if ([segue.destinationViewController isKindOfClass:[UINavigationController class]])
-    {
-        UINavigationController *mapNavigationVC = segue.destinationViewController;
-        MapViewController *mapVC = (MapViewController *)[mapNavigationVC visibleViewController];
-        mapVC.restaurantDataList = _restaurantDataList;
-    }
+        restaurantDetailVC.restaurantDatas = [restaurantDatas mutableCopy];
+    } 
 }
-
-
 @end

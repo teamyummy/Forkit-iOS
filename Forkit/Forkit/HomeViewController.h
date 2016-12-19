@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 @interface HomeViewController : UIViewController
 
+//update data block
 @property DidReceiveUpdateDataBlock didReceiveUpdateDataBlock;
 
 @end

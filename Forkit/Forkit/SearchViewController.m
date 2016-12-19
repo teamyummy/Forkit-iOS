@@ -98,6 +98,8 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
         
         [FIRequestObject requestRestaurantList:@{ParamNameSerachKey:searchValue}
                                pagingURLString:nil
+                                      isPaging:NO
+                                      isSearch:YES
                       didReceiveUpdateDataBlock:^{
                          
                          [weakSelf didReceiveListUpdated];
@@ -117,7 +119,7 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
     {
         self.resultLabel.text = @" ";
     }
-    self.searchDataList = [[FIDataManager sharedManager] shopDatas];
+    self.searchDataList = [[FISearchManager sharedManager] searchShopDatas];
     [self.searchResultTableView reloadData];
 }
 
@@ -197,7 +199,7 @@ static NSString * const ReuseIdentifierRestaurantList = @"RestaurantListCell";
         NSDictionary *restaurantDatas = [_searchDataList objectAtIndex:cellIndex.row];
         
         RestaurantDetailViewController *restaurantDetailVC = segue.destinationViewController;
-        restaurantDetailVC.restaurantDatas = restaurantDatas;
+        restaurantDetailVC.restaurantDatas = [restaurantDatas mutableCopy];
     }
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "ReviewDetatilViewController.h"
+#import "RestaurantDetailViewController.h"
 
 @interface ReviewDetatilViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
@@ -66,6 +67,7 @@
     }
 }
 
+
 - (void)createScrollViewWithImageArr:(NSArray *)imageArr
 {
     NSInteger countNumber = imageArr.count;
@@ -119,7 +121,12 @@
                                                        style:UIAlertActionStyleDestructive
                                                      handler:^(UIAlertAction * _Nonnull action) {
                                                          
-                                                             [FIRequestObject requestDeleteReviewWithRestaurantPk:[_deatilReviewData objectForKey:JSONReviewRestaurantPrimaryKey] reviewPk:[_deatilReviewData objectForKey:JSONCommonPrimaryKey]];
+                                                         
+                                                             [FIRequestObject requestDeleteReviewWithRestaurantPk:[_deatilReviewData objectForKey:JSONReviewRestaurantPrimaryKey] reviewPk:[_deatilReviewData objectForKey:JSONCommonPrimaryKey] didReceiveUpdateDataBlock:^{
+                                                                 
+                                                                 
+                                                                 
+                                                             }];
                                                          
                                                          [alert dismissViewControllerAnimated:YES completion:nil];
                                                          [self.navigationController popViewControllerAnimated:NO];

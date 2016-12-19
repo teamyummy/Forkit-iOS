@@ -8,6 +8,7 @@
 
 #import "ReviewViewController.h"
 #import <QBImagePickerController.h>
+#import "RestaurantDetailViewController.h"
 
 typedef NS_ENUM(NSInteger, ScoreButtonTag)
 {
@@ -24,6 +25,8 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
 @property (weak, nonatomic) IBOutlet UITextView *reviewTextView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollConstraint;
 
+@property (weak) ReviewViewController *weakSelf;
+
 @property NSInteger reviewScore;
 @property NSMutableArray *imageList;
 @end
@@ -33,6 +36,7 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
 #pragma mark - App Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.weakSelf = self;
     _reviewScore = 0;
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
@@ -69,6 +73,15 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
                                                      handler:nil];
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Remove VC
+- (void)totallyRemoveFromParentViewController
+{
+    [self removeFromParentViewController];
+    [self willMoveToParentViewController:nil];
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
 }
 
 #pragma mark - Show Selected Image View
@@ -176,10 +189,7 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
                      animations:^{
                          self.view.alpha = 0;
                      } completion:^(BOOL finished) {
-                         [self removeFromParentViewController];
-                         [self willMoveToParentViewController:nil];
-                         [self.view removeFromSuperview];
-                         [self removeFromParentViewController];
+                         [self totallyRemoveFromParentViewController];
                      }];
 }
 
@@ -223,10 +233,20 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
         [self showAlert];
     } else
     {
+        RestaurantDetailViewController *tabBarVC = (RestaurantDetailViewController *)self.parentViewController;
         [FIRequestObject requestUploadReviewListWithRestaurantPk:_restaurantPk
                                                           images:_imageList
                                                         contents:_reviewTextView.text
-                                                           score:_reviewScore];
+                                                           score:_reviewScore
+                                       didReceiveUpdateDataBlock:tabBarVC.didReceiveUpdateDataBlock];
+        self.parentViewController.tabBarController.tabBar.hidden = NO;
+        [_reviewTextView endEditing:YES];
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             self.view.alpha = 0;
+                         } completion:^(BOOL finished) {
+                             [self totallyRemoveFromParentViewController];
+                         }];
     }
 }
 

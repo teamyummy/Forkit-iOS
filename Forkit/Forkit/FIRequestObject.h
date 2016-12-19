@@ -19,9 +19,11 @@ typedef void(^DidReceiveFailedLoginBlock)(void);
  음식점 리스트(GET)
  @param paramDict 검색 or 정렬
  @param pagingURLString page URL
+ @param isPaging paging BOOL 값
+ @param isSearch search BOOL 값
  @param didReceiveUpdateDataBlock 다운로드 완료시 실행할 블럭
  */
-+ (void)requestRestaurantList:(NSDictionary *)paramDict pagingURLString:(NSString *)pagingURLString didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
++ (void)requestRestaurantList:(NSDictionary *)paramDict pagingURLString:(NSString *)pagingURLString isPaging:(BOOL)isPaging isSearch:(BOOL)isSearch didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
 
 /**
  특정 음식점에 따른 리뷰 리스트(GET)
@@ -42,7 +44,7 @@ typedef void(^DidReceiveFailedLoginBlock)(void);
  @param restaurantPk 음식점 primary key
  @param reviewPk 삭제하고자 하는 리뷰 primary key
  */
-+ (void)requestDeleteReviewWithRestaurantPk:(PrimaryKey *)restaurantPk reviewPk:(PrimaryKey *)reviewPk;
++ (void)requestDeleteReviewWithRestaurantPk:(PrimaryKey *)restaurantPk reviewPk:(PrimaryKey *)reviewPk didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
 
 /**
  리뷰 업로드(UPLOAD)
@@ -51,7 +53,7 @@ typedef void(^DidReceiveFailedLoginBlock)(void);
  @param contents 리뷰 내용
  @param score 음식점 점수
  */
-+ (void)requestUploadReviewListWithRestaurantPk:(PrimaryKey *)restaurantPk images:(NSArray *)images contents:(NSString *)contents score:(NSInteger)score;
++ (void)requestUploadReviewListWithRestaurantPk:(PrimaryKey *)restaurantPk images:(NSArray *)images contents:(NSString *)contents score:(NSInteger)score didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
 
 /**
  로그인(POST)
@@ -66,5 +68,7 @@ typedef void(^DidReceiveFailedLoginBlock)(void);
 
 + (void)requestMyRegisterReview:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
 
-+ (void)requestFavorRestaurantWithRestaurantPk:(PrimaryKey *)RestaurantPk likePk:(PrimaryKey *)likePk;
++ (void)requestFavorRestaurantWithRestaurantPk:(PrimaryKey *)RestaurantPk likePk:(PrimaryKey *)likePk didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
+
++ (void)requestRestaurantDetailDataWithRestaurantPk:(PrimaryKey *)pk didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
 @end

@@ -33,6 +33,8 @@
 		633C1CE01E0128D20003FE5C /* FIMyPageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 633C1CDF1E0128D20003FE5C /* FIMyPageManager.m */; };
 		633DFC7F1DF1448B0000DDA0 /* ReviewDetatilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633DFC7E1DF1448B0000DDA0 /* ReviewDetatilViewController.m */; };
 		633DFC821DF16CA40000DDA0 /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633DFC811DF16CA40000DDA0 /* MenuTableViewController.m */; };
+		634787851E07E8A500037943 /* FISearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 634787841E07E8A500037943 /* FISearchManager.m */; };
+		634787881E08099A00037943 /* AnnotationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 634787871E08099A00037943 /* AnnotationButton.m */; };
 		634D63FB1DED50CD00EB5903 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 634D63FA1DED50CD00EB5903 /* MapViewController.m */; };
 		634D63FE1DED5FC900EB5903 /* CustomUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 634D63FD1DED5FC900EB5903 /* CustomUIView.m */; };
 		6375BF221DF424DB00E9E9A9 /* MyPageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6375BF211DF424DB00E9E9A9 /* MyPageTableViewCell.m */; };
@@ -99,6 +101,10 @@
 		633DFC7E1DF1448B0000DDA0 /* ReviewDetatilViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewDetatilViewController.m; sourceTree = "<group>"; };
 		633DFC801DF16CA40000DDA0 /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
 		633DFC811DF16CA40000DDA0 /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
+		634787831E07E8A500037943 /* FISearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FISearchManager.h; sourceTree = "<group>"; };
+		634787841E07E8A500037943 /* FISearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FISearchManager.m; sourceTree = "<group>"; };
+		634787861E08099A00037943 /* AnnotationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationButton.h; sourceTree = "<group>"; };
+		634787871E08099A00037943 /* AnnotationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationButton.m; sourceTree = "<group>"; };
 		634D63F91DED50CD00EB5903 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		634D63FA1DED50CD00EB5903 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		634D63FC1DED5FC900EB5903 /* CustomUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomUIView.h; sourceTree = "<group>"; };
@@ -187,6 +193,8 @@
 			children = (
 				634D63F91DED50CD00EB5903 /* MapViewController.h */,
 				634D63FA1DED50CD00EB5903 /* MapViewController.m */,
+				634787861E08099A00037943 /* AnnotationButton.h */,
+				634787871E08099A00037943 /* AnnotationButton.m */,
 				63EBB5801E000BB700A5F277 /* RestaurantAnnotationProtocol.h */,
 				63EBB5811E000BB700A5F277 /* RestaurantAnnotationProtocol.m */,
 				63EBB5831E000BE300A5F277 /* RestaurantAnnotationView.h */,
@@ -274,6 +282,8 @@
 			children = (
 				63263D6B1DEC1B3E0069DD2B /* FIDataManager.h */,
 				63263D6C1DEC1B3E0069DD2B /* FIDataManager.m */,
+				634787831E07E8A500037943 /* FISearchManager.h */,
+				634787841E07E8A500037943 /* FISearchManager.m */,
 				63C924741DF822A600AD5DFD /* FIReviewDataManager.h */,
 				63C924751DF822A600AD5DFD /* FIReviewDataManager.m */,
 				63C9247A1DF8233400AD5DFD /* FIMenuDataManager.h */,
@@ -552,6 +562,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6375BF251DF433BD00E9E9A9 /* RoundImageView.m in Sources */,
+				634787881E08099A00037943 /* AnnotationButton.m in Sources */,
 				63CEC74D1DFD6495003B13D9 /* RestaurantListCollectionViewCell.m in Sources */,
 				633DFC821DF16CA40000DDA0 /* MenuTableViewController.m in Sources */,
 				63263D851DEC1C590069DD2B /* MyPageViewController.m in Sources */,
@@ -563,6 +574,7 @@
 				63263D731DEC1B500069DD2B /* FILoginManager.m in Sources */,
 				633C1CE01E0128D20003FE5C /* FIMyPageManager.m in Sources */,
 				634D63FB1DED50CD00EB5903 /* MapViewController.m in Sources */,
+				634787851E07E8A500037943 /* FISearchManager.m in Sources */,
 				63CF19731E038B12007B450C /* SortViewController.m in Sources */,
 				63263D821DEC1C4D0069DD2B /* LoginViewController.m in Sources */,
 				63C924761DF822A600AD5DFD /* FIReviewDataManager.m in Sources */,

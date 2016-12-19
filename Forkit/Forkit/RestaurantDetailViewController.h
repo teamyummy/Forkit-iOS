@@ -10,6 +10,7 @@
 
 @interface RestaurantDetailViewController : UIViewController
 
-@property NSDictionary *restaurantDatas;
+@property NSMutableDictionary *restaurantDatas;
+@property DidReceiveUpdateDataBlock didReceiveUpdateDataBlock;
 
 @end

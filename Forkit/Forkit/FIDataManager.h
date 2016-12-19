@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FIReviewDataManager.h"
+#import "FISearchManager.h"
 #import "FIMenuDataManager.h"
 #import "FILoginManager.h"
 
@@ -15,7 +16,10 @@
 
 @property (nonatomic) NSMutableDictionary *shopDataDict;
 @property (nonatomic) NSMutableArray *shopDatas;
+@property (nonatomic) NSMutableDictionary *shopDetailData;
 
 + (instancetype)sharedManager;
+- (void)setShopDataDict:(NSMutableDictionary *)shopDataDict isPaging:(BOOL)isPaging;
+- (void)setShopDetailData:(NSMutableDictionary *)shopDetailData;
 
 @end

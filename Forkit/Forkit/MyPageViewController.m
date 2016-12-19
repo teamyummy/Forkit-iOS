@@ -365,7 +365,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
         NSDictionary *restaurantDatas = [_favorShopList objectAtIndex:cellIndex.row];
         
         RestaurantDetailViewController *restaurantDetailVC = segue.destinationViewController;
-        restaurantDetailVC.restaurantDatas = restaurantDatas;
+        restaurantDetailVC.restaurantDatas = [restaurantDatas mutableCopy];
     } else if ([segue.destinationViewController isKindOfClass:[ReviewDetatilViewController class]])
     {
         RestaurantDetailReviewCell *cell = (RestaurantDetailReviewCell *)sender;

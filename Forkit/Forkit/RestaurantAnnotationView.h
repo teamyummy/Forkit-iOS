@@ -7,11 +7,12 @@
 //
 
 #import <MapKit/MapKit.h>
+#import "AnnotationButton.h"
 static NSString *const ButtonClickedNotification = @"buttonClickedNotification";
 
 @interface RestaurantAnnotationView : MKAnnotationView
 
-@property UIButton *locationButton;
+@property AnnotationButton *locationButton;
 
 @property NSInteger indexPath;
 

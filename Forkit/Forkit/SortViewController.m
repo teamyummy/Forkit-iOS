@@ -277,7 +277,11 @@ static NSString *const ButtonDataTagKey = @"tag";
     UINavigationController *naviVC = (UINavigationController *)[tabBarVC.viewControllers objectAtIndex:0];
     HomeViewController *homeVC = [naviVC.viewControllers objectAtIndex:0];
     
-    [FIRequestObject requestRestaurantList:paramDict pagingURLString:nil didReceiveUpdateDataBlock:homeVC.didReceiveUpdateDataBlock];
+    [FIRequestObject requestRestaurantList:paramDict
+                           pagingURLString:nil
+                                  isPaging:NO
+                                  isSearch:NO
+                 didReceiveUpdateDataBlock:homeVC.didReceiveUpdateDataBlock];
     
     
     [self removeSortViewController];

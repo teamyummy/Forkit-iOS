@@ -29,13 +29,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="188" height="44"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ncc-Ie-Hbj">
-                                                <rect key="frame" x="-1" y="0.0" width="188" height="44"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="188" height="44"/>
                                                 <connections>
                                                     <action selector="clickSortButton:" destination="pMs-rk-fVP" eventType="touchUpInside" id="p20-Cg-mzQ"/>
                                                 </connections>
                                             </button>
                                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8xi-VW-E2w">
-                                                <rect key="frame" x="65" y="0.0" width="56" height="44"/>
+                                                <rect key="frame" x="66" y="0.0" width="56" height="44"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" alpha="0.54000000000000004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="filter" translatesAutoresizingMaskIntoConstraints="NO" id="OIq-9k-6Sc">
                                                         <rect key="frame" x="0.0" y="10" width="24" height="24"/>
@@ -71,16 +71,16 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E9c-a1-cJE">
-                                        <rect key="frame" x="188" y="0.0" width="187" height="44"/>
+                                        <rect key="frame" x="187" y="0.0" width="188" height="44"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BYr-PO-7fu">
-                                                <rect key="frame" x="-1" y="0.0" width="188" height="44"/>
+                                                <rect key="frame" x="-0.5" y="0.0" width="188" height="44"/>
                                                 <connections>
                                                     <segue destination="d3t-Gt-yhf" kind="presentation" id="XdU-gQ-9uN"/>
                                                 </connections>
                                             </button>
                                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WEY-hd-teM">
-                                                <rect key="frame" x="65" y="0.0" width="56" height="44"/>
+                                                <rect key="frame" x="65.5" y="0.0" width="56" height="44"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" alpha="0.54000000000000004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="map" translatesAutoresizingMaskIntoConstraints="NO" id="cFD-kc-nbL">
                                                         <rect key="frame" x="0.0" y="10" width="24" height="24"/>
@@ -153,7 +153,7 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dummyFoodImage" translatesAutoresizingMaskIntoConstraints="NO" id="Cpq-b1-Rxb">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cpq-b1-Rxb">
                                                             <rect key="frame" x="279" y="8" width="64" height="64"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="Cpq-b1-Rxb" secondAttribute="height" multiplier="1:1" id="8se-AE-Tfx"/>
@@ -172,25 +172,25 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" alpha="0.17999999999999999" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="review" translatesAutoresizingMaskIntoConstraints="NO" id="2aL-ic-xHA">
-                                                            <rect key="frame" x="63" y="56" width="16" height="16"/>
+                                                            <rect key="frame" x="63" y="55" width="16" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="16" id="nXI-Uq-i1m"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.54000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3.3" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLV-43-QAg">
-                                                            <rect key="frame" x="85" y="55" width="21" height="17"/>
+                                                            <rect key="frame" x="85" y="54" width="21" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" alpha="0.17999999999999999" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="favorite" translatesAutoresizingMaskIntoConstraints="NO" id="6aB-VX-Chu">
-                                                            <rect key="frame" x="114" y="56" width="16" height="16"/>
+                                                            <rect key="frame" x="114" y="55" width="16" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="16" id="MI8-32-6QP"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.54000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3.3" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cfc-ay-8yi">
-                                                            <rect key="frame" x="136" y="55" width="21" height="17"/>
+                                                            <rect key="frame" x="136" y="54" width="21" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -347,7 +347,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNf-HE-Fwx">
-                                                    <rect key="frame" x="0.0" y="1" width="345" height="80"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="345" height="80"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.87" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zed-He-t9b">
@@ -357,7 +357,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.54000002145767212" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="주소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qVI-6Q-nyq">
-                                                    <rect key="frame" x="12" y="33" width="253" height="17"/>
+                                                    <rect key="frame" x="12" y="32" width="253" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -398,7 +398,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dummyFoodImage" translatesAutoresizingMaskIntoConstraints="NO" id="fYZ-ZP-BNf">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fYZ-ZP-BNf">
                                                     <rect key="frame" x="273" y="8" width="64" height="64"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="fYZ-ZP-BNf" secondAttribute="height" multiplier="1:1" id="HTy-0n-WjX"/>
@@ -572,7 +572,7 @@
                                                                 <rect key="frame" x="24" y="65" width="327" height="43"/>
                                                                 <subviews>
                                                                     <button opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="07y-cs-6Qw" customClass="RoundButton">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="80" height="44"/>
+                                                                        <rect key="frame" x="0.0" y="0.5" width="80" height="43"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="80" id="toe-c7-Txb"/>
                                                                         </constraints>
@@ -594,7 +594,7 @@
                                                                         </connections>
                                                                     </button>
                                                                     <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgz-p5-tVU" customClass="RoundButton">
-                                                                        <rect key="frame" x="123" y="0.0" width="80" height="44"/>
+                                                                        <rect key="frame" x="123" y="0.5" width="80" height="43"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                         <state key="normal" title="추천순">
                                                                             <color key="titleColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
@@ -613,7 +613,7 @@
                                                                         </connections>
                                                                     </button>
                                                                     <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7O-ja-b46" customClass="RoundButton">
-                                                                        <rect key="frame" x="247" y="0.0" width="80" height="44"/>
+                                                                        <rect key="frame" x="247" y="0.5" width="80" height="43"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                         <state key="normal" title="리뷰순">
                                                                             <color key="titleColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
@@ -833,9 +833,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="dummyFoodImage" width="80" height="80"/>
         <image name="favorite" width="16" height="16"/>
-        <image name="filter" width="16" height="16"/>
+        <image name="filter" width="17" height="17"/>
         <image name="home" width="17" height="17"/>
         <image name="map" width="17" height="17"/>
         <image name="mapDismiss" width="17" height="17"/>
@@ -845,6 +844,6 @@
         <image name="search" width="14" height="15"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5ap-4U-qEV"/>
+        <segue reference="ZRd-TN-jBc"/>
     </inferredMetricsTieBreakers>
 </document>

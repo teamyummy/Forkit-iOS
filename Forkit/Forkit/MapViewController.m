@@ -24,6 +24,8 @@ static CGFloat collecetionCellWidth;
 @property (weak, nonatomic) IBOutlet MKMapView *restaurantMapView;
 @property (weak, nonatomic) IBOutlet UICollectionView *restaurantCollectionView;
 
+@property FIDataManager *dataManager;
+
 @property NSInteger annotationIndex;
 
 @property CLLocationManager *locationManager;
@@ -37,6 +39,7 @@ static CGFloat collecetionCellWidth;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.dataManager = [FIDataManager sharedManager];
     _annotationIndex = annotationIndexStart;
     [self createLoactionManger];
     [self setCollectionCellSizeAndScrollWidth];
@@ -59,7 +62,7 @@ static CGFloat collecetionCellWidth;
     
     collecetionCellWidth = (superViewWidth - collcetionSectionMargin * 2);
     
-    _invisibleScrollView.contentSize = CGSizeMake((collecetionCellWidth * self.restaurantDataList.count) + (collcetionCellMargin * self.restaurantDataList.count), 0);
+    _invisibleScrollView.contentSize = CGSizeMake((collecetionCellWidth * _dataManager.shopDatas.count) + (collcetionCellMargin * _dataManager.shopDatas.count), 0);
     self.invisibleScrollView.delegate = self;
     
     [_restaurantCollectionView addGestureRecognizer:_invisibleScrollView.panGestureRecognizer];
@@ -67,7 +70,7 @@ static CGFloat collecetionCellWidth;
 
 - (void)createAnotations
 {
-    for (NSDictionary *restaurantDict in _restaurantDataList)
+    for (NSDictionary *restaurantDict in _dataManager.shopDatas)
     {
         RestaurantAnnotationProtocol *restaurantAnnotation = [[RestaurantAnnotationProtocol alloc] initWithTitle:[restaurantDict objectForKey:JSONRestaurnatNameKey]
                                                                                                    AndCoordinate:CLLocationCoordinate2DMake([restaurantDict[JSONRestaurnatLatitudeKey] floatValue],
@@ -109,7 +112,7 @@ static CGFloat collecetionCellWidth;
 //item
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.restaurantDataList.count;
+    return _dataManager.shopDatas.count;
 }
 
 //cell
@@ -120,9 +123,9 @@ static CGFloat collecetionCellWidth;
     RestaurantListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifierdentifierShopCollectionCell
                                                                            forIndexPath:indexPath];
     NSDictionary *restaurantDataTempDict;
-    restaurantDataTempDict = [self.restaurantDataList objectAtIndex:indexPath.row];
+    restaurantDataTempDict = [_dataManager.shopDatas objectAtIndex:indexPath.row];
     
-    if (self.restaurantDataList != nil)
+    if (_dataManager.shopDatas != nil)
     {
         
         cell.restaurantTitleLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatNameKey];
@@ -183,12 +186,16 @@ static CGFloat collecetionCellWidth;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:ButtonClickedNotification
                                                             object:nil];
-        UIButton *annotationButton = (UIButton *)[_restaurantMapView viewWithTag:pageNumber + annotationIndexStart];
+        NSLog(@"%@",[[self.view viewWithTag:120] class]);
+        
+        AnnotationButton *annotationButton = (AnnotationButton *)[_restaurantMapView viewWithTag:pageNumber + annotationIndexStart];
         annotationButton.selected = YES;
         RestaurantAnnotationView *annotationView = (RestaurantAnnotationView *)annotationButton.superview;
         RestaurantAnnotationProtocol *annotation = (RestaurantAnnotationProtocol *)annotationView.annotation;
         annotation.isSelected = YES;
-        [self updateMapViewLocation:annotation.coordinate];
+        
+        NSLog(@"%lf", annotationButton.coordinate.latitude);
+        [self updateMapViewLocation:annotationButton.coordinate];
     }
 }
 
@@ -250,6 +257,7 @@ static CGFloat collecetionCellWidth;
     
     newAnnotation.indexPath = annotationIndexPath;
     newAnnotation.locationButton.tag = annotationIndexPath;
+    newAnnotation.locationButton.coordinate = myAnnotation.coordinate;
     newAnnotation.locationButton.selected = myAnnotation.isSelected;
     
     return newAnnotation;
@@ -278,10 +286,10 @@ static CGFloat collecetionCellWidth;
     {
         RestaurantListCollectionViewCell *cell = sender;
         NSIndexPath *cellIndex = [_restaurantCollectionView indexPathForCell:cell];
-        NSDictionary *restaurantDatas = [_restaurantDataList objectAtIndex:cellIndex.row];
+        NSDictionary *restaurantDatas = [_dataManager.shopDatas objectAtIndex:cellIndex.row];
         
         RestaurantDetailViewController *restaurantDetailVC = segue.destinationViewController;
-        restaurantDetailVC.restaurantDatas = restaurantDatas;
+        restaurantDetailVC.restaurantDatas = [restaurantDatas mutableCopy];
     }
 }
 

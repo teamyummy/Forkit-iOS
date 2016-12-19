@@ -27,7 +27,7 @@
 
 - (void)createButtonWithAnnotation:(RestaurantAnnotationView *)annotationView
 {
-    _locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _locationButton = [AnnotationButton buttonWithType:UIButtonTypeCustom];
     [_locationButton setBackgroundImage:[UIImage imageNamed:@"locationDeSelected"]
                               forState:UIControlStateNormal];
     [_locationButton setBackgroundImage:[UIImage imageNamed:@"locationSelected"]

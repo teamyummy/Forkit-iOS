@@ -23,7 +23,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 @property (weak, nonatomic) IBOutlet UITableView *restaurantDetailTableView;
 @property (weak, nonatomic) IBOutlet UILabel *customNavigationTitle;
 
-@property NSMutableArray *scrollImageList;
+@property NSArray *scrollImageList;
 @property NSArray *reviewList;
 
 @end
@@ -36,6 +36,13 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     [self preferredStatusBarStyle];
     
     RestaurantDetailViewController * __weak weakSelf = self;
+    
+    _didReceiveUpdateDataBlock = ^{
+        [FIRequestObject requestReviewListWithRestaurantPk:[weakSelf.restaurantDatas objectForKey:JSONCommonPrimaryKey] didReceiveUpdateDataBlock:^{
+            [weakSelf setUpdateRestaurantDatas];
+            [weakSelf didReceiveReviewDataUpdated];
+        }];
+    };
     
     [FIRequestObject requestReviewListWithRestaurantPk:[_restaurantDatas objectForKey:JSONCommonPrimaryKey] didReceiveUpdateDataBlock:^{
         [weakSelf didReceiveReviewDataUpdated];
@@ -60,7 +67,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 - (void)didReceiveReviewDataUpdated
 {
     self.reviewList = [[FIReviewDataManager sharedManager] reviewDatas];
-    
+    NSMutableArray *tempImageList = [NSMutableArray array];
     for (NSDictionary *tempDict in _reviewList)
     {
         NSArray *imageData = [tempDict objectForKey:JSONCommonImagesKey];
@@ -69,12 +76,33 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
         {
             for (NSInteger i = 0; i < imageData.count; i++)
             {
-                [self.scrollImageList addObject:[imageData[i] objectForKey:JSONCommonThumbnailImageURLKey]];
+                [tempImageList addObject:[imageData[i] objectForKey:JSONCommonThumbnailImageURLKey]];
             }
         }
     }
+    _scrollImageList = tempImageList;
     [self.restaurantDetailTableView reloadData];
-//    [self.restaurantDetailTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 2)] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+- (void)didReceiveUpdateReview
+{
+    
+}
+
+- (void)didReceiveReviewLikeDataUpdated
+{
+    [self setUpdateRestaurantDatas];
+    [self.restaurantDetailTableView reloadData];
+}
+
+- (void)setUpdateRestaurantDatas
+{
+    NSDictionary *tempDict = [[FIDataManager sharedManager] shopDetailData];
+    [self.restaurantDatas setValue:[tempDict objectForKey:JSONRestaurnatTotalReviewCountKey] forKey:JSONRestaurnatTotalReviewCountKey];
+    [self.restaurantDatas setValue:[tempDict objectForKey:JSONRestaurnatAvgReviewScoreKey] forKey:JSONRestaurnatAvgReviewScoreKey];
+    [self.restaurantDatas setValue:[tempDict objectForKey:JSONRestaurnatTotalLikeKey] forKey:JSONRestaurnatTotalLikeKey];
+    [self.restaurantDatas setValue:[tempDict objectForKey:JSONRestaurnatMyLikeKey] forKey:JSONRestaurnatMyLikeKey];
+    [self.restaurantDatas setValue:[tempDict objectForKey:JSONRestaurnatMyLikePrimaryKey] forKey:JSONRestaurnatMyLikePrimaryKey];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -184,15 +212,6 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
                 UIButton *likeButton = (UIButton *)[self.view viewWithTag:i];
                 likeButton.selected = YES;
             }
-            
-            /*
-            NSArray *images = [reviewDict objectForKey:JSONCommonImagesKey];
-            
-            if (images != nil && images.count != 0)
-            {
-                [cell.reviewFoodImageView sd_setImageWithURL:[[images objectAtIndex:0] objectForKey:JSONCommonThumbnailImageURLKey]];
-            }
-             */
         }
         return cell;
     }
@@ -257,14 +276,6 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
         self.tabBarController.tabBar.hidden = YES;
         ReviewViewController *reviewAlertVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ReviewVC"];
         
-        /*
-         self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-         [self presentViewController:testAlertVC animated:YES completion:nil];
-         testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
-         [UIView animateWithDuration:0.5 animations:^{
-         testAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
-         }];
-         */
         reviewAlertVC.restaurantPk = [_restaurantDatas objectForKey:JSONCommonPrimaryKey];
         [self addChildViewController:reviewAlertVC];
         [self.view addSubview:reviewAlertVC.view];
@@ -279,6 +290,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 
 - (IBAction)clickLikeButton:(UIButton *)sender
 {
+    RestaurantDetailViewController * __weak weakSelf = self;
     if (![FILoginManager isOnLogin])
     {
         [self showAlert];
@@ -287,11 +299,15 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
         if ([sender isSelected] == NO)
         {
             sender.selected = YES;
-            [FIRequestObject requestFavorRestaurantWithRestaurantPk:[_restaurantDatas objectForKey:JSONCommonPrimaryKey] likePk:nil];
+            [FIRequestObject requestFavorRestaurantWithRestaurantPk:[_restaurantDatas objectForKey:JSONCommonPrimaryKey] likePk:nil didReceiveUpdateDataBlock:^{
+                [weakSelf didReceiveReviewLikeDataUpdated];
+            }];
         } else
         {
             sender.selected = NO;
-            [FIRequestObject requestFavorRestaurantWithRestaurantPk:[_restaurantDatas objectForKey:JSONCommonPrimaryKey] likePk:[_restaurantDatas objectForKey:JSONRestaurnatMyLikePrimaryKey]];
+            [FIRequestObject requestFavorRestaurantWithRestaurantPk:[_restaurantDatas objectForKey:JSONCommonPrimaryKey] likePk:[_restaurantDatas objectForKey:JSONRestaurnatMyLikePrimaryKey] didReceiveUpdateDataBlock:^{
+                [weakSelf didReceiveReviewLikeDataUpdated];
+            }];
         }
     }
 }
