@@ -39,7 +39,6 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     
     _didReceiveUpdateDataBlock = ^{
         [FIRequestObject requestReviewListWithRestaurantPk:[weakSelf.restaurantDatas objectForKey:JSONCommonPrimaryKey] didReceiveUpdateDataBlock:^{
-            [weakSelf setUpdateRestaurantDatas];
             [weakSelf didReceiveReviewDataUpdated];
         }];
     };

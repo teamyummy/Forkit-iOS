@@ -38,7 +38,9 @@ static NSString *const ParamNameUserIDKey = @"username";
 static NSString *const ParamNameUserPWKey = @"password";
 static NSString *const ParamNameLoginTokenKey = @"Authorization";
 static NSString *const ParamNameReviewImageKey = @"img";
+static NSString *const ParamNameReviewImagesKey = @"imgs";
 static NSString *const ParamNameReviewAltKey = @"alt";
+static NSString *const ParamNameReviewAltsKey = @"alts";
 
 //Base URL String
 static NSString *const BaseURLString = @"http://mangoplates.com/";
@@ -236,43 +238,6 @@ static NSString *const BasePathString = @"api/v1/";
     [dataTask resume];
 }
 
-/*
- 특정 음식점에 따른 리뷰 이미지 (POST)
- */
-+ (void)requestUploadReviewImagesWithRequestURL:(NSString *)requestURL  restaurantPk:(PrimaryKey *)restaurantPk reviewPk:(NSString *)reviewPk images:(NSArray *)images manager:(AFHTTPSessionManager *)manager didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
-{
-    if (images.count == 0 || images == nil)
-    {[FIRequestObject requestRestaurantDetailDataWithRestaurantPk:restaurantPk didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
-        return;
-    } else
-    {
-        requestURL = [NSString stringWithFormat:@"%@%@/images/",requestURL,reviewPk];
-        NSMutableDictionary *bodyParms = [NSMutableDictionary dictionary];
-        for (NSInteger i = 0; i < images.count; i++)
-        {
-            [bodyParms setObject:@"alt" forKey:ParamNameReviewAltKey];
-        }
-            
-        [manager POST:requestURL
-           parameters:bodyParms
-constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-    for (UIImage *image in images)
-    {
-        [formData appendPartWithFileData:UIImageJPEGRepresentation(image, 0.7)
-                                    name:ParamNameReviewImageKey
-                                fileName:@"image.jpeg"
-                                mimeType:@"image/jpeg"];
-    }
-} progress:nil
-              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                  [FIRequestObject requestRestaurantDetailDataWithRestaurantPk:restaurantPk didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
-                  NSLog(@"%@", responseObject);
-              } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                  NSLog(@"%@", error);
-              }];
-        
-    }
-}
 
 /*
  특정 음식점에 따른 리뷰 텍스트 등록 (POST)
@@ -297,7 +262,10 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
     [bodyParms setObject:contents forKey:JSONReviewContentKey];
     [bodyParms setObject:@"ioschef review" forKey:JSONReviewTitleKey];
     [bodyParms setObject:[NSNumber numberWithInteger:score] forKey:JSONReviewScoreKey];
-    
+    for (NSInteger i = 0; i < images.count; i++)
+    {
+        [bodyParms setObject:@"alt" forKey:ParamNameReviewAltsKey];
+    }
     [manager POST:requsetURL
        parameters:bodyParms
 constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -308,15 +276,22 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
     
     [formData appendPartWithFormData:[[NSString stringWithFormat:@"%ld",score] dataUsingEncoding:NSUTF8StringEncoding] name:JSONReviewScoreKey];
     
+    for (UIImage *image in images)
+    {
+            [formData appendPartWithFormData:[@"alt" dataUsingEncoding:NSUTF8StringEncoding] name:ParamNameReviewAltsKey];
+            [formData appendPartWithFileData:UIImageJPEGRepresentation(image, 0.7)
+                                        name:ParamNameReviewImagesKey
+                                    fileName:@"image.jpeg"
+                                    mimeType:@"image/jpeg"];
+    }
+    
 } progress:nil
           success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
               
               NSLog(@"%@", responseObject);
-              NSString *reviewPk = [responseObject objectForKey:JSONCommonPrimaryKey];
-              if (reviewPk != nil)
-              {
-                  [FIRequestObject requestUploadReviewImagesWithRequestURL:requsetURL restaurantPk:restaurantPk reviewPk:reviewPk images:images manager:manager didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
-              }
+              
+              [FIRequestObject requestRestaurantDetailDataWithRestaurantPk:restaurantPk didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
+    
           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
               NSLog(@"%@",error);
           }];
@@ -346,8 +321,8 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
          parameters:nil
             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
+                [FIRequestObject requestRestaurantDetailDataWithRestaurantPk:restaurantPk didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
                 NSLog(@"responseObject : %@",responseObject);
-                didReceiveUpdateDataBlock();
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             }];
 }

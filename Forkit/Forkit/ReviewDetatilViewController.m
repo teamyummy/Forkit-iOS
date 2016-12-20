@@ -116,17 +116,11 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"리뷰 삭제"
                                                                    message:@"정말로 삭제 하시겠습니까?"
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
-    
+    RestaurantDetailViewController *RestaurantDetailVC = (RestaurantDetailViewController *)[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"삭제"
                                                        style:UIAlertActionStyleDestructive
                                                      handler:^(UIAlertAction * _Nonnull action) {
-                                                         
-                                                         
-                                                             [FIRequestObject requestDeleteReviewWithRestaurantPk:[_deatilReviewData objectForKey:JSONReviewRestaurantPrimaryKey] reviewPk:[_deatilReviewData objectForKey:JSONCommonPrimaryKey] didReceiveUpdateDataBlock:^{
-                                                                 
-                                                                 
-                                                                 
-                                                             }];
+                                                             [FIRequestObject requestDeleteReviewWithRestaurantPk:[_deatilReviewData objectForKey:JSONReviewRestaurantPrimaryKey] reviewPk:[_deatilReviewData objectForKey:JSONCommonPrimaryKey] didReceiveUpdateDataBlock:RestaurantDetailVC.didReceiveUpdateDataBlock];
                                                          
                                                          [alert dismissViewControllerAnimated:YES completion:nil];
                                                          [self.navigationController popViewControllerAnimated:NO];
