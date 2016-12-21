@@ -186,7 +186,6 @@ static CGFloat collecetionCellWidth;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:ButtonClickedNotification
                                                             object:nil];
-        NSLog(@"%@",[[self.view viewWithTag:120] class]);
         
         AnnotationButton *annotationButton = (AnnotationButton *)[_restaurantMapView viewWithTag:pageNumber + annotationIndexStart];
         annotationButton.selected = YES;
@@ -194,7 +193,6 @@ static CGFloat collecetionCellWidth;
         RestaurantAnnotationProtocol *annotation = (RestaurantAnnotationProtocol *)annotationView.annotation;
         annotation.isSelected = YES;
         
-        NSLog(@"%lf", annotationButton.coordinate.latitude);
         [self updateMapViewLocation:annotationButton.coordinate];
     }
 }

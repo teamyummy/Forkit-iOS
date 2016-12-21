@@ -54,11 +54,12 @@ typedef NS_ENUM(NSInteger, ButtonTag)
     
 @interface MyPageViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property NSArray *favorShopList;
-@property NSArray *myReviewList;
-@property (weak, nonatomic) IBOutlet UIButton *ddd;
+///data model
+@property FIMyPageManager *myPageDataManager;
 
+///cell list state
 @property BOOL checkListState;
+
 @property (weak, nonatomic) IBOutlet UITableView *myPageTableView;
 
 @end
@@ -69,27 +70,33 @@ typedef NS_ENUM(NSInteger, ButtonTag)
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.checkListState = ListStateReview;
+    
+    self.myPageDataManager = [FIMyPageManager sharedManager];
+    [[FIMyPageManager sharedManager] addObserver:self
+                                      forKeyPath:@"favorShop"
+                                         options:NSKeyValueObservingOptionNew
+                                         context:nil];
+    
+    [[FIMyPageManager sharedManager] addObserver:self
+                                      forKeyPath:@"reviewDatas"
+                                         options:NSKeyValueObservingOptionNew
+                                         context:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.checkListState = ListStateReview;
-    [_myPageTableView reloadData];
-    
-    if ([FILoginManager isOnLogin])
-    {
-        //weakSelf
-        MyPageViewController * __weak weakSelf = self;
-        [FIRequestObject requestMyFavorRestaurantList:^{
-            [weakSelf didReceiveLikeRestaurantListUpdated];
-        }];
-        
-        [FIRequestObject requestMyRegisterReview:^{
-            [weakSelf didReceiveMyReviewListUpdated];
-        }];
-    }
     self.navigationController.navigationBarHidden = YES;
+    
+    if ([FILoginManager isOnLogin] &&
+        _myPageDataManager.reviewDatas.count == 0 &&
+        _myPageDataManager.favorShop.count == 0)
+    {
+        [FIRequestObject requestMyFavorRestaurantList];
+        [FIRequestObject requestMyRegisterReview];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -97,15 +104,9 @@ typedef NS_ENUM(NSInteger, ButtonTag)
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Custom method
-- (void)didReceiveLikeRestaurantListUpdated
+#pragma mark - KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
-    _favorShopList = [[FIDataManager sharedManager] shopDatas];
-}
-
-- (void)didReceiveMyReviewListUpdated
-{
-    _myReviewList = [[FIReviewDataManager sharedManager] reviewDatas];
     [_myPageTableView reloadData];
 }
 
@@ -126,10 +127,10 @@ typedef NS_ENUM(NSInteger, ButtonTag)
     if (section == SectionNumberReviewList)
     {
         if (self.checkListState == ListStateReview) {
-            rowNumber = _myReviewList.count;
+            rowNumber = _myPageDataManager.reviewDatas.count;
         } else
         {
-            rowNumber = _favorShopList.count;
+            rowNumber = _myPageDataManager.favorShop.count;
         }
     }
     return rowNumber;
@@ -143,6 +144,8 @@ typedef NS_ENUM(NSInteger, ButtonTag)
         {
             ProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:ReuseIdentifierProfileCell
                                                                 forIndexPath:indexPath];
+            
+            cell.idLabel.text = [[FILoginManager sharedManager] userId];
             return cell;
         } else
         {//Not Login
@@ -157,14 +160,6 @@ typedef NS_ENUM(NSInteger, ButtonTag)
         {
             ButtonCell *cell = [tableView dequeueReusableCellWithIdentifier:ReuseIdentifierButtonCell
                                                                forIndexPath:indexPath];
-            cell.reviewButton.selected = YES;
-            cell.reviewButtonLabel.textColor = [FIUtilities createKeyColor];
-            cell.reviewButtonImageView.image = [UIImage imageNamed:@"reviewSelected"];
-            
-            cell.likeButton.selected = NO;
-            cell.likeButtonLabel.textColor = [UIColor blackColor];
-            cell.likeButtonImageView.image = [UIImage imageNamed:@"favorDeSelected"];
-            
             return cell;
         } else
         {//Login Button
@@ -180,7 +175,7 @@ typedef NS_ENUM(NSInteger, ButtonTag)
             RestaurantDetailReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:ReuseIdentifierReviewListCell
                                                                                forIndexPath:indexPath];
             
-            NSDictionary *reviewDict = [_myReviewList objectAtIndex:indexPath.row];
+            NSDictionary *reviewDict = [_myPageDataManager.reviewDatas objectAtIndex:indexPath.row];
             
             if (reviewDict != nil && reviewDict.count != 0)
             {
@@ -211,9 +206,9 @@ typedef NS_ENUM(NSInteger, ButtonTag)
                                                                                forIndexPath:indexPath];
             
             NSDictionary *restaurantDataTempDict;
-            restaurantDataTempDict = [_favorShopList objectAtIndex:indexPath.row];
+            restaurantDataTempDict = [_myPageDataManager.favorShop objectAtIndex:indexPath.row];
             
-            if (_favorShopList != nil)
+            if (_myPageDataManager.favorShop != nil)
             {
                 
                 cell.restaurantTitleLabel.text = [restaurantDataTempDict objectForKey:JSONRestaurnatNameKey];
@@ -293,63 +288,48 @@ typedef NS_ENUM(NSInteger, ButtonTag)
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 #pragma mark - Custom Method
-- (void)notSelectButton:(ButtonTag)buttonTag ButtonCell:(ButtonCell *)buttonCell
+- (void)notSelectButton:(ButtonTag)buttonTag
 {
     UIButton *button = (UIButton *)[self.view viewWithTag:buttonTag];
     if (button.selected == YES)
     {
         button.selected = NO;
-        if (buttonTag == ButtonTagLikeList)
-        {
-            buttonCell.likeButtonLabel.textColor = [UIColor blackColor];
-            buttonCell.likeButtonImageView.image = [UIImage imageNamed:@"favorDeSelected"];
-        } else if (buttonTag == ButtonTagMyReview)
-        {
-            buttonCell.reviewButtonLabel.textColor = [UIColor blackColor];
-            buttonCell.reviewButtonImageView.image = [UIImage imageNamed:@"reviewDeSelected"];
-        }
     }
-}
-
-- (void)setButtonState
-{
-    
 }
 
 #pragma mark - Button method
 - (IBAction)clickChangeListButton:(UIButton *)sender
 {
-//    UITableViewRowAnimation rowAnimation;
-    ButtonCell *cell = [self.myPageTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:SectionNumberButton]];
+    UITableViewRowAnimation rowAnimation;
+    
     if ([sender isSelected] == NO)
     {//off
         if (sender.tag == ButtonTagMyReview)
         {//review
-            [self notSelectButton:ButtonTagLikeList ButtonCell:cell];
-            cell.reviewButtonLabel.textColor = [FIUtilities createKeyColor];
-            cell.reviewButtonImageView.image = [UIImage imageNamed:@"reviewSelected"];
+            [self notSelectButton:ButtonTagLikeList];
             self.checkListState = ListStateReview;
-//            rowAnimation = UITableViewRowAnimationRight;
+            rowAnimation = UITableViewRowAnimationRight;
             
         } else if (sender.tag == ButtonTagLikeList)
         {//like
-            [self notSelectButton:ButtonTagMyReview ButtonCell:cell];
-            cell.likeButtonLabel.textColor = [FIUtilities createKeyColor];
-            cell.likeButtonImageView.image = [UIImage imageNamed:@"favorSelected"];
+            [self notSelectButton:ButtonTagMyReview];
             self.checkListState = ListStateLikeRestaurant;
-//            rowAnimation = UITableViewRowAnimationLeft;
+            rowAnimation = UITableViewRowAnimationLeft;
         }
         sender.selected = YES;
-        [self.myPageTableView reloadSections:[NSIndexSet indexSetWithIndex:SectionNumberReviewList] withRowAnimation:UITableViewRowAnimationFade];
+        [self.myPageTableView reloadSections:[NSIndexSet indexSetWithIndex:SectionNumberReviewList] withRowAnimation:rowAnimation];
         
     }
 }
 
 - (IBAction)clickLogoutButton:(UIButton *)sender
 {
+    self.checkListState = ListStateReview;
     [FILoginManager removeLoginState];
     [[FILoginManager sharedManager] removeLoginToken];
     [[FILoginManager sharedManager] removeUserId];
+    [self.myPageDataManager.reviewDatas removeAllObjects];
+    [self.myPageDataManager.favorShop removeAllObjects];
     [self.myPageTableView reloadData];
 }
 
@@ -362,19 +342,25 @@ typedef NS_ENUM(NSInteger, ButtonTag)
     {
         RestaurantListCell *cell = sender;
         NSIndexPath *cellIndex = [_myPageTableView indexPathForCell:cell];
-        NSDictionary *restaurantDatas = [_favorShopList objectAtIndex:cellIndex.row];
+        NSDictionary *restaurantDatas = [_myPageDataManager.favorShop objectAtIndex:cellIndex.row];
         
         RestaurantDetailViewController *restaurantDetailVC = segue.destinationViewController;
         restaurantDetailVC.restaurantDatas = [restaurantDatas mutableCopy];
+        
     } else if ([segue.destinationViewController isKindOfClass:[ReviewDetatilViewController class]])
     {
         RestaurantDetailReviewCell *cell = (RestaurantDetailReviewCell *)sender;
         NSIndexPath *cellIndex = [_myPageTableView indexPathForCell:cell];
         
         ReviewDetatilViewController *reviewDetatilVC = segue.destinationViewController;
-        reviewDetatilVC.deatilReviewData = [_myReviewList objectAtIndex:cellIndex.row];
+        reviewDetatilVC.deatilReviewData = [_myPageDataManager.reviewDatas objectAtIndex:cellIndex.row];
     }
 }
 
+- (void)dealloc
+{
+    [[FIMyPageManager sharedManager] removeObserver:self forKeyPath:@"favorShop"];
+    [[FIMyPageManager sharedManager] removeObserver:self forKeyPath:@"reviewDatas"];
+}
 
 @end

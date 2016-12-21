@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		143D8DC61DEC5F5200EDDDF7 /* CustomTitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DC51DEC5F5200EDDDF7 /* CustomTitleLabel.m */; };
 		143D8DCD1DEC618B00EDDDF7 /* RestaurantListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 143D8DCC1DEC618B00EDDDF7 /* RestaurantListCell.m */; };
 		14F2100F1DEC566F007D7625 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F2100E1DEC566F007D7625 /* MapKit.framework */; };
 		14F210111DEC567B007D7625 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F210101DEC567B007D7625 /* CoreLocation.framework */; };
@@ -54,8 +53,6 @@
 
 /* Begin PBXFileReference section */
 		0198E406FB92B0367115781B /* Pods-Forkit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Forkit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Forkit/Pods-Forkit.debug.xcconfig"; sourceTree = "<group>"; };
-		143D8DC41DEC5F5200EDDDF7 /* CustomTitleLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTitleLabel.h; sourceTree = "<group>"; };
-		143D8DC51DEC5F5200EDDDF7 /* CustomTitleLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTitleLabel.m; sourceTree = "<group>"; };
 		143D8DCB1DEC618B00EDDDF7 /* RestaurantListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantListCell.h; sourceTree = "<group>"; };
 		143D8DCC1DEC618B00EDDDF7 /* RestaurantListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantListCell.m; sourceTree = "<group>"; };
 		14DED7EF2E592FD69C0B68A5 /* libPods-Forkit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Forkit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,18 +156,8 @@
 				634D63FD1DED5FC900EB5903 /* CustomUIView.m */,
 				6375BF231DF433BD00E9E9A9 /* RoundImageView.h */,
 				6375BF241DF433BD00E9E9A9 /* RoundImageView.m */,
-				143D8DD91DEC907B00EDDDF7 /* Labels */,
 			);
 			name = CustomUIComponents;
-			sourceTree = "<group>";
-		};
-		143D8DD91DEC907B00EDDDF7 /* Labels */ = {
-			isa = PBXGroup;
-			children = (
-				143D8DC41DEC5F5200EDDDF7 /* CustomTitleLabel.h */,
-				143D8DC51DEC5F5200EDDDF7 /* CustomTitleLabel.m */,
-			);
-			name = Labels;
 			sourceTree = "<group>";
 		};
 		1458C53E1DF55CAF00046083 /* HomeVC */ = {
@@ -288,8 +275,6 @@
 				63C924751DF822A600AD5DFD /* FIReviewDataManager.m */,
 				63C9247A1DF8233400AD5DFD /* FIMenuDataManager.h */,
 				63C9247B1DF8233400AD5DFD /* FIMenuDataManager.m */,
-				633C1CDE1E0128D20003FE5C /* FIMyPageManager.h */,
-				633C1CDF1E0128D20003FE5C /* FIMyPageManager.m */,
 			);
 			name = RestaurantInfo;
 			sourceTree = "<group>";
@@ -374,6 +359,8 @@
 			isa = PBXGroup;
 			children = (
 				1458C5471DF55D8700046083 /* RestaurantInfo */,
+				633FC7F51E092B2A00B446D5 /* SearchManager */,
+				633FC7F41E092B1300B446D5 /* MypageManager */,
 				1458C5491DF55D9900046083 /* Login */,
 			);
 			name = FIManager;
@@ -408,6 +395,22 @@
 				1458C5451DF55D2C00046083 /* RestaurantDetailVC */,
 			);
 			name = ViewController;
+			sourceTree = "<group>";
+		};
+		633FC7F41E092B1300B446D5 /* MypageManager */ = {
+			isa = PBXGroup;
+			children = (
+				633C1CDE1E0128D20003FE5C /* FIMyPageManager.h */,
+				633C1CDF1E0128D20003FE5C /* FIMyPageManager.m */,
+			);
+			name = MypageManager;
+			sourceTree = "<group>";
+		};
+		633FC7F51E092B2A00B446D5 /* SearchManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = SearchManager;
 			sourceTree = "<group>";
 		};
 		63840CA11DFE3D4700FC7EE3 /*  AppDelegate */ = {
@@ -569,7 +572,6 @@
 				634D63FE1DED5FC900EB5903 /* CustomUIView.m in Sources */,
 				63C9247C1DF8233400AD5DFD /* FIMenuDataManager.m in Sources */,
 				63263D511DEC1A960069DD2B /* HomeViewController.m in Sources */,
-				143D8DC61DEC5F5200EDDDF7 /* CustomTitleLabel.m in Sources */,
 				63EBB5821E000BB700A5F277 /* RestaurantAnnotationProtocol.m in Sources */,
 				63263D731DEC1B500069DD2B /* FILoginManager.m in Sources */,
 				633C1CE01E0128D20003FE5C /* FIMyPageManager.m in Sources */,

@@ -20,10 +20,10 @@
     return sharedManager;
 }
 
-- (void)setShopDatas:(NSMutableArray *)shopDatas
+- (void)setFavorShop:(NSMutableArray *)favorShop
 {
     NSMutableArray *tempArr = [NSMutableArray array];
-    for (NSDictionary *shopDict in shopDatas)
+    for (NSDictionary *shopDict in favorShop)
     {
         NSMutableDictionary *tempDict = [NSMutableDictionary new];
         
@@ -90,13 +90,83 @@
         [tempDict setValue:[shopDict objectForKey:JSONCommonImagesKey]
                     forKey:JSONCommonImagesKey];
         
-        //images
+        //tags
         [tempDict setValue:[shopDict objectForKey:JSONRestaurnatTagsKey]
                     forKey:JSONRestaurnatTagsKey];
+        
+        //my_like
+        [tempDict setValue:[shopDict objectForKey:JSONRestaurnatMyLikeKey]
+                    forKey:JSONRestaurnatMyLikeKey];
+        
+        //my_like_id
+        NSNumber *likePk = [shopDict objectForKey:JSONRestaurnatMyLikePrimaryKey];
+        NSString *likePkString = [NSString stringWithFormat:@"%ld", [likePk integerValue]];
+        [tempDict setValue:likePkString
+                    forKey:JSONRestaurnatMyLikePrimaryKey];
         
         //set data
         [tempArr addObject:tempDict];
     }
     _favorShop = tempArr;
+}
+
+- (void)setReviewDatas:(NSMutableArray *)reviewDatas
+{
+    NSMutableArray *tempArr = [NSMutableArray array];
+    for (NSDictionary *reviewDict in reviewDatas)
+    {
+        NSMutableDictionary *tempDict = [NSMutableDictionary new];
+        
+        //author
+        [tempDict setValue:[reviewDict objectForKey:JSONReviewAuthorKey]
+                    forKey:JSONReviewAuthorKey];
+        
+        //content
+        [tempDict setValue:[reviewDict objectForKey:JSONReviewContentKey]
+                    forKey:JSONReviewContentKey];
+        
+        //score
+        [tempDict setValue:[reviewDict objectForKey:JSONReviewScoreKey]
+                    forKey:JSONReviewScoreKey];
+        //id
+        [tempDict setValue:[reviewDict objectForKey:JSONCommonPrimaryKey]
+                    forKey:JSONCommonPrimaryKey];
+        
+        //images
+        [tempDict setValue:[reviewDict objectForKey:JSONCommonImagesKey]
+                    forKey:JSONCommonImagesKey];
+        
+        //created_date
+        
+        NSDateFormatter *parseDateFormat = [NSDateFormatter new];
+        //correcting format to include seconds and decimal place
+        NSString *input = [reviewDict objectForKey:JSONCommonCreatedDateKey];
+        parseDateFormat.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        // Always use this locale when parsing fixed format date strings
+        NSDate *output = [parseDateFormat dateFromString:input];
+        
+        NSDateFormatter *parseStringFormat = [[NSDateFormatter alloc] init];
+        [parseStringFormat setDateFormat:@"yyyy-MM-dd HH:mm"];
+        
+        NSString *iso8601String = [parseStringFormat stringFromDate:output];
+        
+        [tempDict setValue:iso8601String
+                    forKey:JSONCommonCreatedDateKey];
+        
+        //rest_id
+        if ([reviewDict objectForKey:JSONReviewRestaurantPrimaryKey] != nil)
+        {
+            NSNumber *restaurantPkNumber = [reviewDict objectForKey:JSONReviewRestaurantPrimaryKey];
+            
+            NSString *restaurantPkString = [NSString stringWithFormat:@"%ld", [restaurantPkNumber integerValue]];
+            
+            [tempDict setValue:restaurantPkString
+                        forKey:JSONReviewRestaurantPrimaryKey];
+        }
+
+        //set data
+        [tempArr addObject:tempDict];
+    }
+    _reviewDatas = tempArr;
 }
 @end

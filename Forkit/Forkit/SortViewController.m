@@ -13,7 +13,8 @@
 //sort button tag
 typedef NS_ENUM(NSInteger, SortButtonTag)
 {
-    OrderAvgButtonTag = 100,
+    OrderNewButtonTag = 100,
+    OrderAvgButtonTag,
     OrderLikeButtonTag,
     OrderReviewButtonTag,
     FoodSortkoreaButtonTag,
@@ -31,20 +32,28 @@ typedef NS_OPTIONS(NSUInteger, FoodSortState) {
     FoodSortStateSelectedChina      = 1 << 2,
     FoodSortStateSelectedAmerica    = 1 << 3,
     FoodSortStateSelectedCafe       = 1 << 4,
-    FoodSortStateSelectedBar        = 1 << 5,
+    FoodSortStateSelectedBar        = 1 << 5
 };
+
+//sort button state
+static FoodSortState FoodSortButtonState = 0;
+
+//order button state tag
+static SortButtonTag OrderButtonTag = OrderNewButtonTag;
 
 //param value
 static NSString *const ParamValueReviewAverageOrder = @"-review_average,-pk";
 static NSString *const ParamValueReviewCountOrder = @"-review_count,-pk";
 static NSString *const ParamValueFavoriteOrder= @"-total_like,-pk";
-static NSString *const ParamValueNewOrder= @"-pk,-pk";
+static NSString *const ParamValueNewOrder = @"-pk,-pk";
 
 //button data key
 static NSString *const ButtonDataImageNameKey = @"imageName";
 static NSString *const ButtonDataTitleKey = @"title";
 static NSString *const ButtonDataTagKey = @"tag";
 
+//order param
+static NSString *OrderingParamValue = @"-pk,-pk";
 
 @interface SortViewController ()
 
@@ -55,9 +64,13 @@ static NSString *const ButtonDataTagKey = @"tag";
 @property (weak, nonatomic) IBOutlet UIView *foodSortViewDown;
 
 //sort request parameter
-@property NSString *orderingParamValue;
-@property FoodSortState foodSortOption;
+@property NSString *orderingParamValueTemp;
+
+//user click sort button
+@property BOOL isSelectedSortButton;
+
 @property NSMutableString *foodSortParamValue;
+@property FoodSortState foodSortButtonStateTemp;
 
 @end
 
@@ -66,8 +79,20 @@ static NSString *const ButtonDataTagKey = @"tag";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _orderingParamValue = nil;
-    _foodSortOption = 0;
+    _isSelectedSortButton = NO;
+    //ordering param
+    _orderingParamValueTemp = nil;
+    
+    //init food sort button
+    _foodSortButtonStateTemp = 0;
+    
+    //set button state
+    [self setOrderButtonState];
+    if (FoodSortButtonState != 0)
+    {
+        _foodSortButtonStateTemp = FoodSortButtonState;
+    }
+    
     _foodSortParamValue = [NSMutableString string];
     
     NSArray *sortButtonData = @[@{ButtonDataImageNameKey : @"foodSortKorea",
@@ -95,6 +120,8 @@ static NSString *const ButtonDataTagKey = @"tag";
     
     [self createButtonWithDatas:sortButtonData
                       superView:_foodSortViewDown];
+    
+    [self setFoodSortButtonState];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -111,6 +138,71 @@ static NSString *const ButtonDataTagKey = @"tag";
         self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.70];
         [self.view layoutIfNeeded];
     }];
+}
+
+#pragma mark - set button state
+- (void)setOrderButtonState
+{
+    UIButton *selectedButton = (UIButton *)[self.view viewWithTag:OrderButtonTag];
+    selectedButton.selected = YES;
+    selectedButton.layer.borderWidth = 1;
+    selectedButton.layer.borderColor = [FIUtilities createKeyColor].CGColor;
+}
+
+- (void)setFoodSortButtonState
+{
+    for (NSInteger i = FoodSortkoreaButtonTag; i <= FoodSortBarButtonTag; i++)
+    {
+        UIButton *foodSortButton = (UIButton *)[self.view viewWithTag:i];
+        if (FoodSortButtonState != 0)
+        {
+            switch (i) {
+                case FoodSortkoreaButtonTag:
+                    if (FoodSortButtonState & FoodSortStateSelectedKorea)
+                    {
+                        foodSortButton.selected = YES;
+                    }
+                    break;
+                    
+                case FoodSortJapanButtonTag:
+                    if (FoodSortButtonState & FoodSortStateSelectedJapan)
+                    {
+                        foodSortButton.selected = YES;
+                    }
+                    break;
+                    
+                case FoodSortChinaButtonTag:
+                    if (FoodSortButtonState & FoodSortStateSelectedChina)
+                    {
+                        foodSortButton.selected = YES;
+                    }
+                    break;
+                    
+                case FoodSortAmericaButtonTag:
+                    if (FoodSortButtonState & FoodSortStateSelectedAmerica)
+                    {
+                        foodSortButton.selected = YES;
+                    }
+                    break;
+                    
+                case FoodSortCafeButtonTag:
+                    if (FoodSortButtonState & FoodSortStateSelectedCafe)
+                    {
+                        foodSortButton.selected = YES;
+                    }
+                    break;
+                case FoodSortBarButtonTag:
+                    if (FoodSortButtonState & FoodSortStateSelectedBar)
+                    {
+                        foodSortButton.selected = YES;
+                    }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 #pragma mark - create custom button
@@ -178,10 +270,13 @@ static NSString *const ButtonDataTagKey = @"tag";
     [superView addSubview:button];
 }
 
+
+
 #pragma mark - click button method
 //sorting button
 - (void)clickFoodSortButton:(UIButton *)sender
 {
+    _isSelectedSortButton = YES;
     if ([sender isSelected] == NO)
     {
         sender.selected = YES;
@@ -189,27 +284,27 @@ static NSString *const ButtonDataTagKey = @"tag";
         switch (sender.tag)
         {
             case FoodSortkoreaButtonTag:
-                _foodSortOption = _foodSortOption | FoodSortStateSelectedKorea;
+                _foodSortButtonStateTemp = _foodSortButtonStateTemp | FoodSortStateSelectedKorea;
                 break;
                 
             case FoodSortJapanButtonTag:
-                _foodSortOption = _foodSortOption | FoodSortStateSelectedJapan;
+                _foodSortButtonStateTemp = _foodSortButtonStateTemp | FoodSortStateSelectedJapan;
                 break;
                 
             case FoodSortChinaButtonTag:
-                _foodSortOption = _foodSortOption | FoodSortStateSelectedChina;
+                _foodSortButtonStateTemp = _foodSortButtonStateTemp | FoodSortStateSelectedChina;
                 break;
                 
             case FoodSortAmericaButtonTag:
-                _foodSortOption = _foodSortOption | FoodSortStateSelectedAmerica;
+                _foodSortButtonStateTemp = _foodSortButtonStateTemp | FoodSortStateSelectedAmerica;
                 break;
                 
             case FoodSortCafeButtonTag:
-                _foodSortOption = _foodSortOption | FoodSortStateSelectedCafe;
+                _foodSortButtonStateTemp = _foodSortButtonStateTemp | FoodSortStateSelectedCafe;
                 break;
                 
             case FoodSortBarButtonTag:
-                _foodSortOption = _foodSortOption | FoodSortStateSelectedBar;
+                _foodSortButtonStateTemp = _foodSortButtonStateTemp | FoodSortStateSelectedBar;
                 break;
                 
             default:
@@ -222,27 +317,27 @@ static NSString *const ButtonDataTagKey = @"tag";
         switch (sender.tag)
         {
             case FoodSortkoreaButtonTag:
-                _foodSortOption = _foodSortOption - FoodSortStateSelectedKorea;
+                _foodSortButtonStateTemp = _foodSortButtonStateTemp - FoodSortStateSelectedKorea;
                 break;
                 
             case FoodSortJapanButtonTag:
-                _foodSortOption = _foodSortOption - FoodSortStateSelectedJapan;
+                _foodSortButtonStateTemp = _foodSortButtonStateTemp - FoodSortStateSelectedJapan;
                 break;
                 
             case FoodSortChinaButtonTag:
-                _foodSortOption = _foodSortOption - FoodSortStateSelectedChina;
+                _foodSortButtonStateTemp = _foodSortButtonStateTemp - FoodSortStateSelectedChina;
                 break;
                 
             case FoodSortAmericaButtonTag:
-                _foodSortOption = _foodSortOption - FoodSortStateSelectedAmerica;
+                _foodSortButtonStateTemp = _foodSortButtonStateTemp - FoodSortStateSelectedAmerica;
                 break;
                 
             case FoodSortCafeButtonTag:
-                _foodSortOption = _foodSortOption - FoodSortStateSelectedCafe;
+                _foodSortButtonStateTemp = _foodSortButtonStateTemp - FoodSortStateSelectedCafe;
                 break;
                 
             case FoodSortBarButtonTag:
-                _foodSortOption = _foodSortOption - FoodSortStateSelectedBar;
+                _foodSortButtonStateTemp = _foodSortButtonStateTemp - FoodSortStateSelectedBar;
                 break;
                 
             default:
@@ -258,20 +353,15 @@ static NSString *const ButtonDataTagKey = @"tag";
     
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
     
-    if (_orderingParamValue != nil &&
-        ![_orderingParamValue isEqualToString:@""])
-    {
-        [paramDict setObject:_orderingParamValue forKey:ParamNameReviewOrderingeKey];
-    } else
-    {
-        [paramDict setObject:ParamValueNewOrder forKey:ParamNameReviewOrderingeKey];
-    }
+    [paramDict setObject:OrderingParamValue forKey:ParamNameReviewOrderingeKey];
     
     if (_foodSortParamValue != nil &&
         ![_foodSortParamValue isEqualToString:@""])
     {
         [paramDict setObject:_foodSortParamValue forKey:ParamNameTagskey];
     }
+    
+    [[FIDataManager sharedManager] setRestaurantSortingParamDict:paramDict];
     
     UITabBarController *tabBarVC = (UITabBarController *)self.parentViewController;
     UINavigationController *naviVC = (UINavigationController *)[tabBarVC.viewControllers objectAtIndex:0];
@@ -293,7 +383,7 @@ static NSString *const ButtonDataTagKey = @"tag";
 {
     if (sender.selected == NO)
     {//deSelecte
-        for (NSInteger i = OrderAvgButtonTag; i < OrderReviewButtonTag + 1; i++)
+        for (NSInteger i = OrderNewButtonTag; i < OrderReviewButtonTag + 1; i++)
         {
             UIButton *buttton = (UIButton *)[self.view viewWithTag:i];
             buttton.selected = NO;
@@ -302,7 +392,8 @@ static NSString *const ButtonDataTagKey = @"tag";
         sender.selected = YES;
         sender.layer.borderWidth = 1;
         sender.layer.borderColor = [FIUtilities createKeyColor].CGColor;
-        [self setOrderingParamWithTag:sender.tag];
+        OrderButtonTag = sender.tag;
+        [self setOrderingParamWithTag:OrderButtonTag];
     }
     return;
 }
@@ -332,16 +423,20 @@ static NSString *const ButtonDataTagKey = @"tag";
 {
     switch (tag)
     {
+        case OrderNewButtonTag:
+            OrderingParamValue = ParamValueNewOrder;
+            break;
+            
         case OrderAvgButtonTag:
-            _orderingParamValue = ParamValueReviewAverageOrder;
+            OrderingParamValue = ParamValueReviewAverageOrder;
             break;
             
         case OrderLikeButtonTag:
-            _orderingParamValue = ParamValueFavoriteOrder;
+            OrderingParamValue = ParamValueFavoriteOrder;
             break;
             
         case OrderReviewButtonTag:
-            _orderingParamValue = ParamValueReviewCountOrder;
+            OrderingParamValue = ParamValueReviewCountOrder;
             break;
             
         default:
@@ -353,32 +448,37 @@ static NSString *const ButtonDataTagKey = @"tag";
 
 - (void)setFoodSortParam
 {
-    if (_foodSortOption != 0)
-    {
-        
-        if (_foodSortOption & FoodSortStateSelectedKorea)
+    
+    if (_isSelectedSortButton == YES)
+    {//변화 o
+        FoodSortButtonState = _foodSortButtonStateTemp;
+    }
+    
+    if (FoodSortButtonState != 0)
+    {//변화 x 기존 o
+        if (FoodSortButtonState & FoodSortStateSelectedKorea)
         {
             [_foodSortParamValue appendString:@"한식,"];
         }
-        if (_foodSortOption & FoodSortStateSelectedJapan)
+        if (FoodSortButtonState & FoodSortStateSelectedJapan)
         {
-            [_foodSortParamValue appendString:@"일식,"];;
+            [_foodSortParamValue appendString:@"일식,"];
         }
-        if (_foodSortOption & FoodSortStateSelectedChina)
+        if (FoodSortButtonState & FoodSortStateSelectedChina)
         {
-            [_foodSortParamValue appendString:@"중식,"];;
+            [_foodSortParamValue appendString:@"중식,"];
         }
-        if (_foodSortOption & FoodSortStateSelectedAmerica)
+        if (FoodSortButtonState & FoodSortStateSelectedAmerica)
         {
-            [_foodSortParamValue appendString:@"양식,"];;
+            [_foodSortParamValue appendString:@"양식,"];
         }
-        if (_foodSortOption & FoodSortStateSelectedCafe)
+        if (FoodSortButtonState & FoodSortStateSelectedCafe)
         {
-            [_foodSortParamValue appendString:@"카페,"];;
+            [_foodSortParamValue appendString:@"카페,"];
         }
-        if (_foodSortOption & FoodSortStateSelectedBar)
+        if (FoodSortButtonState & FoodSortStateSelectedBar)
         {
-            [_foodSortParamValue appendString:@"주점,"];;
+            [_foodSortParamValue appendString:@"주점,"];
         }
         [_foodSortParamValue deleteCharactersInRange:NSMakeRange(_foodSortParamValue.length - 1, 1)];
     }

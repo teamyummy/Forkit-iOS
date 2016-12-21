@@ -15,3 +15,11 @@
 @interface RoundColorButton : RoundButton
 
 @end
+
+@interface LeftImageRightTitleButton : UIButton
+
+@end
+
+@interface RoundBorderLeftImageRightTitleButton : LeftImageRightTitleButton
+
+@end

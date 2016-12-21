@@ -16,11 +16,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     [NSThread sleepForTimeInterval:1.5];
-    // Override point for customization after application launch.
     [UINavigationBar appearance].barTintColor = [FIUtilities createKeyColor];
     [UINavigationBar appearance].translucent = NO;
     [UINavigationBar appearance].tintColor = [UIColor whiteColor];
+    [UINavigationBar appearance].titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor]};
     
     return YES;
 }

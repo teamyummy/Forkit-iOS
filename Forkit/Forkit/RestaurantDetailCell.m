@@ -31,26 +31,6 @@
     [self updateScoreViewToCircleView];
 }
 
-#pragma mark - Click Button Method
-- (IBAction)clickLikeButton:(UIButton *)sender
-{
-    if ([FILoginManager isOnLogin])
-    {
-        if ([sender isSelected] == NO)
-        {
-            _likeButtonRoundView.layer.borderColor = [FIUtilities createKeyColor].CGColor;
-            _likeButtonImageView.image = [UIImage imageNamed:@"favorSelected"];
-            _likeButtonLabel.textColor = [FIUtilities createKeyColor];
-            
-        } else
-        {
-            _likeButtonRoundView.layer.borderColor = [FIUtilities createGrayColor].CGColor;
-            _likeButtonImageView.image = [UIImage imageNamed:@"favorLine"];
-            _likeButtonLabel.textColor = [UIColor blackColor];
-        }
-    }
-}
-
 #pragma mark - Update View
 - (void)updateScoreViewToCircleView
 {

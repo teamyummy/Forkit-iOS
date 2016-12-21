@@ -38,7 +38,9 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     RestaurantDetailViewController * __weak weakSelf = self;
     
     _didReceiveUpdateDataBlock = ^{
-        [FIRequestObject requestReviewListWithRestaurantPk:[weakSelf.restaurantDatas objectForKey:JSONCommonPrimaryKey] didReceiveUpdateDataBlock:^{
+        [FIRequestObject requestReviewListWithRestaurantPk:[weakSelf.restaurantDatas objectForKey:JSONCommonPrimaryKey]
+                                 didReceiveUpdateDataBlock:^{
+            [weakSelf setUpdateRestaurantDatas];
             [weakSelf didReceiveReviewDataUpdated];
         }];
     };
@@ -134,9 +136,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
         if (isOnMyLikeState)
         {
             cell.likeButton.selected = YES;
-            cell.likeButtonLabel.textColor = [FIUtilities createKeyColor];
-            cell.likeButtonRoundView.layer.borderColor = [FIUtilities createKeyColor].CGColor;
-            cell.likeButtonImageView.image = [UIImage imageNamed:@"favorSelected"];
+            cell.likeButton.layer.borderColor = [FIUtilities createKeyColor].CGColor;
         }
     }
 }
@@ -262,7 +262,14 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
- 
+#pragma mark - Custom method
+- (void)removeAllSubviewsFromParentView:(UIScrollView *)parentView
+{
+    for (UIImageView *subView in [parentView subviews])
+    {
+        [subView removeFromSuperview];
+    }
+}
 
 #pragma mark - Click Button Method
 - (IBAction)presentReviewController:(UIButton *)sender
@@ -276,6 +283,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
         ReviewViewController *reviewAlertVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ReviewVC"];
         
         reviewAlertVC.restaurantPk = [_restaurantDatas objectForKey:JSONCommonPrimaryKey];
+        reviewAlertVC.restaurantName = [_restaurantDatas objectForKey:JSONRestaurnatNameKey];
         [self addChildViewController:reviewAlertVC];
         [self.view addSubview:reviewAlertVC.view];
         reviewAlertVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
@@ -289,25 +297,38 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 
 - (IBAction)clickLikeButton:(UIButton *)sender
 {
-    RestaurantDetailViewController * __weak weakSelf = self;
     if (![FILoginManager isOnLogin])
     {
         [self showAlert];
     } else
     {
+        NSInteger score = [[_restaurantDatas objectForKey:JSONRestaurnatTotalLikeKey] integerValue];
+        NSInteger countNumber;
+        NSString *restaurantPk;
+        CGColorRef borderColor;
+        
         if ([sender isSelected] == NO)
         {
             sender.selected = YES;
-            [FIRequestObject requestFavorRestaurantWithRestaurantPk:[_restaurantDatas objectForKey:JSONCommonPrimaryKey] likePk:nil didReceiveUpdateDataBlock:^{
-                [weakSelf didReceiveReviewLikeDataUpdated];
-            }];
+            restaurantPk = nil;
+            borderColor = [FIUtilities createKeyColor].CGColor;
+            countNumber = 1;
         } else
         {
             sender.selected = NO;
-            [FIRequestObject requestFavorRestaurantWithRestaurantPk:[_restaurantDatas objectForKey:JSONCommonPrimaryKey] likePk:[_restaurantDatas objectForKey:JSONRestaurnatMyLikePrimaryKey] didReceiveUpdateDataBlock:^{
-                [weakSelf didReceiveReviewLikeDataUpdated];
-            }];
+            restaurantPk = [_restaurantDatas objectForKey:JSONRestaurnatMyLikePrimaryKey];
+            borderColor = [FIUtilities createGrayColor].CGColor;
+            countNumber = -1;
         }
+        //request
+        [FIRequestObject requestFavorRestaurantWithRestaurantPk:[_restaurantDatas objectForKey:JSONCommonPrimaryKey] likePk:restaurantPk];
+        //set score
+        [_restaurantDatas setObject:[NSString stringWithFormat:@"%ld", score + countNumber] forKey:JSONRestaurnatTotalLikeKey];
+        //set border color
+        sender.layer.borderColor = borderColor;
+        //set cell text
+        RestaurantDetailTitleCell *cell = (RestaurantDetailTitleCell *)[_restaurantDetailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        cell.likeCountLabel.text = [_restaurantDatas objectForKey:JSONRestaurnatTotalLikeKey];
     }
 }
 
@@ -319,6 +340,7 @@ static NSString * const reuseIdentifierReviewCell = @"RestaurantDetailReviewCell
 #pragma mark - Scroll View Method
 - (void)createScrollViewWithCell:(RestaurantDetailInfoCell *)cell
 {
+    [self removeAllSubviewsFromParentView:cell.reviewPhotoScrollView];
     CGFloat scrollViewWidth = cell.reviewPhotoScrollView.frame.size.width;
     CGFloat scrollViewHeight = cell.reviewPhotoScrollView.frame.size.height;
     CGFloat scrollViewLeading = 20;

@@ -19,11 +19,11 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
     FiveScoreButton
 };
 
-
 @interface ReviewViewController () <QBImagePickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *selectedImageScrollView;
 @property (weak, nonatomic) IBOutlet UITextView *reviewTextView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollConstraint;
+@property (weak, nonatomic) IBOutlet UILabel *restaurantNameLabel;
 
 @property (weak) ReviewViewController *weakSelf;
 
@@ -41,6 +41,7 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    _restaurantNameLabel.text = _restaurantName;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -233,12 +234,14 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
         [self showAlert];
     } else
     {
-        RestaurantDetailViewController *tabBarVC = (RestaurantDetailViewController *)self.parentViewController;
+        RestaurantDetailViewController *restaurantDetailVC = (RestaurantDetailViewController *)self.parentViewController;
+        
         [FIRequestObject requestUploadReviewListWithRestaurantPk:_restaurantPk
                                                           images:_imageList
                                                         contents:_reviewTextView.text
                                                            score:_reviewScore
-                                       didReceiveUpdateDataBlock:tabBarVC.didReceiveUpdateDataBlock];
+                                       didReceiveUpdateDataBlock:restaurantDetailVC.didReceiveUpdateDataBlock];
+        
         self.parentViewController.tabBarController.tabBar.hidden = NO;
         [_reviewTextView endEditing:YES];
         [UIView animateWithDuration:0.2
@@ -249,8 +252,6 @@ typedef NS_ENUM(NSInteger, ScoreButtonTag)
                          }];
     }
 }
-
-
 
 #pragma mark - QBImagePicker Delegate
 - (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController

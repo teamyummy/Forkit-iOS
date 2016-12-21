@@ -8,6 +8,7 @@
 
 #import "ReviewDetatilViewController.h"
 #import "RestaurantDetailViewController.h"
+#import "MyPageViewController.h"
 
 @interface ReviewDetatilViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
@@ -71,7 +72,6 @@
 - (void)createScrollViewWithImageArr:(NSArray *)imageArr
 {
     NSInteger countNumber = imageArr.count;
-    
     NSInteger scrollViewHeight = _containerScrollView.frame.size.height;
     NSInteger superViewHeight = _contentTextView.contentSize.height;
     NSInteger superViewWidth = _containerTextView.frame.size.width;
@@ -100,6 +100,7 @@
     }
 }
 
+#pragma mark - click button
 - (IBAction)clickPopButton:(UIBarButtonItem *)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -110,22 +111,48 @@
     [self showAlert];
 }
 
+- (id)previousViewController
+{
+    return [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+}
+
 #pragma mark - Alert
 - (void)showAlert
 {
+    id didReceiveUpdateDataBlock = nil;
+    BOOL isMypageVC = YES;
+    
+    if ([[self previousViewController] isKindOfClass:[RestaurantDetailViewController class]])
+    {
+        RestaurantDetailViewController *restaurantDetailVC = [self previousViewController];
+        didReceiveUpdateDataBlock = restaurantDetailVC.didReceiveUpdateDataBlock;
+        isMypageVC = NO;
+    }
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"리뷰 삭제"
                                                                    message:@"정말로 삭제 하시겠습니까?"
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
-    RestaurantDetailViewController *RestaurantDetailVC = (RestaurantDetailViewController *)[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+
+    
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"삭제"
                                                        style:UIAlertActionStyleDestructive
                                                      handler:^(UIAlertAction * _Nonnull action) {
-                                                             [FIRequestObject requestDeleteReviewWithRestaurantPk:[_deatilReviewData objectForKey:JSONReviewRestaurantPrimaryKey] reviewPk:[_deatilReviewData objectForKey:JSONCommonPrimaryKey] didReceiveUpdateDataBlock:RestaurantDetailVC.didReceiveUpdateDataBlock];
+                                                             [FIRequestObject requestDeleteReviewWithRestaurantPk:[_deatilReviewData objectForKey:JSONReviewRestaurantPrimaryKey]
+                                                                                                         reviewPk:[_deatilReviewData objectForKey:JSONCommonPrimaryKey]
+                                                                                                       isMypageVC:isMypageVC
+                                                                                        didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
                                                          
                                                          [alert dismissViewControllerAnimated:YES completion:nil];
                                                          [self.navigationController popViewControllerAnimated:NO];
                                                      }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"취소"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction * _Nonnull action) {
+                                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                                         }];
     [alert addAction:okAction];
+    [alert addAction:cancelAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
 

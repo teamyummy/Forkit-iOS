@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "RoundButton.h"
+#import "MyPageViewController.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *idTextField;

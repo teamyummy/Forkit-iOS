@@ -11,5 +11,6 @@
 @interface ReviewViewController : UIViewController
 
 @property NSString *restaurantPk;
+@property NSString *restaurantName;
 
 @end

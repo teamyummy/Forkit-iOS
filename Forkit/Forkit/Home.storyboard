@@ -60,6 +60,7 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="ncc-Ie-Hbj" firstAttribute="height" secondItem="UjR-iU-2fE" secondAttribute="height" id="8Kl-Xa-cCM"/>
                                             <constraint firstItem="ncc-Ie-Hbj" firstAttribute="width" secondItem="UjR-iU-2fE" secondAttribute="width" id="JG7-hd-tfu"/>
@@ -74,13 +75,13 @@
                                         <rect key="frame" x="187" y="0.0" width="188" height="44"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BYr-PO-7fu">
-                                                <rect key="frame" x="-0.5" y="0.0" width="188" height="44"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="188" height="44"/>
                                                 <connections>
                                                     <segue destination="d3t-Gt-yhf" kind="presentation" id="XdU-gQ-9uN"/>
                                                 </connections>
                                             </button>
                                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WEY-hd-teM">
-                                                <rect key="frame" x="65.5" y="0.0" width="56" height="44"/>
+                                                <rect key="frame" x="66" y="0.0" width="56" height="44"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" alpha="0.54000000000000004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="map" translatesAutoresizingMaskIntoConstraints="NO" id="cFD-kc-nbL">
                                                         <rect key="frame" x="0.0" y="10" width="24" height="24"/>
@@ -572,12 +573,9 @@
                                                                 <rect key="frame" x="24" y="65" width="327" height="43"/>
                                                                 <subviews>
                                                                     <button opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="07y-cs-6Qw" customClass="RoundButton">
-                                                                        <rect key="frame" x="0.0" y="0.5" width="80" height="43"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="width" constant="80" id="toe-c7-Txb"/>
-                                                                        </constraints>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="76" height="43"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                        <state key="normal" title="평점순">
+                                                                        <state key="normal" title="최신순">
                                                                             <color key="titleColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
                                                                         </state>
                                                                         <state key="selected">
@@ -593,27 +591,8 @@
                                                                             <action selector="clickOrderingButton:" destination="h8P-o0-vIc" eventType="touchUpInside" id="gbL-Ww-p17"/>
                                                                         </connections>
                                                                     </button>
-                                                                    <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgz-p5-tVU" customClass="RoundButton">
-                                                                        <rect key="frame" x="123" y="0.5" width="80" height="43"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                        <state key="normal" title="추천순">
-                                                                            <color key="titleColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        </state>
-                                                                        <state key="selected">
-                                                                            <color key="titleColor" red="0.93725490199999995" green="0.32549019610000002" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        </state>
-                                                                        <state key="highlighted">
-                                                                            <color key="titleColor" red="0.93725490199999995" green="0.32549019610000002" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        </state>
-                                                                        <state key="focused">
-                                                                            <color key="titleColor" red="0.93725490199999995" green="0.32549019610000002" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        </state>
-                                                                        <connections>
-                                                                            <action selector="clickOrderingButton:" destination="h8P-o0-vIc" eventType="touchUpInside" id="Eqk-hB-0cV"/>
-                                                                        </connections>
-                                                                    </button>
-                                                                    <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7O-ja-b46" customClass="RoundButton">
-                                                                        <rect key="frame" x="247" y="0.5" width="80" height="43"/>
+                                                                    <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7O-ja-b46" customClass="RoundButton">
+                                                                        <rect key="frame" x="251.5" y="0.0" width="75.5" height="43"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                         <state key="normal" title="리뷰순">
                                                                             <color key="titleColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
@@ -631,22 +610,66 @@
                                                                             <action selector="clickOrderingButton:" destination="h8P-o0-vIc" eventType="touchUpInside" id="9lG-WR-VYW"/>
                                                                         </connections>
                                                                     </button>
+                                                                    <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zRQ-up-8Na" customClass="RoundButton">
+                                                                        <rect key="frame" x="167.5" y="0.0" width="76" height="43"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <state key="normal" title="추천순">
+                                                                            <color key="titleColor" red="0.45882352939999999" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </state>
+                                                                        <state key="selected">
+                                                                            <color key="titleColor" red="0.93725490199999995" green="0.32549019610000002" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </state>
+                                                                        <state key="highlighted">
+                                                                            <color key="titleColor" red="0.93725490199999995" green="0.32549019610000002" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </state>
+                                                                        <state key="focused">
+                                                                            <color key="titleColor" red="0.93725490199999995" green="0.32549019610000002" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </state>
+                                                                        <connections>
+                                                                            <action selector="clickOrderingButton:" destination="h8P-o0-vIc" eventType="touchUpInside" id="g3R-2D-Fm6"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgz-p5-tVU" customClass="RoundButton">
+                                                                        <rect key="frame" x="84" y="0.0" width="75.5" height="43"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <state key="normal" title="평점순">
+                                                                            <color key="titleColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </state>
+                                                                        <state key="selected">
+                                                                            <color key="titleColor" red="0.93725490199999995" green="0.32549019610000002" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </state>
+                                                                        <state key="highlighted">
+                                                                            <color key="titleColor" red="0.93725490199999995" green="0.32549019610000002" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </state>
+                                                                        <state key="focused">
+                                                                            <color key="titleColor" red="0.93725490199999995" green="0.32549019610000002" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </state>
+                                                                        <connections>
+                                                                            <action selector="clickOrderingButton:" destination="h8P-o0-vIc" eventType="touchUpInside" id="Eqk-hB-0cV"/>
+                                                                        </connections>
+                                                                    </button>
                                                                 </subviews>
                                                                 <constraints>
-                                                                    <constraint firstItem="R7O-ja-b46" firstAttribute="width" secondItem="07y-cs-6Qw" secondAttribute="width" id="2Pm-IF-u2g"/>
-                                                                    <constraint firstItem="kgz-p5-tVU" firstAttribute="height" secondItem="Mg4-63-Xie" secondAttribute="height" id="5kf-aM-a3r"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="R7O-ja-b46" secondAttribute="trailing" id="BMI-Us-AQF"/>
-                                                                    <constraint firstItem="kgz-p5-tVU" firstAttribute="centerY" secondItem="07y-cs-6Qw" secondAttribute="centerY" id="Jf9-me-cjB"/>
+                                                                    <constraint firstItem="R7O-ja-b46" firstAttribute="width" secondItem="07y-cs-6Qw" secondAttribute="width" id="0ZC-ur-IqM"/>
+                                                                    <constraint firstItem="kgz-p5-tVU" firstAttribute="centerY" secondItem="07y-cs-6Qw" secondAttribute="centerY" id="Dav-RI-R1w"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="R7O-ja-b46" secondAttribute="trailing" id="Kl7-W1-jgG"/>
                                                                     <constraint firstItem="07y-cs-6Qw" firstAttribute="centerY" secondItem="Mg4-63-Xie" secondAttribute="centerY" id="L16-mz-rlT"/>
                                                                     <constraint firstItem="07y-cs-6Qw" firstAttribute="leading" secondItem="Mg4-63-Xie" secondAttribute="leading" id="LkI-gf-h4p"/>
-                                                                    <constraint firstItem="kgz-p5-tVU" firstAttribute="width" secondItem="07y-cs-6Qw" secondAttribute="width" id="W5d-Jq-Ljg"/>
-                                                                    <constraint firstItem="R7O-ja-b46" firstAttribute="height" secondItem="Mg4-63-Xie" secondAttribute="height" id="XyA-EJ-ygh"/>
-                                                                    <constraint firstItem="kgz-p5-tVU" firstAttribute="centerX" secondItem="Mg4-63-Xie" secondAttribute="centerX" id="Zdv-bx-NjS"/>
+                                                                    <constraint firstItem="kgz-p5-tVU" firstAttribute="leading" secondItem="07y-cs-6Qw" secondAttribute="trailing" constant="8" id="Mgx-o1-GtU"/>
+                                                                    <constraint firstItem="zRQ-up-8Na" firstAttribute="centerY" secondItem="kgz-p5-tVU" secondAttribute="centerY" id="Pqm-ix-wUA"/>
+                                                                    <constraint firstItem="R7O-ja-b46" firstAttribute="height" secondItem="07y-cs-6Qw" secondAttribute="height" id="Rqe-U2-72P"/>
+                                                                    <constraint firstItem="R7O-ja-b46" firstAttribute="centerY" secondItem="zRQ-up-8Na" secondAttribute="centerY" id="k4M-TP-01b"/>
+                                                                    <constraint firstItem="kgz-p5-tVU" firstAttribute="height" secondItem="07y-cs-6Qw" secondAttribute="height" id="llH-mZ-2OF"/>
+                                                                    <constraint firstItem="zRQ-up-8Na" firstAttribute="width" secondItem="07y-cs-6Qw" secondAttribute="width" id="ncz-QJ-sR5"/>
+                                                                    <constraint firstItem="zRQ-up-8Na" firstAttribute="leading" secondItem="kgz-p5-tVU" secondAttribute="trailing" constant="8" id="qWY-cZ-Ifi"/>
                                                                     <constraint firstItem="07y-cs-6Qw" firstAttribute="height" secondItem="Mg4-63-Xie" secondAttribute="height" id="wCg-Ie-ja4"/>
-                                                                    <constraint firstItem="R7O-ja-b46" firstAttribute="centerY" secondItem="07y-cs-6Qw" secondAttribute="centerY" id="zga-se-SAj"/>
+                                                                    <constraint firstItem="kgz-p5-tVU" firstAttribute="width" secondItem="07y-cs-6Qw" secondAttribute="width" id="wxM-kv-hQl"/>
+                                                                    <constraint firstItem="zRQ-up-8Na" firstAttribute="height" secondItem="07y-cs-6Qw" secondAttribute="height" id="yAL-ee-wcP"/>
+                                                                    <constraint firstItem="R7O-ja-b46" firstAttribute="leading" secondItem="zRQ-up-8Na" secondAttribute="trailing" constant="8" id="yax-lc-uYg"/>
                                                                 </constraints>
                                                             </view>
                                                         </subviews>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="Mg4-63-Xie" secondAttribute="trailing" constant="24" id="12w-DX-OPm"/>
                                                             <constraint firstItem="Mg4-63-Xie" firstAttribute="top" secondItem="ANH-s3-5By" secondAttribute="bottom" constant="24" id="42y-Hx-Uob"/>
@@ -821,6 +844,9 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fAO-qC-J6n">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

@@ -11,7 +11,9 @@
 @interface FIMyPageManager : NSObject
 
 @property (nonatomic) NSMutableArray *favorShop;
+@property (nonatomic) NSMutableArray *reviewDatas;
 
 + (instancetype)sharedManager;
-
+- (void)setFavorShop:(NSMutableArray *)favorShop;
+- (void)setReviewDatas:(NSMutableArray *)reviewDatas;
 @end

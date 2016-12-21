@@ -29,7 +29,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *sortingButton;
 @property UIPageControl *pageControl;
 @property UIScrollView *imageScrollView;
-
+///refreshControl
+@property UIRefreshControl *refreshControl;
 @end
 
 @implementation HomeViewController
@@ -39,6 +40,11 @@
 {
     [super viewDidLoad];
     
+    //KVO
+    [[FIDataManager sharedManager] addObserver:self
+                                    forKeyPath:@"shopDatas"
+                                       options:NSKeyValueObservingOptionNew
+                                       context:nil];
     //weakSelf
     _weakSelf = self;
     //set block
@@ -56,10 +62,12 @@
     self.scrollImageList = [NSMutableArray array];
     //set logo image navigation item
     [self setNavigationItemTitleView];
+    [self createRefreshControl];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    _requestPageNumber = 5;
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBarHidden = NO;
@@ -70,6 +78,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+    [_refreshControl endRefreshing];
+    [_restaurantTableView reloadData];
+}
+
 #pragma mark - block method
 //list update
 - (void)didReceiveListUpdated
@@ -78,9 +92,6 @@
     [_restaurantTableView.tableHeaderView removeFromSuperview];
     _restaurantTableView.tableHeaderView = nil;
     
-    //init page number
-    _requestPageNumber = 5;
-
     //create UI
     [self createTableHeaderScrollView];
     [self createScrollView];
@@ -95,6 +106,17 @@
 }
 
 #pragma mark - create UI method
+- (void)createRefreshControl
+{
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    _refreshControl.tintColor = [FIUtilities createKeyColor];
+    
+    [_refreshControl addTarget:[FIRequestObject class]
+                        action:@selector(requestRestaurantList)
+              forControlEvents:UIControlEventValueChanged];
+    _restaurantTableView.refreshControl = _refreshControl;
+}
+
 - (void)setNavigationItemTitleView
 {
     UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
@@ -289,5 +311,10 @@
         RestaurantDetailViewController *restaurantDetailVC = segue.destinationViewController;
         restaurantDetailVC.restaurantDatas = [restaurantDatas mutableCopy];
     } 
+}
+
+- (void)dealloc 
+{
+    [[FIDataManager sharedManager] removeObserver:self forKeyPath:@"shopDatas"];
 }
 @end

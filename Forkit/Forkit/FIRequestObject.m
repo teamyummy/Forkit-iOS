@@ -113,6 +113,40 @@ static NSString *const BasePathString = @"api/v1/";
     return URLString;
 }
 /*
+ 모든 음식점 리스트 (GET)
+ */
++ (void)requestRestaurantList
+{
+    //URL String
+    NSString *URLString = [FIRequestObject requestURLString:RequestTypeRestaurantList
+                                               restaurantPk:nil
+                                                   reviewPk:nil];
+
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    if ([FILoginManager isOnLogin])
+    {
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        [manager.requestSerializer setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
+    }
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:URLString
+      parameters:[[FIDataManager sharedManager] restaurantSortingParamDict]
+        progress:nil
+         success:^(NSURLSessionTask *task, id responseObject) {
+             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+             [[FIDataManager sharedManager] setShopDataDict:responseObject];
+             [[FIDataManager sharedManager] setShopDatas:[NSMutableArray arrayWithArray: [responseObject objectForKey:JSONRestaurantResultsKey]]];
+             
+         } failure:^(NSURLSessionTask *operation, NSError *error) {
+             NSLog(@"%@", error);
+         }];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
+}
+/*
  모든 음식점 리스트, 정렬, 검색 (GET)
  */
 + (void)requestRestaurantList:(NSDictionary *)paramDict pagingURLString:(NSString *)pagingURLString isPaging:(BOOL)isPaging isSearch:(BOOL)isSearch didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
@@ -140,6 +174,7 @@ static NSString *const BasePathString = @"api/v1/";
       parameters:paramDict
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject) {
+             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
              if (isSearch)
              {
                  [[FISearchManager sharedManager] setSearchShopDatas:[responseObject objectForKey:JSONRestaurantResultsKey]];
@@ -154,7 +189,7 @@ static NSString *const BasePathString = @"api/v1/";
          } failure:^(NSURLSessionTask *operation, NSError *error) {
              NSLog(@"%@", error);
          }];
-    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 /*
@@ -178,7 +213,7 @@ static NSString *const BasePathString = @"api/v1/";
     //Data Task
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request
                                                 completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-                                                    
+                                                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                                                     if (error != nil)
                                                     {
                                                         NSLog(@"Error occured : %@",error);
@@ -196,6 +231,7 @@ static NSString *const BasePathString = @"api/v1/";
                                                 }];
     
     [dataTask resume];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 
@@ -219,7 +255,7 @@ static NSString *const BasePathString = @"api/v1/";
     //Data Task
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request
                                                 completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-                                                    
+                                                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                                                     if (error != nil)
                                                     {
                                                         NSLog(@"Error occured : %@",error);
@@ -236,8 +272,8 @@ static NSString *const BasePathString = @"api/v1/";
                                                 }];
     
     [dataTask resume];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
-
 
 /*
  특정 음식점에 따른 리뷰 텍스트 등록 (POST)
@@ -249,15 +285,13 @@ static NSString *const BasePathString = @"api/v1/";
                                                 restaurantPk:restaurantPk
                                                     reviewPk:nil];
     
-    //Request
+    //manager
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    
     [manager.requestSerializer setValue:[[FILoginManager sharedManager] loginToken] forHTTPHeaderField:ParamNameLoginTokenKey];
-    
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
+    //param
     NSMutableDictionary *bodyParms = [NSMutableDictionary dictionary];
     [bodyParms setObject:contents forKey:JSONReviewContentKey];
     [bodyParms setObject:@"ioschef review" forKey:JSONReviewTitleKey];
@@ -266,6 +300,8 @@ static NSString *const BasePathString = @"api/v1/";
     {
         [bodyParms setObject:@"alt" forKey:ParamNameReviewAltsKey];
     }
+    
+    //post
     [manager POST:requsetURL
        parameters:bodyParms
 constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -285,24 +321,26 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
                                     mimeType:@"image/jpeg"];
     }
     
-} progress:nil
+}
+         progress:nil
           success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-              
-              NSLog(@"%@", responseObject);
-              
+              [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
               [FIRequestObject requestRestaurantDetailDataWithRestaurantPk:restaurantPk didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
+              [FIRequestObject requestMyRegisterReview];
+              [FIRequestObject requestMyFavorRestaurantList];
+              [FIRequestObject requestRestaurantList];
     
           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
               NSLog(@"%@",error);
           }];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 /*
  특정 음식점에 따른 특정 리뷰 (DELETE)
  */
-+ (void)requestDeleteReviewWithRestaurantPk:(PrimaryKey *)restaurantPk reviewPk:(PrimaryKey *)reviewPk didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
++ (void)requestDeleteReviewWithRestaurantPk:(PrimaryKey *)restaurantPk reviewPk:(PrimaryKey *)reviewPk isMypageVC:(BOOL)isMypageVC didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
 {
-    
     //URL String
     NSString *URLString = [FIRequestObject requestURLString:RequestTypeReviewDetail
                                                restaurantPk:restaurantPk
@@ -320,11 +358,22 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
     [manager DELETE:URLString
          parameters:nil
             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                if (isMypageVC == NO)
+                {
+                    [FIRequestObject requestRestaurantDetailDataWithRestaurantPk:restaurantPk didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
+                } else
+                {
+                    [FIRequestObject requestMyRegisterReview];
+                    [FIRequestObject requestMyFavorRestaurantList];
+                    [FIRequestObject requestRestaurantList];
+                }
                 
-                [FIRequestObject requestRestaurantDetailDataWithRestaurantPk:restaurantPk didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
                 NSLog(@"responseObject : %@",responseObject);
+                
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             }];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 
@@ -357,7 +406,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
     
     id uploadTaskHandler = ^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         
-        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         NSArray *resposeArr = [responseObject allKeys];
         for (NSString *responseStr in resposeArr)
         {
@@ -381,11 +430,13 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
                                                                      progress:nil
                                                             completionHandler:uploadTaskHandler];
     [uploadTask resume];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
+
 /*
  나의 즐겨찾기 식당(GET)
  */
-+ (void)requestMyFavorRestaurantList:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
++ (void)requestMyFavorRestaurantList
 {
     //URL String
     NSString *URLString = [FIRequestObject requestURLString:RequestTypeMyLikeRestaurant
@@ -404,7 +455,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
     //Data Task
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request
                                                 completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-
+                                                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                                                     if (error != nil)
                                                     {
                                                         NSLog(@"Error occured : %@",error);
@@ -415,16 +466,17 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
                                                     }else
                                                     {
                                                         //responseObject를 my favor list manager에 저장
-                                                        [[FIDataManager sharedManager]setShopDatas:[NSMutableArray arrayWithArray: responseObject]];
-                                                        didReceiveUpdateDataBlock();
+                                                        [[FIMyPageManager sharedManager] setFavorShop:[NSMutableArray arrayWithArray: responseObject]];
                                                     }
                                                 }];
     [dataTask resume];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
+
 /*
  나의 리뷰(GET)
  */
-+ (void)requestMyRegisterReview:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
++ (void)requestMyRegisterReview
 {
     //URL String
     NSString *URLString = [FIRequestObject requestURLString:RequestTypeMyReview
@@ -443,7 +495,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
     //Data Task
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request
                                                 completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-                                                    
+                                                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                                                     if (error != nil)
                                                     {
                                                         NSLog(@"Error occured : %@",error);
@@ -453,21 +505,20 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
                                                         NSLog(@"Data dosen't exist");
                                                     }else
                                                     {
-                                                        //responseObject를 my favor list manager에 저장
-                                                        [[FIReviewDataManager sharedManager] setReviewDatas:[NSMutableArray arrayWithArray:responseObject]];
-                                                        didReceiveUpdateDataBlock();
+                                                        [[FIMyPageManager sharedManager] setReviewDatas:[NSMutableArray arrayWithArray:responseObject]];
                                                     }
                                                 }];
     [dataTask resume];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 /*
  즐겨찾기 요청(POST, DELETE)
  */
-+ (void)requestFavorRestaurantWithRestaurantPk:(PrimaryKey *)RestaurantPk likePk:(PrimaryKey *)likePk didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
++ (void)requestFavorRestaurantWithRestaurantPk:(PrimaryKey *)restaurantPk likePk:(PrimaryKey *)likePk
 {
     NSString *URLString = [FIRequestObject requestURLString:RequestTypeFavor
-                                               restaurantPk:RestaurantPk
+                                               restaurantPk:restaurantPk
                                                    reviewPk:nil];
     
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
@@ -486,11 +537,10 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [manager DELETE:URLString
              parameters:nil
                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                    [FIRequestObject requestMyFavorRestaurantList];
+                    [FIRequestObject requestRestaurantList];
                     
-                    NSLog(@"responseObject : %@",responseObject);
-                    
-                    [FIRequestObject requestRestaurantDetailDataWithRestaurantPk:RestaurantPk
-                                                       didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 }];
     } else
@@ -499,15 +549,20 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
            parameters:nil
              progress:nil
               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                  [FIRequestObject requestMyFavorRestaurantList];
+                  [FIRequestObject requestRestaurantList];
                   
-                  [FIRequestObject requestRestaurantDetailDataWithRestaurantPk:RestaurantPk
-                                                     didReceiveUpdateDataBlock:didReceiveUpdateDataBlock];
               } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                   
               }];
     }
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
+/*
+ 디테일 레스토랑(GET)
+ */
 + (void)requestRestaurantDetailDataWithRestaurantPk:(PrimaryKey *)pk didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock
 {
     //URL String
@@ -529,7 +584,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
       parameters:nil
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject) {
-             
+             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                  if (responseObject == nil)
                  {
                      NSLog(@"Data dosen't exist");
@@ -542,6 +597,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
          } failure:^(NSURLSessionTask *operation, NSError *error) {
              NSLog(@"%@", error);
          }];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 @end

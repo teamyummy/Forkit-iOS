@@ -13,6 +13,7 @@
 @end
 
 @interface ProfileCell : MyPageTableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *idLabel;
 
 @end
 
@@ -20,13 +21,9 @@
 
 //review button contents
 @property (weak, nonatomic) IBOutlet UIButton *reviewButton;
-@property (weak, nonatomic) IBOutlet UIImageView *reviewButtonImageView;
-@property (weak, nonatomic) IBOutlet UILabel *reviewButtonLabel;
 
 //like button contents
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
-@property (weak, nonatomic) IBOutlet UIImageView *likeButtonImageView;
-@property (weak, nonatomic) IBOutlet UILabel *likeButtonLabel;
 
 @end
 

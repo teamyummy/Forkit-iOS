@@ -14,9 +14,9 @@ static NSString *const borderView = @"borderView";
 
 @implementation CustomUIView
 
-- (void)layoutSubviews
+- (void)drawRect:(CGRect)rect
 {
-    [super layoutSubviews];
+    [super drawRect:rect];
     [self setRightBorderWithStroke:0.75 alpha:0.18];
 }
 
@@ -55,9 +55,9 @@ static NSString *const borderView = @"borderView";
 
 @implementation RoundView
 
-- (void)awakeFromNib
+- (void)drawRect:(CGRect)rect
 {
-    [super awakeFromNib];
+    [super drawRect:rect];
     self.layer.cornerRadius = self.frame.size.height/2;
     self.backgroundColor = [UIColor clearColor];
     self.layer.borderWidth = 1;
@@ -68,14 +68,16 @@ static NSString *const borderView = @"borderView";
 
 @implementation BottomBorderView
 
-- (void)layoutSubviews
+- (void)drawRect:(CGRect)rect
 {
-    [super layoutSubviews];
+    [super drawRect:rect];
+
     [self setBorderWithStroke:0.75 alpha:0.18];
 }
 
 - (void)setBorderWithStroke:(CGFloat)stroke alpha:(CGFloat)alpha
 {
+    
     CALayer *border = [CALayer layer];
     
     CGFloat height = self.frame.size.height;

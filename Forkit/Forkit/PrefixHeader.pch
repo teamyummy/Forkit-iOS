@@ -21,13 +21,6 @@ alpha:1.0]
 #import "FIRequestObject.h"
 #import <UIImageView+WebCache.h>
 
-#pragma mark - Custom UI Components
-
-#include "CustomTitleLabel.h"
-
-#include "RestaurantListCell.h"
-
-
 #pragma mark - Parameter Key
 static NSString *const ParamNameSerachKey = @"search";
 static NSString *const ParamNameTagskey = @"tags";
@@ -63,14 +56,13 @@ static NSString *const JSONRestaurantNextKey = @"next";
 static NSString *const JSONRestaurantPreviousKey = @"previous";
 static NSString *const JSONRestaurantResultsKey = @"results";
 
-
-
 //review list key
 static NSString *const JSONReviewAuthorKey = @"author";
 static NSString *const JSONReviewContentKey = @"content";
 static NSString *const JSONReviewScoreKey = @"score";
 static NSString *const JSONReviewTitleKey = @"title";
 static NSString *const JSONReviewRestaurantPrimaryKey = @"rest_id";
+
 //menu list key
 static NSString *const JSONMenuNameKey = @"name";
 static NSString *const JSONMenuPriceKey = @"price";

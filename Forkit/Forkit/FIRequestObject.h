@@ -13,7 +13,13 @@ typedef void(^DidReceiveUpdateDataBlock)(void);
 typedef void(^DidReceiveSuccessLoginBlock)(void);
 typedef void(^DidReceiveFailedLoginBlock)(void);
 
+static NSString *const UpdateAllDatasNotification = @"updateAllDatasNotification";
+
 @interface FIRequestObject : NSObject
+/**
+ 음식점 리스트 간소화(GET)
+ */
++ (void)requestRestaurantList;
 
 /**
  음식점 리스트(GET)
@@ -44,7 +50,7 @@ typedef void(^DidReceiveFailedLoginBlock)(void);
  @param restaurantPk 음식점 primary key
  @param reviewPk 삭제하고자 하는 리뷰 primary key
  */
-+ (void)requestDeleteReviewWithRestaurantPk:(PrimaryKey *)restaurantPk reviewPk:(PrimaryKey *)reviewPk didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
++ (void)requestDeleteReviewWithRestaurantPk:(PrimaryKey *)restaurantPk reviewPk:(PrimaryKey *)reviewPk isMypageVC:(BOOL)isMypageVC didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
 
 /**
  리뷰 업로드(UPLOAD)
@@ -64,11 +70,27 @@ typedef void(^DidReceiveFailedLoginBlock)(void);
  */
 + (void)requestLoginTokenWithUserId:(NSString *)userId userPw:(NSString *)userPw success:(DidReceiveSuccessLoginBlock)success failed:(DidReceiveFailedLoginBlock)failed;
 
-+ (void)requestMyFavorRestaurantList:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
+/**
+ 나의 즐겨찾기 목록(GET)
+ */
++ (void)requestMyFavorRestaurantList;
 
-+ (void)requestMyRegisterReview:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
+/**
+ 나의 리뷰 목록(GET)
+ */
++ (void)requestMyRegisterReview;
 
-+ (void)requestFavorRestaurantWithRestaurantPk:(PrimaryKey *)RestaurantPk likePk:(PrimaryKey *)likePk didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
+/**
+ 즐겨찾기 등록, 삭제(POST)
+ @param restaurantPk 음식점 pk
+ @param likePk 즐겨찾기 pk
+ */
++ (void)requestFavorRestaurantWithRestaurantPk:(PrimaryKey *)restaurantPk likePk:(PrimaryKey *)likePk;
 
+/**
+ 특정 음식점 정보(GET)
+ @param pk 음식점 pk
+ @param didReceiveUpdateDataBlock 성공 할 경우 블럭
+ */
 + (void)requestRestaurantDetailDataWithRestaurantPk:(PrimaryKey *)pk didReceiveUpdateDataBlock:(DidReceiveUpdateDataBlock)didReceiveUpdateDataBlock;
 @end
