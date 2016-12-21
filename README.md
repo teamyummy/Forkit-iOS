@@ -1,13 +1,13 @@
-# Forkit-iOS
+<img src="https://github.com/teamyummy/Forkit-iOS/blob/master/forkitGitLogo.png"/>
 
-Util 메서드 사용 설명서
+### 신사역 맛집 Forkit
 
-- UIColorFromRGB(rgbValue) : rgbValue 에 8진수 6자리를 넣으면 해당하는 UIColor 를 반환하는 전처리 메서드 ex) UIColorFromRGB(0xffffff) -> 흰색 UIColor 출력
-- + (NSString *)changeCurrencyFormatFromNumber:(NSInteger)price : NSInteger price 를 넣으면 한국통화 포멧으로 변환된 NSString 값이 출력
-- + (NSString *)changeCurrencyFormatFromNumber:(NSInteger)price : NSInteger withCurrencyCode:(NSString *)currencyCode : price 와 currencyCode 를 넣으면 해당 포멧으로 변환된 NSString 값이 출력, currencyCode 가 nil 일 시 한국통화 포멧으로 변환된 NSString 값이 출력
+#### 처음으로 만든 어플
+  - [youtube 주소]
+  - [만든이 git]
 
-reference links : 
-https://github.com/marcinolawski/StoryboardMerge - storyboard conflict solver
+[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
-http://stackoverflow.com/questions/13233181/xcode-changes-unmodified-storyboard-and-xib-files - why storyboard some times go crazy
+  [youtube 주소]: <https://www.youtube.com/watch?v=PI8zVcMm2XM&t=9s>
 
+  [만든이 git]: <https://github.com/LeeHongHwa/LeeHongHwa>
