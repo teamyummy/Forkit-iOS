@@ -1,4 +1,5 @@
-<img src="https://github.com/teamyummy/Forkit-iOS/blob/master/forkitGitLogo.png"/>
+<img src="https://github.com/teamyummy/Forkit-iOS/blob/master/gitImage/forkitGitLogo.png"/>
+<img src="https://github.com/teamyummy/Forkit-iOS/blob/master/gitImage/appImage.png"/>
 
 ### 신사역 맛집 Forkit
 
