@@ -256,9 +256,14 @@
                                     <outlet property="delegate" destination="pMs-rk-fVP" id="rrM-7F-Sfi"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="g5S-29-kpJ">
+                                <rect key="frame" x="169" y="344.5" width="37" height="37"/>
+                                <color key="color" red="0.93725490199999995" green="0.32549019610000002" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="g5S-29-kpJ" firstAttribute="centerX" secondItem="m3d-k4-j7R" secondAttribute="centerX" id="6PL-KQ-D5h"/>
                             <constraint firstItem="XCZ-Kj-6aA" firstAttribute="top" secondItem="m3d-k4-j7R" secondAttribute="bottom" id="77e-o8-wuj"/>
                             <constraint firstItem="m3d-k4-j7R" firstAttribute="top" secondItem="zJn-lR-9yj" secondAttribute="bottom" id="9Le-cA-VzM"/>
                             <constraint firstAttribute="trailing" secondItem="zJn-lR-9yj" secondAttribute="trailing" id="Jl1-mO-l3s"/>
@@ -266,6 +271,7 @@
                             <constraint firstItem="zJn-lR-9yj" firstAttribute="top" secondItem="UVp-4w-GT2" secondAttribute="bottom" id="S6m-dU-j0Q"/>
                             <constraint firstItem="OUb-hq-XZ3" firstAttribute="leading" secondItem="7n9-X4-B0a" secondAttribute="leading" id="Z4b-qr-12s"/>
                             <constraint firstAttribute="trailing" secondItem="OUb-hq-XZ3" secondAttribute="trailing" id="atM-U6-brZ"/>
+                            <constraint firstItem="g5S-29-kpJ" firstAttribute="centerY" secondItem="m3d-k4-j7R" secondAttribute="centerY" id="cP0-xT-GhL"/>
                             <constraint firstItem="OUb-hq-XZ3" firstAttribute="top" secondItem="zJn-lR-9yj" secondAttribute="bottom" id="eT5-EK-9f2"/>
                             <constraint firstItem="m3d-k4-j7R" firstAttribute="leading" secondItem="7n9-X4-B0a" secondAttribute="leading" constant="12" id="h1E-TJ-62N"/>
                             <constraint firstItem="XCZ-Kj-6aA" firstAttribute="top" secondItem="OUb-hq-XZ3" secondAttribute="bottom" id="pzi-Jq-hOQ"/>
@@ -281,6 +287,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicatiorView" destination="g5S-29-kpJ" id="Zqx-yP-LF9"/>
                         <outlet property="restaurantTableView" destination="m3d-k4-j7R" id="su0-OD-7cy"/>
                     </connections>
                 </viewController>
@@ -870,6 +877,6 @@
         <image name="search" width="14" height="15"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZRd-TN-jBc"/>
+        <segue reference="5ap-4U-qEV"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -23,6 +23,7 @@
 @property (weak) HomeViewController *weakSelf;
 ///paging number
 @property NSInteger requestPageNumber;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatiorView;
 
 //UI
 @property (weak, nonatomic) IBOutlet UITableView *restaurantTableView;
@@ -51,6 +52,7 @@
     _weakSelf.didReceiveUpdateDataBlock = ^{
         [_weakSelf didReceiveListUpdated];
     };
+    [_activityIndicatiorView startAnimating];
     //request restaurant list
     [FIRequestObject requestRestaurantList:nil
                            pagingURLString:nil
@@ -88,6 +90,7 @@
 //list update
 - (void)didReceiveListUpdated
 {
+    [_activityIndicatiorView stopAnimating];
     //init tableHeaderView
     [_restaurantTableView.tableHeaderView removeFromSuperview];
     _restaurantTableView.tableHeaderView = nil;

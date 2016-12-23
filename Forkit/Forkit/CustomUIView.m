@@ -66,31 +66,37 @@ static NSString *const borderView = @"borderView";
 
 @end
 
+@interface BottomBorderView()
+
+@property (nonatomic,getter=isDrawBorder)BOOL drawBorder;
+
+@end
+
 @implementation BottomBorderView
 
 - (void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
-
-    [self setBorderWithStroke:0.75 alpha:0.18];
+    if (![self isDrawBorder])
+    {
+        [self setBorderWithStroke:0.75 alpha:0.18];
+    }
 }
 
 - (void)setBorderWithStroke:(CGFloat)stroke alpha:(CGFloat)alpha
 {
-    
-    CALayer *border = [CALayer layer];
+    self.drawBorder = YES;
+    CALayer *bottomLayer = [CALayer layer];
     
     CGFloat height = self.frame.size.height;
     CGFloat width = self.frame.size.width;
     
-    border.frame = CGRectMake(0, height-stroke, width, stroke);
-    
+    bottomLayer.frame = CGRectMake(0, height-stroke, width, stroke);
     UIColor *color = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:alpha];
     
-    border.backgroundColor = color.CGColor;
+    bottomLayer.backgroundColor = color.CGColor;
     
-    [self.layer addSublayer:border];
-    
+    [self.layer addSublayer:bottomLayer];
 }
 
 @end
